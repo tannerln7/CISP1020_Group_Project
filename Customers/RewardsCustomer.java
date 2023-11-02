@@ -1,6 +1,9 @@
+package Customers;
+
+import Rewards.Offer;
 import java.util.ArrayList;
 
-public class RewardsCustomer extends Customer{
+public class RewardsCustomer extends Customer {
     private String customerEmail;
     private final LoyaltyAccount loyaltyAccount;
     private final ArrayList<Offer>offers = new ArrayList<>();
@@ -12,7 +15,7 @@ public class RewardsCustomer extends Customer{
     }
 
     public static RewardsCustomer upgradeCustomerToRewards(Customer customer, String customerEmail, double initialRewardPoints) {
-        // Create a new RewardsCustomer with the details copied from normal Customer.
+        // Create a new Customers.RewardsCustomer with the details copied from normal Customers.Customer.
         return new RewardsCustomer(customer.getName(), customer.getPhoneNumber(), customerEmail);
     }
     public String getCustomerEmail() {

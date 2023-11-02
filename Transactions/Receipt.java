@@ -1,3 +1,9 @@
+package Transactions;
+
+import Customers.Customer;
+import Retail_Operations.CashRegister;
+import Rewards.Discount;
+
 import java.util.ArrayList;
 
 public class Receipt {

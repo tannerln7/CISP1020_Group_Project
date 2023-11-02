@@ -1,3 +1,7 @@
+package Transactions;
+
+import Customers.Customer;
+
 import java.util.Date;
 
 public class Transaction{

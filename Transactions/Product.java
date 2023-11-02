@@ -1,3 +1,5 @@
+package Transactions;
+
 public class Product {
     private double price;
     private double itemNumber;

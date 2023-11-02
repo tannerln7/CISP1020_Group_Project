@@ -1,4 +1,6 @@
-public class Offer extends Discount{
+package Rewards;
+
+public class Offer extends Discount {
     private String discountName;
     private String discountDescription;
 

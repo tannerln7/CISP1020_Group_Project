@@ -1,3 +1,7 @@
+package Retail_Operations;
+
+import Transactions.Transaction;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 

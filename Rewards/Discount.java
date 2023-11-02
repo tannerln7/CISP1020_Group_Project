@@ -1,3 +1,5 @@
+package Rewards;
+
 public class Discount {
     private double discountPercent;
 

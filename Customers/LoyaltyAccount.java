@@ -1,4 +1,8 @@
+package Customers;
+
 import java.math.BigInteger;
+import Helpers.Utilities;
+import Rewards.Discount;
 
 public class LoyaltyAccount {
     private final BigInteger accountNumber;
