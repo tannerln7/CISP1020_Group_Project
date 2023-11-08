@@ -4,6 +4,7 @@ import Customers.Customer;
 
 import java.util.Date;
 
+//TODO: Incorporate Elijah's Product Class
 public class Transaction{
     private Date date;
     private double transactionNumber;

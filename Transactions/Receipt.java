@@ -6,6 +6,7 @@ import Rewards.Discount;
 
 import java.util.ArrayList;
 
+//TODO: Incorporate Elijah's Product Class
 public class Receipt {
     private final Customer customer;
     private final Payment payment;

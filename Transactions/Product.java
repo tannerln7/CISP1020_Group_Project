@@ -1,5 +1,6 @@
 package Transactions;
 
+//TODO: Replace with Elijah's Product class
 public class Product {
     private double price;
     private double itemNumber;

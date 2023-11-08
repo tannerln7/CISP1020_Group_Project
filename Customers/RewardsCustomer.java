@@ -8,14 +8,17 @@ public class RewardsCustomer extends Customer {
     private final LoyaltyAccount loyaltyAccount;
     private final ArrayList<Offer>offers = new ArrayList<>();
 
+    //Constructor for RewardsCustomer. Creates new loyaltyAccount using the customer names and
+    // default discount options from the LoyaltyAccount class.
     public RewardsCustomer(String name, String phoneNumber, String customerEmail) {
         super(name, phoneNumber);
         this.customerEmail = customerEmail;
         this.loyaltyAccount = new LoyaltyAccount(name);
     }
 
+    // Create a new RewardsCustomer with the details copied from an existing normal Customer.
     public static RewardsCustomer upgradeCustomerToRewards(Customer customer, String customerEmail, double initialRewardPoints) {
-        // Create a new Customers.RewardsCustomer with the details copied from normal Customers.Customer.
+
         return new RewardsCustomer(customer.getName(), customer.getPhoneNumber(), customerEmail);
     }
     public String getCustomerEmail() {

@@ -12,6 +12,8 @@ public class CashRegister {
     private Employee salesAssociate;
     private final ZonedDateTime registerOpenedDate;
 
+
+    //Creates a new CashRegister instance. This is used to store each Transaction objects and cash register information
     public CashRegister(double cashRegisterNumber, double heldCash, Employee salesAssociate) {
         this.cashRegisterNumber = cashRegisterNumber;
         this.heldCash = heldCash;
@@ -19,6 +21,7 @@ public class CashRegister {
         this.registerOpenedDate = ZonedDateTime.now();
     }
 
+    //Returns the ArrayList containing the list of all transactions from this cash register
     public ArrayList<Transaction> getTransactionLog(){
      return transactionLog;
     }
@@ -39,10 +42,12 @@ public class CashRegister {
         return heldCash;
     }
 
+    //Set the available cash in the cash register drawer
     public void setHeldCash(double heldCash) {
         this.heldCash = heldCash;
     }
 
+    //returns the sales associate assigned to the cash register
     public Employee getSalesAssociate() {
         return salesAssociate;
     }
@@ -51,6 +56,7 @@ public class CashRegister {
         this.salesAssociate = salesAssociate;
     }
 
+    //returns the date and time the CashRegister object was created
     public ZonedDateTime getDate() {
         return registerOpenedDate;
     }
