@@ -1,0 +1,54 @@
+1) Update Project from GitHub with the fetch button in your IDE's Git menu
+
+2) Implement JsonIdentifiable in your classes
+
+import Helpers.JsonIdentifiable;
+
+public class [YourClassName] implements JsonIdentifiable {
+    
+    ... existing class content ...
+
+    @Override
+    public String getJsonId() {
+        
+        return name + "_" + id; //return whatever variable/Data you want to use to name the object files
+    }
+}
+
+3) Add Gson Library to your IDE
+
+    For IntelliJ: Right-click gson.jar in 'lib' folder -> Add as Library
+    
+    For NetBeans: Right-click project folder -> Properties -> Libraries -> Add JAR/Folder -> Select gson.jar -> Open -> OK
+
+    For VSCode: Add this to /.vscode/settings.json in your project workspace (create the .vscode folder and settings.json files if they dont already exist)
+	{
+    	    "java.project.referencedLibraries": [
+       	    "lib/**/*.jar"
+    	    ]
+	}
+
+
+4) Example of objectJson methods
+
+
+import Helpers.objectJson;
+import Products.Product;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create an example object
+        Product product = new Product("Milk", 2.99, "Whole milk", "P001");
+
+        // Save the object to a JSON file
+        objectJson.objectToJson(product); // Saves to /Products/JSON Files/Milk_P001.json
+
+        // Load the object from a JSON file
+        try {
+            Product milk = objectJson.objectFromJson("Milk_P001", Product.class);
+            System.out.println("Product successfully recreated from JSON file: " + milk);
+        } catch (IOException e) {
+            System.err.println("Failed to load product from JSON");
+        }
+    }
+}

@@ -1,6 +1,6 @@
 package Products;
-import java.util.ArrayList;
-class Product {
+import Helpers.JsonIdentifiable;
+public class Product implements JsonIdentifiable {
 
     private String name;
     private double price;
@@ -54,5 +54,10 @@ class Product {
                 ", description='" + description + '\'' +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    @Override
+    public String getJsonId() {
+        return name + "_" + id;
     }
 }
