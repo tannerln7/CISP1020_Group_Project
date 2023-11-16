@@ -1,4 +1,9 @@
 package Customers;
+//TODO: Refactor this to write the customer object to a file
+//TODO: Create a list of Receipt objects associated with the Customer object and write Customer Object to file
+
+//Waiting for Tuan's Customer class to be completed
+
 
 public class Customer {
     private final String Name;

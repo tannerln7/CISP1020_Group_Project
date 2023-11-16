@@ -10,6 +10,11 @@ import Customers.LoyaltyAccount;
  *
  * @author WJWhit
  */
+//TODO: Extend discount class and incorporate into Payment, Transactions, Receipt to apply discounts to transactions.
+//TODO: Implement Offers into Product class to allow for discounts on current products. Will need to updated existing products that are saved to files.
+
+//Pieced of needed code are in other Offers class in Rewards package
+
 public class Offers {
     private double discount;
     private Product slashed;

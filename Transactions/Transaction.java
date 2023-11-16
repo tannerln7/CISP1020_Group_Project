@@ -1,45 +1,23 @@
 package Transactions;
 
 import Customers.Customer;
+import Products.Product;
 
-import java.util.Date;
-
-//TODO: Incorporate Elijah's Product Class
 public class Transaction{
-    private Date date;
-    private double transactionNumber;
     private Product product;
     private Customer customer;
 
     public Transaction(){};
-    public Transaction(Date date, double transactionNumber, Product product, Customer customer) {
-        this.date = date;
-        this.transactionNumber = transactionNumber;
+    public Transaction(Product product, Customer customer) {
         this.product = product;
         this.customer = customer;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public double getTransactionNumber() {
-        return transactionNumber;
-    }
-
-    public void setTransactionNumber(double transactionNumber) {
-        this.transactionNumber = transactionNumber;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void changeProduct(Product product) {
         this.product = product;
     }
 
@@ -47,7 +25,7 @@ public class Transaction{
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void changeCustomer(Customer customer) {
         this.customer = customer;
     }
 

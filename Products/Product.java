@@ -1,5 +1,8 @@
 package Products;
 import Helpers.JsonIdentifiable;
+
+//TODO: Incorporate Offers Class to allow for discounts on products
+//TODO: Provide method to updated saved products to include discounts
 public class Product implements JsonIdentifiable {
 
     private String name;

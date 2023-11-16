@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package retailopperationgroup3;
+package Rewards;
 
 /**
  *
  * @author Donnie Young
  */
+//TODO: Implement with LoyaltyAccount class in order to utilize rewards points
+//TODO: Incorporate with RewardsCustomer, LoyaltyAccount, and Discount classes
 public class Loyalty {
 
     //Integer for points. I didnot see the point in doing double for this

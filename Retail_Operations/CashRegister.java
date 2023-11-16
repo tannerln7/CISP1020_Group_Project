@@ -4,7 +4,9 @@ import Transactions.Transaction;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-
+//TODO: Add a method to return the total sales for the day
+//TODO: Increment the cash register number by 1 for each new cash register created
+//TODO: Update to write CashRegister objects to a file
 public class CashRegister {
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
     private double cashRegisterNumber;

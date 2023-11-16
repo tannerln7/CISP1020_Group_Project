@@ -1,0 +1,30 @@
+package Transactions;
+
+import java.util.ArrayList;
+
+//TODO: Refactor this to write the final list to a file.
+public class TransactionList {
+    private final ArrayList<Transaction> transactions;
+    public TransactionList() {
+        transactions = new ArrayList<Transaction>();
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        transactions.remove(transaction);
+    }
+    public double getSubTotal() {
+        double total = 0;
+        for (Transaction transaction : transactions) {
+            total += transaction.getProduct().getPrice();
+        }
+        return total;
+    }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+}

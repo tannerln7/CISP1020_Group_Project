@@ -1,6 +1,7 @@
 package Products;
 import java.util.ArrayList;
 
+//TODO: Refactor to write and read "Test" products to and from JSON files
 public class ProductList {
 
     public static ArrayList<Product> getGroceryList() {

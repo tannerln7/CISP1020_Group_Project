@@ -3,13 +3,14 @@ package Customers;
 import Rewards.Offer;
 import java.util.ArrayList;
 
+//TODO: Create a list of Receipt objects associated with the RewardsCustomer and write the RewardsCustomer object to a file
+
 public class RewardsCustomer extends Customer {
     private String customerEmail;
     private final LoyaltyAccount loyaltyAccount;
     private final ArrayList<Offer>offers = new ArrayList<>();
 
-    //Constructor for RewardsCustomer. Creates new loyaltyAccount using the customer names and
-    // default discount options from the LoyaltyAccount class.
+    //Constructor for RewardsCustomer. Creates new loyaltyAccount using the customer names and default discount options from the LoyaltyAccount class.
     public RewardsCustomer(String name, String phoneNumber, String customerEmail) {
         super(name, phoneNumber);
         this.customerEmail = customerEmail;

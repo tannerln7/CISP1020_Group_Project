@@ -1,5 +1,9 @@
 package Rewards;
 
+
+//Leaving this here for now in case code is needed for updating the other Offers Class
+
+
 public class Offer extends Discount {
     private String discountName;
     private String discountDescription;
