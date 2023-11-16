@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 package Products;
-
-import LoyaltyAccount;
+import Customers.LoyaltyAccount;
 
 /**
  *
