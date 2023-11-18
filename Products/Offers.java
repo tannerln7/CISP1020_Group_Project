@@ -5,6 +5,7 @@
  */
 package Products;
 import Customers.LoyaltyAccount;
+import Rewards.Discount;
 
 /**
  *
@@ -15,27 +16,38 @@ import Customers.LoyaltyAccount;
 
 //Pieced of needed code are in other Offers class in Rewards package
 
-public class Offers {
-    private double discount;
+public class Offers extends Discount{
+    private double subtractionDiscount;
     private Product slashed;
     private LoyaltyAccount account;
 
     public Offers() {
     }        
-    
-    public Offers(double discount, Product slashed){
-        this.discount = discount;
+
+    public Offers(Product slashed, double discountPercent) {
+        super(discountPercent);
         this.slashed = slashed;
     }
-    
-    public Offers(double discount, Product slashed, LoyaltyAccount account){
-        this.discount = discount;
+
+    public Offers(double subtractionDiscount, Product slashed) {
+        this.subtractionDiscount = subtractionDiscount;
+        this.slashed = slashed;
+    }
+
+    public Offers(Product slashed, LoyaltyAccount account, double discountPercent) {
+        super(discountPercent);
         this.slashed = slashed;
         this.account = account;
     }
 
-    public double getDiscount() {
-        return discount;
+    public Offers(double subtractionDiscount, Product slashed, LoyaltyAccount account) {
+        this.subtractionDiscount = subtractionDiscount;
+        this.slashed = slashed;
+        this.account = account;
+    }
+
+    public double getsubtractionDiscount() {
+        return subtractionDiscount;
     }
 
     public Product getSlashed() {
@@ -46,8 +58,8 @@ public class Offers {
         return account;
     }
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public void setsubtractionDiscount(double subtractionDiscount) {
+        this.subtractionDiscount = subtractionDiscount;
     }
 
     public void setSlashed(Product slashed) {
@@ -58,12 +70,9 @@ public class Offers {
         this.account = account;
     }
     
-    public double totalPercentagePrice(){
-        return account.getDiscountPercent()*((discount/100)*slashed.getPrice());
-    }
     
     public double totalSubtractedPrice() {
-        return account.getDiscountPercent()*(slashed.getPrice()-discount);
+        return account.getDiscountPercent()*(slashed.getPrice()-subtractionDiscount);
     }
     
     
