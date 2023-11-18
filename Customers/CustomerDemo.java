@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
 
-/**
- *
- * @author beode
- */
 public class CustomerDemo {
 
     public static void main(String[] args) {
