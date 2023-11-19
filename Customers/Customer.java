@@ -1,6 +1,8 @@
 package Customers;
 //TODO: Add methods for keeping a list of customer receipts.
 import Helpers.JsonIdentifiable;
+import Transactions.Receipt;
+import java.util.ArrayList;
 
 //Add the final CustomerID variable for each Customer. Customer can change Name, Phone number.
 public class Customer implements JsonIdentifiable{
@@ -8,6 +10,7 @@ public class Customer implements JsonIdentifiable{
     private String name;
     private String phoneNumber;
     private static int lastCustomerId;
+    private ArrayList<Receipt> receipts;
 
 
     //Customer constructor with id increase by 1 for each object created
@@ -47,6 +50,14 @@ public class Customer implements JsonIdentifiable{
         this.phoneNumber = newPhoneNumber;
     }
 
+    public void addReceipt(Receipt receipt){
+        receipts.add(receipt);
+    }
+
+    public ArrayList<Receipt> getReceipts(){
+        return receipts;
+    }
+
     private static int generateId() {
         lastCustomerId += 1;
         return lastCustomerId;
@@ -70,7 +81,7 @@ public class Customer implements JsonIdentifiable{
 }
 
 
-    //I'm sorry for deleting the file writes... I image that probably took a lot of trial and error...
+    //I'm sorry for deleting your file write methods... I imagine that probably took a lot of trial and error...
     //I moved the file writes to the CustomerDemo class and changed them to match the rest of the project.
 
 

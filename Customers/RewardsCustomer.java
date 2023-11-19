@@ -1,8 +1,18 @@
 package Customers;
+
+import Products.Product;
+import Retail_Operations.CashRegister;
+import Retail_Operations.Employee;
+import Transactions.Payment;
+import Transactions.Receipt;
+import Transactions.Transaction;
+
+import java.util.ArrayList;
+
 //TODO: Add methods to keep track of customer points on a per transaction basis.
 public class RewardsCustomer extends Customer {
     private String customerEmail;
-    private final LoyaltyAccount loyaltyAccount;
+    private LoyaltyAccount loyaltyAccount;
 
 
     //Constructor for RewardsCustomer. Creates new loyaltyAccount using the default discount options from the LoyaltyAccount class.
@@ -30,6 +40,18 @@ public class RewardsCustomer extends Customer {
     }
     public LoyaltyAccount getLoyaltyAccount() {
         return loyaltyAccount;
+    }
+
+    public static String pointsMenu(Customer customer){
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+        transactions.add(new Transaction(new Product("Apple", 32, "apple", "Apple-1"),customer));
+        customer.addReceipt(new Receipt(customer, new Payment(), new CashRegister(1,1000, new Employee("name", "123", "Employee", "Username", "Password")),transactions, 100));
+        return customer.getReceipts().toString();
+    }
+
+    public static void main(String[] args) {
+        RewardsCustomer customer = new RewardsCustomer("Name", "123-123-123", "Email@email.com");
+        System.out.println(pointsMenu(customer));
     }
 
     @Override
