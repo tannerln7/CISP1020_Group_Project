@@ -1,10 +1,15 @@
 package Transactions;
 
 import Customers.Customer;
+import Customers.RewardsCustomer;
 import Products.Product;
 import Retail_Operations.CashRegister;
 import Retail_Operations.Employee;
-import Rewards.Discount;
+import Products.Discount;
+import com.google.gson.Gson;
+import java.io.IOException;
+import Helpers.*;
+
 
 
 /**
@@ -23,7 +28,6 @@ import Rewards.Discount;
  *------------------------------------------------------
  * These will be added soon
  * Helpers/JsonIdentifiable.java
- * Helpers/Utilities.java
  * Helpers/objectJson.java
  * ------------------------------------------------------
  */
@@ -32,9 +36,12 @@ public class Test {
     public static void main(String[] args) {
         //Create test data
         Customer customer = new Customer("John Doe", "123-456-7890");
+        //TODO: Test RewardsCustomer. Need methods to add and remove rewards points....
+        RewardsCustomer rewardsCustomer = new RewardsCustomer("John Doe", "123-456-7890", "email@email.com");
         Employee employee = new Employee("John Doe", "12345", "Cashier", "username", "password");
         CashRegister cashRegister = new CashRegister(1, 10000, employee);
         Discount discount = new Discount(0.10);
+        Gson gson = new Gson();
 
         //Call default constructor to initialize a blank transaction list
         TransactionList TransactionList = new TransactionList();
@@ -48,36 +55,51 @@ public class Test {
         //Get the subtotal of the transactions
         double subTotal = TransactionList.getSubTotal();
 
-        //Initialize a blank payment in order to call the addTax method
-        //TODO: Move addTax method to a different class to avoid having to create a blank payment object
-        Payment payment = new Payment();
-
-        //test non discount receipt
+        //test non-discount receipt
         //add tax to the subtotal
-        double total = payment.addTax(subTotal);
+        double total = Payment.addTax(subTotal);
         //Simulate a cash payment
         double paymentGiven = 100;
         //Create a payment object without a discount
-        payment = new Payment(total, paymentGiven, "Cash", true);
+        Payment payment = new Payment(total, paymentGiven, "Cash", true);
         //Get the change due
         double changeDue = payment.getChangeDue();
         //Create a receipt object
         Receipt normalReceipt = new Receipt(customer, payment, cashRegister, TransactionList.getTransactions(), changeDue);
         //Print the receipt
         System.out.println(normalReceipt);
+        //write the receipt to a file
+        objectJson.objectToJson(normalReceipt);
 
         //TODO: Test associating receipt with Customer and writing / updating Customer file
+
         //test discount receipt
-        //add tax to the subtotal by passing the discount object to the overloaded addTax method in the Payment class. Need to move method to avoid this
-        total = payment.addTax(subTotal, discount);
+        //add tax to the subtotal by passing the discount object to the static addTax method
+        total = Payment.addTax(subTotal, discount);
         //Create a discounted payment using the overloaded Payment constructor
         payment = new Payment(total, paymentGiven, "Cash", discount, true);
         //Get the change due
         changeDue = payment.getChangeDue();
         //Create a discount receipt object
-
-        //TODO: Maybe use an overloaded constructor in Receipt class instead of creating a new child class
         DiscountReceipt discountReceipt = new DiscountReceipt(customer, payment, cashRegister, TransactionList, changeDue, discount);
+        //Print the receipt
         System.out.println(discountReceipt);
+        //write the receipt to a file
+        objectJson.objectToJson(discountReceipt);
+        //Delete the receipts from memory
+        normalReceipt = null;
+        discountReceipt = null;
+        //Read the receipts from the file
+
+        try {
+            discountReceipt = objectJson.objectFromJson("Receipt_2", DiscountReceipt.class);
+            normalReceipt = objectJson.objectFromJson("Receipt_1", Receipt.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //Print the receipt
+        System.out.println("NORMAL RECEIPT READ FROM FILE" +"\n" + normalReceipt);
+        System.out.println("DISCOUNT RECEIPT READ FROM FILE" +"\n" + discountReceipt);
+
     }
 }

@@ -5,14 +5,14 @@
  */
 package Products;
 import Customers.LoyaltyAccount;
-import Rewards.Discount;
 
 /**
  *
  * @author WJWhit
  */
-//TODO: Extend discount class and incorporate into Payment, Transactions, Receipt to apply discounts to transactions.
+//TODO: Incorporate into Payment, Transactions, Receipt to apply discounts to transactions.
 //TODO: Implement Offers into Product class to allow for discounts on current products. Will need to updated existing products that are saved to files.
+//BODY: Need some sort of menu to allow for the creation of offers on a per product and/or per customer basis.
 
 //Pieced of needed code are in other Offers class in Rewards package
 

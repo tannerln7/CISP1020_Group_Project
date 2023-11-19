@@ -1,8 +1,15 @@
 package Retail_Operations;
 
+import Helpers.JsonIdentifiable;
 
-//TODO: Refactor this to write the Employee object to a file
-//TODO: Find out more about records
-public record Employee(String name, String employeeID, String position, String username, String password) {
+public record Employee(String name, String employeeID, String position, String username, String password) implements JsonIdentifiable {
+
+    private String getEmployeeID() {
+        return employeeID;
+    }
+    @Override
+    public String getJsonId() {
+        return "Employee_" + this.getEmployeeID();
+    }
 
 }

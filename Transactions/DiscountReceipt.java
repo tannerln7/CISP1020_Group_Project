@@ -1,10 +1,9 @@
 package Transactions;
-import Rewards.*;
+import Products.Discount;
 import Customers.*;
 import Retail_Operations.*;
 import org.jetbrains.annotations.NotNull;
 
-//TODO: Refactor this to write the final Receipt to a file.
 public class DiscountReceipt extends Receipt{
     private Discount discount;
     public DiscountReceipt(Customer customer, Payment payment, CashRegister cashRegister, TransactionList transactions, double changeGiven, Discount discount){

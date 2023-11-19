@@ -1,8 +1,10 @@
-package Rewards;
+package UNUSED;
 
 
 //Leaving this here for now in case code is needed for updating the other Offers Class
 
+
+import Products.Discount;
 
 public class Offer extends Discount {
     private String discountName;
