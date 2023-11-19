@@ -1,12 +1,13 @@
 package Transactions;
 
-import Rewards.Discount;
+import Products.Discount;
 //TODO: Implement LoyaltyAccount class in order to utilize rewards points
 public class Payment {
     private double amountDue;
     private String paymentType;
     private Discount discount;
-    private final double tax = 0.09;
+    private double tax;
+    private static final double defaultTax = 0.09;
     private double changeDue;
     private double amountPaid;
     private boolean isPaid;
@@ -19,21 +20,38 @@ public class Payment {
         this.paymentType = paymentType;
         this.discount = discount;
         this.isPaid = isPaid;
+        this.tax = defaultTax;
     }
     public Payment(double amountDue, double amountPaid, String paymentType, boolean isPaid) {
         this.amountDue = amountDue;
         this.amountPaid = amountPaid;
         this.paymentType = paymentType;
         this.isPaid = isPaid;
+        this.tax = defaultTax;
     }
-    public double addTax(double amountDue){
-        return amountDue + (amountDue * tax);
+    public Payment(double amountDue, double amountPaid, String paymentType, Discount discount, double tax, boolean isPaid) {
+        this.amountDue = amountDue;
+        this.amountPaid = amountPaid;
+        this.paymentType = paymentType;
+        this.discount = discount;
+        this.tax = tax;
+        this.isPaid = isPaid;
+    }
+    public Payment(double amountDue, double amountPaid, String paymentType, double tax, boolean isPaid) {
+        this.amountDue = amountDue;
+        this.amountPaid = amountPaid;
+        this.paymentType = paymentType;
+        this.tax = tax;
+        this.isPaid = isPaid;
+    }
+    public static double addTax(double amountDue){
+        return amountDue + (amountDue * defaultTax);
     }
 
-    public double addTax(double amountDue, Discount discount){
+    public static double addTax(double amountDue, Discount discount){
         if (discount == null) {
-            return amountDue + (amountDue * tax);
-        }else return amountDue + (amountDue * tax) - (amountDue * discount.getDiscountPercent());
+            return amountDue + (amountDue * defaultTax);
+        }else return amountDue + (amountDue * defaultTax) - (amountDue * discount.getDiscountPercent());
     }
 
     public String getPaymentType(){
@@ -45,14 +63,12 @@ public class Payment {
     }
 
     public double getChangeDue(){
-        double changeDue = 0;
         if (amountPaid > amountDue) {
             if (discount != null) {
                 changeDue = amountPaid - addTax(amountDue, discount);
             } else {
                 changeDue = amountPaid - addTax(amountDue);
             }
-            changeDue = amountPaid - amountDue;
         }
         return changeDue;
     }
@@ -67,5 +83,12 @@ public class Payment {
 
     public void setIsPaid(boolean newIsPaid){
         this.isPaid = newIsPaid;
+    }
+
+    public void setTax(double newTax){
+        this.tax = newTax;
+    }
+    public double getTax(){
+        return tax;
     }
 }

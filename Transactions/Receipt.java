@@ -3,7 +3,6 @@ package Transactions;
 import Customers.Customer;
 import Retail_Operations.CashRegister;
 import Helpers.*;
-
 import java.util.ArrayList;
 
 public class Receipt implements JsonIdentifiable {
@@ -11,9 +10,10 @@ public class Receipt implements JsonIdentifiable {
     private final Payment payment;
     private final CashRegister cashRegister;
     private final ArrayList<Transaction> transactions;
-    //TODO: Add method to change tax if necessary
     private double tax = 0.09;
     private final double changeGiven;
+    private final int id;
+    private static int lastId;
 
 
     public Receipt(Customer customer, Payment payment, CashRegister cashRegister, ArrayList<Transaction> transactions, double changeGiven) {
@@ -22,6 +22,9 @@ public class Receipt implements JsonIdentifiable {
         this.cashRegister = cashRegister;
         this.transactions = transactions;
         this.changeGiven = changeGiven;
+        this.id = generateId();
+        lastId = id;
+
     }
 
     public double getSubtotal() {
@@ -48,20 +51,28 @@ public class Receipt implements JsonIdentifiable {
        return getSubtotal() + (getSubtotal() * getTax());
     }
 
+    public double getId() {
+        return id;
+    }
+
+    private static int generateId() {
+         lastId += 1;
+        return lastId;
+    }
     @Override
     public String getJsonId() {
-        return null;
+        return "Receipt_" + id;
     }
 
     @Override
     public String toString() {
         StringBuilder receipt = new StringBuilder();
         // Header
-        receipt.append("RECEIPT\n");
+        receipt.append("RECEIPT - ").append(id).append("\n");
         receipt.append("-------------------------------\n");
 
         // Cash Register and Customer Details
-        receipt.append("Cash Register ID: ").append(cashRegister.getCashRegisterNumber()).append("\n");
+        receipt.append("Cash Register ID: ").append(Math.round(cashRegister.getCashRegisterNumber())).append("\n");
         receipt.append("Customer: ").append(customer.getName()).append("\n");
 
         // Transactions

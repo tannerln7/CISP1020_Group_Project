@@ -1,18 +1,16 @@
 package Retail_Operations;
 
 import Transactions.Transaction;
-
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import Helpers.JsonIdentifiable;
 //TODO: Add a method to return the total sales for the day
 //TODO: Increment the cash register number by 1 for each new cash register created
 //TODO: Update to write CashRegister objects to a file
-public class CashRegister {
+public class CashRegister implements JsonIdentifiable{
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
     private double cashRegisterNumber;
     private double heldCash;
     private Employee salesAssociate;
-    private final ZonedDateTime registerOpenedDate;
 
 
     //Creates a new CashRegister instance. This is used to store each Transaction objects and cash register information
@@ -20,7 +18,6 @@ public class CashRegister {
         this.cashRegisterNumber = cashRegisterNumber;
         this.heldCash = heldCash;
         this.salesAssociate = salesAssociate;
-        this.registerOpenedDate = ZonedDateTime.now();
     }
 
     //Returns the ArrayList containing the list of all transactions from this cash register
@@ -58,8 +55,8 @@ public class CashRegister {
         this.salesAssociate = salesAssociate;
     }
 
-    //returns the date and time the CashRegister object was created
-    public ZonedDateTime getDate() {
-        return registerOpenedDate;
+@Override
+    public String getJsonId() {
+        return "CashRegister_" + this.getCashRegisterNumber();
     }
 }

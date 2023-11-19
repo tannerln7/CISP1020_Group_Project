@@ -1,8 +1,8 @@
 package Helpers;
-
 import com.google.gson.Gson;
 import Products.Product;
 import java.io.*;
+import java.io.IOException;
 
 public class objectJson{
     /**
@@ -39,7 +39,7 @@ public class objectJson{
      * @return The JSON file.
      * @throws IOException If the file cannot be created or found.
      */
-    private static File getFileInPackageDir(Object object) throws IOException {
+    public static File getFileInPackageDir(Object object) throws IOException {
         // Get the class of the object
         Class<?> contextClass = object.getClass();
         //check if the object implements the JsonIdentifiable interface by casting it to the interface
@@ -88,14 +88,53 @@ public class objectJson{
     public static <T> T objectFromJson(String fileName, Class<T> contextClass) throws IOException {
         Gson gson = new Gson();
 
+        // Construct the directory path where the JSON file is located.
         String packageDir = System.getProperty("user.dir") + "\\" + contextClass.getPackageName() + "\\JSON Files\\";
 
+        // Remove the file extension if it exists in the fileName.
+        if (fileName.contains(".")) {
+            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+        }
+
+        // Construct the full path to the JSON file.
         File file = new File(packageDir + fileName + ".json");
 
-        try(FileReader reader = new FileReader(file)) {
+        // Use FileReader to read the JSON file and deserialize it into an object of type T.
+        try (FileReader reader = new FileReader(file)) {
             return gson.fromJson(reader, contextClass);
         } catch (IOException e) {
+            // Throw an IOException with a custom message if an error occurs during reading.
             throw new IOException("Error reading from JSON file", e);
+        }
+    }
+
+    public static String getClassDir(Class<?> passedClass) throws ClassCastException {
+        //check if the class implements the JsonIdentifiable interface
+        if (!JsonIdentifiable.class.isAssignableFrom(passedClass)){
+           throw new ClassCastException("Object does not implement JsonIdentifiable");
+        }
+        //Return the full package directory as a File object with the users current directory
+        // and the package directory of the passed class.
+        return System.getProperty("user.dir") + "\\" + passedClass.getPackageName() + "\\JSON Files\\";
+    }
+
+    /**
+     * Retrieves an array of File objects representing all the files in the directory associated with a given class.
+     *
+     * @param passedClass The class whose associated directory's files are to be listed.
+     * @return An array of File objects, or null if the directory does not exist, is not a directory, or is empty.
+     */
+    public static File[] listFiles(Class<?> passedClass) {
+        String packageDirPath = objectJson.getClassDir(passedClass);
+        File packageDir = new File(packageDirPath);
+
+        // Check if the directory exists and is a directory
+        if (packageDir.exists() && packageDir.isDirectory()) {
+            // Return the list of files in the directory
+            return packageDir.listFiles();
+        } else {
+            // Return null if the directory does not exist or is not a directory
+            return null;
         }
     }
 
@@ -123,4 +162,5 @@ public class objectJson{
         System.out.println("Product: " + productFromJson);
     }
 }
+
 

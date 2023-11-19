@@ -2,7 +2,6 @@ package Transactions;
 
 import java.util.ArrayList;
 
-//TODO: Refactor this to write the final list to a file.
 public class TransactionList {
     private final ArrayList<Transaction> transactions;
     public TransactionList() {
