@@ -21,7 +21,7 @@ public class Loyalty {
     }
 
     //I was thinking that 100 points would equal redeemable. Will have to fix this at some point
-    public void redeemPoints(int amount) {
+     public void redeemPoints(int amount) {
         if (this.points >= amount) {
             this.points -= amount;
         }

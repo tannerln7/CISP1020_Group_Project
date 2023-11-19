@@ -5,6 +5,8 @@ import Retail_Operations.CashRegister;
 import Helpers.*;
 import java.util.ArrayList;
 
+
+
 public class Receipt implements JsonIdentifiable {
     private final Customer customer;
     private final Payment payment;
@@ -24,7 +26,7 @@ public class Receipt implements JsonIdentifiable {
         this.changeGiven = changeGiven;
         this.id = generateId();
         lastId = id;
-
+        customer.addReceipt(this);
     }
 
     public double getSubtotal() {
