@@ -44,15 +44,15 @@ public class Payment {
         this.tax = tax;
         this.isPaid = isPaid;
     }
-    public static double addTax(double amountDue){
+    public static double totalWithTax(double amountDue){
         return amountDue + (amountDue * defaultTax);
     }
 
-    public static double addTax(double amountDue, Discount discount){
-        if (discount == null) {
-            return amountDue + (amountDue * defaultTax);
-        }else return amountDue + (amountDue * defaultTax) - (amountDue * discount.getDiscountPercent());
+    public double applyDiscount(double total, Discount discount) {
+        this.amountDue = (total - (total * discount.getDiscountPercent())) - discount.getDiscountAmount();
+        return this.amountDue;
     }
+
 
     public String getPaymentType(){
         return paymentType;
@@ -65,9 +65,9 @@ public class Payment {
     public double getChangeDue(){
         if (amountPaid > amountDue) {
             if (discount != null) {
-                changeDue = amountPaid - addTax(amountDue, discount);
+                changeDue = amountPaid - (amountDue * discount.getDiscountPercent() + discount.getDiscountAmount());
             } else {
-                changeDue = amountPaid - addTax(amountDue);
+                changeDue = amountPaid - totalWithTax(amountDue);
             }
         }
         return changeDue;

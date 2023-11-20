@@ -5,21 +5,15 @@ import Retail_Operations.*;
 import org.jetbrains.annotations.NotNull;
 
 public class DiscountReceipt extends Receipt{
-    private Discount discount;
-    public DiscountReceipt(Customer customer, Payment payment, CashRegister cashRegister, TransactionList transactions, double changeGiven, Discount discount){
-        super(customer, payment, cashRegister, transactions.getTransactions(), changeGiven);
+    private final Discount discount;
+    public DiscountReceipt(String customerName, Payment payment, CashRegister cashRegister, TransactionList transactions, double changeGiven, Discount discount){
+        super(customerName, payment, cashRegister, transactions.getTransactions(), changeGiven);
         this.discount = discount;
-    }
-    public double getDiscount() {
-        return discount.getDiscountPercent();
-    }
-    public void changeDiscount(double discount) {
-        this.discount = new Discount(discount);
     }
 
     @Override
     public double getTotal() {
-        return getSubtotal() + (getSubtotal() * getTax()) - (getSubtotal() * getDiscount());
+        return getSubtotal() + (getSubtotal() * getTax()) - (getSubtotal() * discount.getDiscountPercent());
     }
 
     @Override
@@ -28,7 +22,7 @@ public class DiscountReceipt extends Receipt{
         String baseReceipt = super.toString();
 
         int taxIndex = baseReceipt.indexOf("Tax (");                                            //Find the tax line in the base receipt from the super class
-        if (taxIndex != -1 && getDiscount() > 0) {                                              //If the tax line exists and there's a discount to apply
+        if (taxIndex != -1 && discount.getDiscountPercent() > 0) {                                              //If the tax line exists and there's a discount to apply
             StringBuilder receiptWithDiscount = buildDiscountReceipt(baseReceipt, taxIndex);    //Build the receipt with the discount using the helper method
             return receiptWithDiscount.toString();                                              //Return the receipt with the discount
         }
@@ -39,9 +33,9 @@ public class DiscountReceipt extends Receipt{
 
     @NotNull
     private StringBuilder buildDiscountReceipt(String baseReceipt, int taxIndex) {
-        double discountAmount = getSubtotal() * getDiscount();                                                      //Calculate the discount amount
+        double discountAmount = getSubtotal() * discount.getDiscountPercent();                                                      //Calculate the discount amount
 
-        String discountString = String.format("Discount: %.2f%% - $%.2f\n", getDiscount() * 100, discountAmount);   //Create the discount string in the
+        String discountString = String.format("Discount: %.2f%% - $%.2f\n", discount.getDiscountPercent() * 100, discountAmount);   //Create the discount string in the
                                                                                                                     //format "Discount: 10.00% - $1.00"
 
         StringBuilder receiptWithDiscount = new StringBuilder(baseReceipt);                                         //Create the base receipt

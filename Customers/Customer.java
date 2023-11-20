@@ -9,8 +9,8 @@ public class Customer implements JsonIdentifiable{
     private final int customerId;
     private String name;
     private String phoneNumber;
-    private static int lastCustomerId;
-    private ArrayList<Receipt> receipts;
+    private int lastCustomerId;
+    private final ArrayList<Receipt> receipts = new ArrayList<>();
 
 
     //Customer constructor with id increase by 1 for each object created
@@ -22,17 +22,17 @@ public class Customer implements JsonIdentifiable{
 
     // getId method so another class could get the id value.
     public int getId() {
-        return customerId;
+        return this.customerId;
     }
 
     //getCustomerId method to show ID with 8 digits.
     public String getCustomerId() {
-        return String.format("%08d", customerId);
+        return String.format("%08d", this.customerId);
     }
 
     //getName method
     public String getName() {
-        return name;
+        return this.name;
     }
 
     //Change Name method
@@ -42,7 +42,7 @@ public class Customer implements JsonIdentifiable{
 
     //getPhoneNumber method
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     //Change Phone Number method
@@ -51,16 +51,16 @@ public class Customer implements JsonIdentifiable{
     }
 
     public void addReceipt(Receipt receipt){
-        receipts.add(receipt);
+        this.receipts.add(receipt);
     }
 
     public ArrayList<Receipt> getReceipts(){
-        return receipts;
+        return this.receipts;
     }
 
-    private static int generateId() {
-        lastCustomerId += 1;
-        return lastCustomerId;
+    private int generateId() {
+        this.lastCustomerId++;
+        return this.lastCustomerId;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Customer implements JsonIdentifiable{
 
     @Override
     public String getJsonId() {
-        return "Customer_" + customerId;
+        return "Customer_" + this.customerId;
     }
 }
 

@@ -40,24 +40,23 @@ public class Test {
         RewardsCustomer rewardsCustomer = new RewardsCustomer("John Doe", "123-456-7890", "email@email.com");
         Employee employee = new Employee("John Doe", "12345", "Cashier", "username", "password");
         CashRegister cashRegister = new CashRegister(1, 10000, employee);
-        Discount discount = new Discount(0.10);
         Gson gson = new Gson();
 
         //Call default constructor to initialize a blank transaction list
         TransactionList TransactionList = new TransactionList();
         //Add test transactions to the list
-        TransactionList.addTransaction(new Transaction(new Product("Apple", 1.00, "A crisp Apple", "Fruit-App"), customer));
-        TransactionList.addTransaction(new Transaction(new Product("Banana", 3.00, "A yellow Banana", "Fruit-Ban"), customer));
-        TransactionList.addTransaction(new Transaction(new Product("Orange", 2.00, "A juicy Orange", "Fruit-Ora"), customer));
-        TransactionList.addTransaction(new Transaction(new Product("Pear", 5.00, "A green Pear", "Fruit-Pea"), customer));
-        TransactionList.addTransaction(new Transaction(new Product("Grape", 10.00, "A purple Grape", "Fruit-Gra"), customer));
-        TransactionList.addTransaction(new Transaction(new Product("Pineapple", 15.00, "A spiky Pineapple", "Fruit-Pin"), customer));
+        TransactionList.addTransaction(new Transaction(new Product("Apple", 1.00, "A crisp Apple", "Fruit-App")));
+        TransactionList.addTransaction(new Transaction(new Product("Banana", 3.00, "A yellow Banana", "Fruit-Ban")));
+        TransactionList.addTransaction(new Transaction(new Product("Orange", 2.00, "A juicy Orange", "Fruit-Ora")));
+        TransactionList.addTransaction(new Transaction(new Product("Pear", 5.00, "A green Pear", "Fruit-Pea")));
+        TransactionList.addTransaction(new Transaction(new Product("Grape", 10.00, "A purple Grape", "Fruit-Gra")));
+        TransactionList.addTransaction(new Transaction(new Product("Pineapple", 15.00, "A spiky Pineapple", "Fruit-Pin")));
         //Get the subtotal of the transactions
         double subTotal = TransactionList.getSubTotal();
 
         //test non-discount receipt
         //add tax to the subtotal
-        double total = Payment.addTax(subTotal);
+        double total = Payment.totalWithTax(subTotal);
         //Simulate a cash payment
         double paymentGiven = 100;
         //Create a payment object without a discount
@@ -65,7 +64,8 @@ public class Test {
         //Get the change due
         double changeDue = payment.getChangeDue();
         //Create a receipt object
-        Receipt normalReceipt = new Receipt(customer, payment, cashRegister, TransactionList.getTransactions(), changeDue);
+        Receipt normalReceipt = new Receipt(customer.getName(), payment, cashRegister, TransactionList.getTransactions(), changeDue);
+        customer.addReceipt(normalReceipt);
         //Print the receipt
         System.out.println(normalReceipt);
         //write the receipt to a file
@@ -75,13 +75,17 @@ public class Test {
 
         //test discount receipt
         //add tax to the subtotal by passing the discount object to the static addTax method
-        total = Payment.addTax(subTotal, discount);
-        //Create a discounted payment using the overloaded Payment constructor
+        total = Payment.totalWithTax(subTotal);
+        //apply the discounts to the total
+        Discount discount = rewardsCustomer.getLoyaltyAccount().calculateDiscount(total);
         payment = new Payment(total, paymentGiven, "Cash", discount, true);
+        total = payment.applyDiscount(total, discount);
+        // Create a discounted payment using the overloaded Payment constructor
+        payment = new Payment(total, paymentGiven, "Cash", rewardsCustomer.getLoyaltyAccount().calculateDiscount(total), true);
         //Get the change due
         changeDue = payment.getChangeDue();
         //Create a discount receipt object
-        DiscountReceipt discountReceipt = new DiscountReceipt(customer, payment, cashRegister, TransactionList, changeDue, discount);
+        DiscountReceipt discountReceipt = new DiscountReceipt(customer.getName(), payment, cashRegister, TransactionList, changeDue, discount);
         //Print the receipt
         System.out.println(discountReceipt);
         //write the receipt to a file

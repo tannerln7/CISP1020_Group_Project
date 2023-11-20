@@ -1,6 +1,5 @@
 package Transactions;
 
-import Customers.Customer;
 import Retail_Operations.CashRegister;
 import Helpers.*;
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class Receipt implements JsonIdentifiable {
-    private final Customer customer;
+    private final String customerName;
     private final Payment payment;
     private final CashRegister cashRegister;
     private final ArrayList<Transaction> transactions;
@@ -18,15 +17,18 @@ public class Receipt implements JsonIdentifiable {
     private static int lastId;
 
 
-    public Receipt(Customer customer, Payment payment, CashRegister cashRegister, ArrayList<Transaction> transactions, double changeGiven) {
-        this.customer = customer;
+    public Receipt(String name, Payment payment, CashRegister cashRegister, ArrayList<Transaction> transactions, double changeGiven) {
+        this.customerName = name;
         this.payment = payment;
         this.cashRegister = cashRegister;
         this.transactions = transactions;
         this.changeGiven = changeGiven;
         this.id = generateId();
         lastId = id;
-        customer.addReceipt(this);
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 
     public double getSubtotal() {
@@ -75,7 +77,7 @@ public class Receipt implements JsonIdentifiable {
 
         // Cash Register and Customer Details
         receipt.append("Cash Register ID: ").append(Math.round(cashRegister.getCashRegisterNumber())).append("\n");
-        receipt.append("Customer: ").append(customer.getName()).append("\n");
+        receipt.append("Customer: ").append(customerName).append("\n");
 
         // Transactions
         receipt.append("Items Purchased:\n");

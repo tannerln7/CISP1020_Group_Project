@@ -1,5 +1,7 @@
 package Customers;
 
+import Products.Discount;
+
 /**
  *
  * @author Donnie Young
@@ -7,42 +9,50 @@ package Customers;
 
 public class Loyalty {
 
-    //Integer for points. I did not see the point in doing double for this
-    private int points;
+    private double points;
+    private final double pointRatio = 0.01;
+    private Discount rewardsDiscount = new Discount(0.05);
 
     //sets points to sign up bonus starting with 10000 points.
     public Loyalty() {
         this.points = 10000;
     }
+    //Used to create a LoyaltyAccount object with custom parameters
+    public Loyalty(double initialPoints, Discount rewardsDiscount) {
+        this.points = initialPoints;
+        this.rewardsDiscount = rewardsDiscount;
+    }
 
     //adds points.
-    public void addPoints(int amount) {
+    public void addPoints(double amount) {
         this.points += amount;
     }
 
-    //I was thinking that 100 points would equal redeemable. Will have to fix this at some point
-     public void redeemPoints(int amount) {
-        if (this.points >= amount) {
-            this.points -= amount;
-        }
-    }
-
-    public int getPoints() {
+    public double getPoints() {
         return this.points;
     }
 
-    public boolean hasEnoughPointsForDiscount() {
-        return this.points >= 100;
+    public boolean hasEnoughPointsForDiscount(double total) {
+        return this.points >= total * this.rewardsDiscount.getDiscountPercent();
     }
 
-    //I think this would apply a 25% discount. 
-    public float applyDiscount(float total) {
-        if (this.hasEnoughPointsForDiscount()) {
-            return total * 0.75f;
-        } else {
-            return total;
+    //Redeems points for a $0.01 discount per dollar spent and a discount based on the rewardsDiscount object
+    public void redeemPoints(double total) {
+        if (hasEnoughPointsForDiscount(total)) {
+            this.points -= total;
         }
-    }}
+    }
+    public Discount calculateDiscount(double total) {
+        if (hasEnoughPointsForDiscount(total)) {
+            return new Discount(this.rewardsDiscount.getDiscountPercent(), total * pointRatio);
+        } else {
+            return new Discount(this.rewardsDiscount.getDiscountPercent());
+        }
+    }
+    public double getRewardsDiscountPercent(){
+        return this.rewardsDiscount.getDiscountPercent();
+    }
+}
 //   Following code is meant to give an idea of what I was thinking would call or use loyalty class
 
 //public float calculateTotalPrice(List<Item> items, LoyaltyProgram loyaltyProgram) {

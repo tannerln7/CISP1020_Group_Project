@@ -69,10 +69,9 @@ public class Offers extends Discount{
     public void setAccount(LoyaltyAccount account) {
         this.account = account;
     }
-    
-    
+
     public double totalSubtractedPrice() {
-        return account.getDiscountPercent()*(slashed.getPrice()-subtractionDiscount);
+        return this.getDiscountPercent()*(slashed.getPrice()-subtractionDiscount);
     }
     
     
