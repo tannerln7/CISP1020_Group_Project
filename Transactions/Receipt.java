@@ -1,5 +1,6 @@
 package Transactions;
 
+
 import Retail_Operations.CashRegister;
 import Helpers.*;
 import java.util.ArrayList;
@@ -17,18 +18,14 @@ public class Receipt implements JsonIdentifiable {
     private static int lastId;
 
 
-    public Receipt(String name, Payment payment, CashRegister cashRegister, ArrayList<Transaction> transactions, double changeGiven) {
+    public Receipt(String name, Payment payment, CashRegister cashRegister, ArrayList<Transaction> transactions) {
         this.customerName = name;
         this.payment = payment;
         this.cashRegister = cashRegister;
         this.transactions = transactions;
-        this.changeGiven = changeGiven;
+        this.changeGiven = payment.getAmountPaid() - payment.getAmountDue();
         this.id = generateId();
         lastId = id;
-    }
-
-    public String getCustomerName() {
-        return customerName;
     }
 
     public double getSubtotal() {
@@ -58,6 +55,16 @@ public class Receipt implements JsonIdentifiable {
     public double getId() {
         return id;
     }
+    public String getName(){
+        return customerName;
+    }
+
+    public Payment getPayment(){
+        return payment;
+    }
+    public ArrayList<Transaction> getTransactions(){
+        return transactions;
+    }
 
     private static int generateId() {
          lastId += 1;
@@ -77,7 +84,6 @@ public class Receipt implements JsonIdentifiable {
 
         // Cash Register and Customer Details
         receipt.append("Cash Register ID: ").append(Math.round(cashRegister.getCashRegisterNumber())).append("\n");
-        receipt.append("Customer: ").append(customerName).append("\n");
 
         // Transactions
         receipt.append("Items Purchased:\n");
@@ -96,7 +102,7 @@ public class Receipt implements JsonIdentifiable {
                 .append(String.format("%.2f", getSubtotal() * tax)).append("\n");
 
         // Total
-        receipt.append("Total: $").append(String.format("%.2f", getTotal())).append("\n");
+        receipt.append("Total: $").append(String.format("%.2f", payment.getAmountDue())).append("\n");
 
         // Payment and Change
         receipt.append("Paid with: ").append(payment.getPaymentType()).append("\n");

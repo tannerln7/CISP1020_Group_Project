@@ -1,12 +1,13 @@
 package Customers;
 //TODO: Add methods for keeping a list of customer receipts.
 import Helpers.JsonIdentifiable;
+import Helpers.ObjectJson;
 import Transactions.Receipt;
 import java.util.ArrayList;
 
 //Add the final CustomerID variable for each Customer. Customer can change Name, Phone number.
 public class Customer implements JsonIdentifiable{
-    private final int customerId;
+    private final double customerId;
     private String name;
     private String phoneNumber;
     private int lastCustomerId;
@@ -21,13 +22,13 @@ public class Customer implements JsonIdentifiable{
     }
 
     // getId method so another class could get the id value.
-    public int getId() {
+    public double getId() {
         return this.customerId;
     }
 
     //getCustomerId method to show ID with 8 digits.
-    public String getCustomerId() {
-        return String.format("%08d", this.customerId);
+    public double getCustomerId() {
+        return this.customerId;
     }
 
     //getName method
@@ -51,17 +52,22 @@ public class Customer implements JsonIdentifiable{
     }
 
     public void addReceipt(Receipt receipt){
-        this.receipts.add(receipt);
+        receipts.add(receipt);
     }
 
     public ArrayList<Receipt> getReceipts(){
         return this.receipts;
     }
 
+    public void updateSaveFile(){
+        ObjectJson.objectToJson(this);
+    }
+
     private int generateId() {
         this.lastCustomerId++;
         return this.lastCustomerId;
     }
+
 
     @Override
     public String toString() {

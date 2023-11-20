@@ -1,8 +1,11 @@
 package Retail_Operations;
 
-import Transactions.Transaction;
+import Transactions.Receipt;
+
 import java.util.ArrayList;
 import Helpers.JsonIdentifiable;
+import Transactions.Transaction;
+
 //TODO: Add a method to return the total sales for the day
 //TODO: Increment the cash register number by 1 for each new cash register created
 //TODO: Update to write CashRegister objects to a file
@@ -22,12 +25,9 @@ public class CashRegister implements JsonIdentifiable{
 
     //Returns the ArrayList containing the list of all transactions from this cash register
     public ArrayList<Transaction> getTransactionLog(){
-     return transactionLog;
+     return this.transactionLog;
     }
-    public void newTransaction(Transaction transaction) {
-        transactionLog.add(transaction);
-        heldCash =- transaction.getProduct().getPrice();
-    }
+
 
     public double getCashRegisterNumber() {
         return cashRegisterNumber;
@@ -38,7 +38,17 @@ public class CashRegister implements JsonIdentifiable{
     }
 
     public double getHeldCash() {
-        return heldCash;
+        return this.heldCash;
+    }
+
+    public void processTransaction(Receipt receipt){
+        this.transactionLog.addAll(receipt.getTransactions());
+        if(receipt.getPayment().getPaymentType().equals("Cash")){
+            this.heldCash = (this.heldCash + receipt.getPayment().getAmountDue()) - receipt.getPayment().getChangeDue();
+        }else{
+            this.heldCash -= receipt.getPayment().getChangeDue();
+        }
+
     }
 
     //Set the available cash in the cash register drawer

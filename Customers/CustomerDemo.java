@@ -3,7 +3,9 @@ package Customers;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import Helpers.objectJson;
+
+import Helpers.ObjectJson;
+
 //TODO: Test Points tracking after implementation.
 public class CustomerDemo {
 
@@ -24,13 +26,13 @@ public class CustomerDemo {
 
         //Write the customer objects to JSON files
         for (Customer customer : customerList) {
-            objectJson.objectToJson(customer);
+            ObjectJson.objectToJson(customer);
         }
 
         //Read the customer objects from JSON files
 
         // Use the helper method to get an array of files in the directory associated with the Customer class
-        File[] files = objectJson.listFiles(Customer.class);
+        File[] files = ObjectJson.listFiles(Customer.class);
 
         // Check if the array of files is not null (i.e., the directory exists, is a directory, and is not empty)
         if (files != null) {
@@ -40,11 +42,11 @@ public class CustomerDemo {
                     // Check file name to determine if the file is a Customer object or a RewardsCustomer object
                     if (file.getName().contains("RewardsCustomer")) {
                         // If the file name contains "RewardsCustomer", deserialize the file to a RewardsCustomer object
-                        RewardsCustomer rewardsCustomer = objectJson.objectFromJson(file.getName(), RewardsCustomer.class);
+                        RewardsCustomer rewardsCustomer = ObjectJson.objectFromJson(file.getName(), RewardsCustomer.class);
                         // Print the RewardsCustomer object to the console
                         System.out.println(rewardsCustomer);
                     } else {
-                        Customer customer = objectJson.objectFromJson(file.getName(), Customer.class);
+                        Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
                         System.out.println(customer);
                     }
                 } catch (Exception e) {

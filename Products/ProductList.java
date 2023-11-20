@@ -1,5 +1,5 @@
 package Products;
-import Helpers.objectJson;
+import Helpers.ObjectJson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class ProductList {
     }
 
     /**
-     * Demonstrates the use of the objectJson helper class to write and read
+     * Demonstrates the use of the ObjectJson helper class to write and read
      * objects to and from JSON files
      *
      * @param args the command line arguments
@@ -39,13 +39,13 @@ public class ProductList {
 
         //write the product objects to JSON files
         for (Product product : products) {
-            objectJson.objectToJson(product);
+            ObjectJson.objectToJson(product);
         }
 
         //Read the product objects from JSON files
 
         // Use the helper method to get an array of files in the directory associated with the Customer class
-        File[] files = objectJson.listFiles(Product.class);
+        File[] files = ObjectJson.listFiles(Product.class);
 
         // Check if the array of files is not null (i.e., the directory exists, is a directory, and is not empty)
         if (files != null) {
@@ -53,7 +53,7 @@ public class ProductList {
             for (File file : files) {
                 try {
                     //Create a product object from the JSON file and print it to the console
-                    Product product = objectJson.objectFromJson(file.getName(), Product.class);
+                    Product product = ObjectJson.objectFromJson(file.getName(), Product.class);
                     System.out.println(product);
                 } catch (Exception e) {
                     // Handle exceptions during the reading and deserialization process

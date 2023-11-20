@@ -4,7 +4,7 @@ import Products.Product;
 import java.io.*;
 import java.io.IOException;
 
-public class objectJson{
+public class ObjectJson {
     /**
      * A static method that serializes an object to a JSON file using the JsonIdentifiable interface to get the file name from the object.
      * The file is created in a subdirectory 'JSON Files' within the package directory of the object's class.
@@ -125,7 +125,7 @@ public class objectJson{
      * @return An array of File objects, or null if the directory does not exist, is not a directory, or is empty.
      */
     public static File[] listFiles(Class<?> passedClass) {
-        String packageDirPath = objectJson.getClassDir(passedClass);
+        String packageDirPath = ObjectJson.getClassDir(passedClass);
         File packageDir = new File(packageDirPath);
 
         // Check if the directory exists and is a directory

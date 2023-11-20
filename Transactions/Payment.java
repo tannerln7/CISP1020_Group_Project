@@ -1,6 +1,9 @@
 package Transactions;
 
+import Customers.RewardsCustomer;
 import Products.Discount;
+import Retail_Operations.CashRegister;
+
 //TODO: Implement LoyaltyAccount class in order to utilize rewards points
 public class Payment {
     private double amountDue;
@@ -48,9 +51,16 @@ public class Payment {
         return amountDue + (amountDue * defaultTax);
     }
 
-    public double applyDiscount(double total, Discount discount) {
-        this.amountDue = (total - (total * discount.getDiscountPercent())) - discount.getDiscountAmount();
-        return this.amountDue;
+    public void applyDiscount(double total, Discount discount, RewardsCustomer customer){
+        if(customer.getLoyaltyAccount().hasEnoughPointsForDiscount(discount.getDiscountAmount() * 10)){
+            this.discount = discount;
+            this.amountDue = (total - (total * discount.getDiscountPercent())) - discount.getDiscountAmount();
+            customer.getLoyaltyAccount().redeemPoints(discount.getDiscountAmount() * 10);
+        }
+        else{
+            this.discount = new Discount(customer.getLoyaltyAccount().getRewardsDiscountPercent());
+            this.amountDue = (total - (total * discount.getDiscountPercent()));
+        }
     }
 
 
@@ -60,6 +70,9 @@ public class Payment {
 
     public double getAmountPaid(){
         return amountPaid;
+    }
+    public double getAmountDue(){
+        return amountDue;
     }
 
     public double getChangeDue(){
@@ -90,5 +103,9 @@ public class Payment {
     }
     public double getTax(){
         return tax;
+    }
+    public void completePayment(CashRegister cashRegister, Receipt receipt) {
+        this.isPaid = true;
+        cashRegister.processTransaction(receipt);
     }
 }
