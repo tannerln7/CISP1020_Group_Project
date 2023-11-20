@@ -22,9 +22,6 @@ public class Discount {
     public double getDiscountAmount() {
         return discountAmount;
     }
-    public Discount getDiscount() {
-        return this;
-    }
     public void changeDiscountPercent(double newDiscountPercent) {
         this.discountPercent = newDiscountPercent;
     }

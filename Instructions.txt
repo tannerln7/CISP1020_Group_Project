@@ -32,7 +32,7 @@ public class [YourClassName] implements JsonIdentifiable {
 4) Example of objectJson methods
 
 
-import Helpers.objectJson;
+import Helpers.ObjectJson;
 import Products.Product;
 
 public class Main {

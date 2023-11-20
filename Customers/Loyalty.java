@@ -10,7 +10,7 @@ import Products.Discount;
 public class Loyalty {
 
     private double points;
-    private final double pointRatio = 0.01;
+    private final double pointRatio = 0.1;
     private Discount rewardsDiscount = new Discount(0.05);
 
     //sets points to sign up bonus starting with 10000 points.
@@ -32,19 +32,20 @@ public class Loyalty {
         return this.points;
     }
 
-    public boolean hasEnoughPointsForDiscount(double total) {
-        return this.points >= total * this.rewardsDiscount.getDiscountPercent();
+    public boolean hasEnoughPointsForDiscount(double pointsRedeemed) {
+        return this.points >= pointsRedeemed * this.rewardsDiscount.getDiscountPercent();
     }
 
-    //Redeems points for a $0.01 discount per dollar spent and a discount based on the rewardsDiscount object
-    public void redeemPoints(double total) {
-        if (hasEnoughPointsForDiscount(total)) {
-            this.points -= total;
+
+    public void redeemPoints(double points) {
+        if (hasEnoughPointsForDiscount(points)) {
+            this.points -= points;
         }
     }
-    public Discount calculateDiscount(double total) {
-        if (hasEnoughPointsForDiscount(total)) {
-            return new Discount(this.rewardsDiscount.getDiscountPercent(), total * pointRatio);
+    //1 point per 10 dollars spent. Points are worth 10 cents each. 100 points = $10.00
+    public Discount calculateDiscount(double pointsRedeemed) {
+        if (hasEnoughPointsForDiscount(pointsRedeemed)) {
+            return new Discount(this.rewardsDiscount.getDiscountPercent(), pointsRedeemed * pointRatio);
         } else {
             return new Discount(this.rewardsDiscount.getDiscountPercent());
         }
