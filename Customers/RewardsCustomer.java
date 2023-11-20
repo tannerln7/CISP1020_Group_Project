@@ -1,18 +1,12 @@
 package Customers;
 
-import Products.Product;
-import Retail_Operations.CashRegister;
-import Retail_Operations.Employee;
-import Transactions.Payment;
-import Transactions.Receipt;
-import Transactions.Transaction;
-
-import java.util.ArrayList;
+import Transactions.DiscountReceipt;
+import Products.Discount;
 
 //TODO: Add methods to keep track of customer points on a per transaction basis.
 public class RewardsCustomer extends Customer {
     private String customerEmail;
-    private LoyaltyAccount loyaltyAccount;
+    private final LoyaltyAccount loyaltyAccount;
 
 
     //Constructor for RewardsCustomer. Creates new loyaltyAccount using the default discount options from the LoyaltyAccount class.
@@ -21,10 +15,10 @@ public class RewardsCustomer extends Customer {
         this.customerEmail = customerEmail;
         this.loyaltyAccount = new LoyaltyAccount();
     }
-    public RewardsCustomer(String name, String phoneNumber, String customerEmail, double initialPointsBalance, double discountPercent) {
+    public RewardsCustomer(String name, String phoneNumber, String customerEmail, double initialPointsBalance, Discount discount) {
         super(name, phoneNumber);
         this.customerEmail = customerEmail;
-        this.loyaltyAccount = new LoyaltyAccount(initialPointsBalance, discountPercent);
+        this.loyaltyAccount = new LoyaltyAccount(initialPointsBalance, discount);
     }
 
     // Create a new RewardsCustomer with the details copied from an existing normal Customer.
@@ -41,17 +35,8 @@ public class RewardsCustomer extends Customer {
     public LoyaltyAccount getLoyaltyAccount() {
         return loyaltyAccount;
     }
-
-    public static String pointsMenu(Customer customer){
-        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-        transactions.add(new Transaction(new Product("Apple", 32, "apple", "Apple-1"),customer));
-        customer.addReceipt(new Receipt(customer, new Payment(), new CashRegister(1,1000, new Employee("name", "123", "Employee", "Username", "Password")),transactions, 100));
-        return customer.getReceipts().toString();
-    }
-
-    public static void main(String[] args) {
-        RewardsCustomer customer = new RewardsCustomer("Name", "123-123-123", "Email@email.com");
-        System.out.println(pointsMenu(customer));
+    public void addReceipt(DiscountReceipt receipt){
+        super.addReceipt(receipt);
     }
 
     @Override
@@ -64,7 +49,7 @@ public class RewardsCustomer extends Customer {
                 .append("  CustomerEmail= ").append(this.getCustomerEmail()).append(",\n")
                 .append("  LoyaltyAccount= ").append(Math.round(this.getLoyaltyAccount().getAccountNumber())).append(",\n")
                 .append("  PointsBalance= ").append(this.getLoyaltyAccount().getPoints()).append(",\n")
-                .append("  DiscountPercent= ").append("%").append(100 * this.getLoyaltyAccount().getDiscountPercent()).append(",\n")
+                .append("  DiscountPercent= ").append("%").append(100 * this.getLoyaltyAccount().getRewardsDiscountPercent()).append(",\n")
                 .append("}\n");
         return sb.toString();
     }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class TransactionList {
     private final ArrayList<Transaction> transactions;
     public TransactionList() {
-        transactions = new ArrayList<Transaction>();
+        transactions = new ArrayList<>();
     }
 
     public void addTransaction(Transaction transaction) {
