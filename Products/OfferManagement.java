@@ -16,7 +16,7 @@ import java.util.Scanner;
 // unfinished
 //TODO: Integrate saved products and employees
 //TODO: Connect with main
-//TODO: figure out how to call a class and mutate it fom a scanner
+//TODO: figure out how to call a class and mutate it from a scanner
 public class OfferManagement {
     public static void main(String[] args) {
         Employee test = new Employee("test","2324","manager","tester1","p3n!");
@@ -26,6 +26,7 @@ public class OfferManagement {
         Product t4 = new Product("Cereal", 3.49, "Box of breakfast cereal", "P004");
         
         Offers deltest = new Offers(t4, 50);
+        Offers edittest = new Offers(t4, 50);
 
         System.out.println("login: ");
         Scanner in = new Scanner(System.in);
@@ -44,27 +45,45 @@ public class OfferManagement {
                     case 1:
                         System.out.println("to what product would you like to add an offer?");
                         System.out.println("type t code for product you wish to modify");
-                        Product code = in.next();
+                        String code = in.next();
                         System.out.println("type 1 for subtraction discount, type 2 for percent discount");
                         int case2 = in.nextInt();
                         switch(case2){
                             case 1:
                                 System.out.println("type subtraction discount");
                                 double sub = in.nextDouble();
-                                Offers o1 = new Offers(sub,code);
+                                Offers o1 = new Offers(sub,t1);//t1 is a placeholder until i figure out how to call classes through scanners
                                 System.out.println("offer created");
                                 break;
                             case 2:
                                 System.out.println("type percentage discount");
                                 double per = in.nextDouble();
-                                Offers o2 = new Offers(per, code);
+                                Offers o2 = new Offers(per, t1);//t1 is a placeholder until i figure out how to call classes through scanners
                                 System.out.println("offer created");
                                 break;
                         }
                     break;
                     case 2:
                         System.out.println("name offer to be removed");
-                        
+                        String name = in.next();
+                        deltest = null;//deltest is a placeholder until i figure out how to call classes through scanners
+                        System.out.println("offer removed");
+                        break;
+                    case 3:
+                        System.out.println("choose offer to be edited");
+                        String name2 = in.next();                        
+                        if(edittest.getsubtractionDiscount()==0){//edittest is a placeholder until i figure out how to call classes through scanners
+                             System.out.println("type percentage discount");
+                             double per2 = in.nextDouble();
+                             edittest.changeDiscountPercent(per2);
+                             System.out.println("change complete");
+                        }
+                        else{
+                            System.out.println("type subtraction discount");
+                            double sub2 = in.nextDouble();
+                            edittest.setsubtractionDiscount(sub2);
+                            System.out.println("change complete");
+                        }
                 }
             }
             else{
