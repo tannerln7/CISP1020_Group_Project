@@ -23,11 +23,12 @@ import Helpers.*;
  * Retail_Operations/CashRegister.java
  * Retail_Operations/Employee.java
  * Rewards/Discount.java
+ * Customers/LoyaltyAccount.java
+ * Customers/Loyalty.java
  * Customers/Customer.java
+ * Customers/RewardsCustomer.java
  * Products/Product.java
- *------------------------------------------------------
- * These will be added soon
- * Helpers/JsonIdentifiable.java
+ * Products/Discount.java
  * Helpers/ObjectJson.java
  * ------------------------------------------------------
  */
