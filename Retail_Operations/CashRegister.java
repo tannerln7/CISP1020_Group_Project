@@ -6,19 +6,17 @@ import java.util.ArrayList;
 import Helpers.JsonIdentifiable;
 import Transactions.Transaction;
 
-//TODO: Add a method to return the total sales for the day
-//TODO: Increment the cash register number by 1 for each new cash register created
-//TODO: Update to write CashRegister objects to a file
 public class CashRegister implements JsonIdentifiable{
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
-    private double cashRegisterNumber;
+    private int cashRegisterNumber;
+    private int lastCashRegisterNumber;
     private double heldCash;
     private Employee salesAssociate;
 
 
     //Creates a new CashRegister instance. This is used to store each Transaction objects and cash register information
-    public CashRegister(double cashRegisterNumber, double heldCash, Employee salesAssociate) {
-        this.cashRegisterNumber = cashRegisterNumber;
+    public CashRegister(double heldCash, Employee salesAssociate) {
+        this.cashRegisterNumber = generateId();
         this.heldCash = heldCash;
         this.salesAssociate = salesAssociate;
     }
@@ -33,7 +31,7 @@ public class CashRegister implements JsonIdentifiable{
         return cashRegisterNumber;
     }
 
-    public void setCashRegisterNumber(double cashRegisterNumber) {
+    public void setCashRegisterNumber(int cashRegisterNumber) {
         this.cashRegisterNumber = cashRegisterNumber;
     }
 
@@ -65,6 +63,17 @@ public class CashRegister implements JsonIdentifiable{
         this.salesAssociate = salesAssociate;
     }
 
+    private  int generateId() {
+        return ++lastCashRegisterNumber;
+    }
+
+    public double getTotalSales(){
+        double totalSales = 0;
+        for(Transaction transaction : transactionLog){
+            totalSales += transaction.getProduct().getPrice();
+        }
+        return totalSales;
+    }
 @Override
     public String getJsonId() {
         return "CashRegister_" + this.getCashRegisterNumber();

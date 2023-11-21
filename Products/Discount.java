@@ -1,6 +1,6 @@
 package Products;
 
-//TODO: Incorporate this class as a parent class to the Offers Class
+
 public class Discount {
     private double discountPercent;
     private double discountAmount;

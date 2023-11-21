@@ -7,8 +7,6 @@ import Retail_Operations.CashRegister;
 import Retail_Operations.Employee;
 import Products.Discount;
 import com.google.gson.Gson;
-
-import java.io.File;
 import java.io.IOException;
 import Helpers.*;
 
@@ -40,7 +38,7 @@ public class Test {
         Customer customer = new Customer("John Doe", "123-456-7890");
         RewardsCustomer rewardsCustomer = new RewardsCustomer("John Doe", "123-456-7890", "email@email.com");
         Employee employee = new Employee("John Doe", "12345", "Cashier", "username", "password");
-        CashRegister cashRegister = new CashRegister(1, 10000, employee);
+        CashRegister cashRegister = new CashRegister( 10000, employee);
         Gson gson = new Gson();
 
         //Call default constructor to initialize a blank transaction list
@@ -104,28 +102,12 @@ public class Test {
         //Read the customers back from the files
 
         try {
-            customer = ObjectJson.objectFromJson("Customer_1.0", Customer.class);
+            customer = ObjectJson.objectFromJson("Customer_1", Customer.class);
+            rewardsCustomer = ObjectJson.objectFromJson("RewardsCustomer_1", RewardsCustomer.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        //You can search for a customer by instance variables like name, id, phone number, or email
-        String nameToSearchFor = "John Doe";
-        File[] files = ObjectJson.listFiles(RewardsCustomer.class);
-        if (files != null) {
-            for (File file : files) {
-                if (file.getName().contains("RewardsCustomer")) {
-                    try {
-                        rewardsCustomer = ObjectJson.objectFromJson(file.getName(), RewardsCustomer.class);
-                        if (rewardsCustomer.getName().equals(nameToSearchFor)) {
-                            break;
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }
         //Print the customer Information
         System.out.println("Customer Information read from file \n");
         System.out.println("NORMAL Customer" +"\n" + customer);

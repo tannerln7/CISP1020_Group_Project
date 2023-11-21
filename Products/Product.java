@@ -3,6 +3,9 @@ import Helpers.JsonIdentifiable;
 
 //TODO: Incorporate Offers Class to allow for discounts on products
 //TODO: Provide method to updated current products to include discounts
+
+//TODO: Start working on the Management menu for Products.
+//BODy: This will be a menu that allows staff members to add, remove, and edit products and their information.
 public class Product implements JsonIdentifiable {
 
     private String name;

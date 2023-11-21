@@ -1,13 +1,17 @@
 package Customers;
-//TODO: Add methods for keeping a list of customer receipts.
 import Helpers.JsonIdentifiable;
 import Helpers.ObjectJson;
 import Transactions.Receipt;
 import java.util.ArrayList;
 
 //Add the final CustomerID variable for each Customer. Customer can change Name, Phone number.
+//TODO: Start working on the Management menu for Customers.
+//BODy: This will be a menu that allows staff members to add, remove, and edit customer information.
+
+//TODO: Start working on the user menu for Customers.
+//BODy: This will be a menu that allows customers to view their information, update their information, view their receipts, and sign up for a rewards account.
 public class Customer implements JsonIdentifiable{
-    private final double customerId;
+    private final int customerId;
     private String name;
     private String phoneNumber;
     private int lastCustomerId;
@@ -21,13 +25,8 @@ public class Customer implements JsonIdentifiable{
         this.customerId = generateId();
     }
 
-    // getId method so another class could get the id value.
-    public double getId() {
-        return this.customerId;
-    }
-
     //getCustomerId method to show ID with 8 digits.
-    public double getCustomerId() {
+    public int getCustomerId() {
         return this.customerId;
     }
 
@@ -65,7 +64,7 @@ public class Customer implements JsonIdentifiable{
 
     private int generateId() {
         this.lastCustomerId++;
-        return this.lastCustomerId;
+        return lastCustomerId;
     }
 
 

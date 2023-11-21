@@ -3,8 +3,6 @@ package Transactions;
 import Customers.RewardsCustomer;
 import Products.Discount;
 import Retail_Operations.CashRegister;
-
-//TODO: Implement LoyaltyAccount class in order to utilize rewards points
 public class Payment {
     private double amountDue;
     private String paymentType;
