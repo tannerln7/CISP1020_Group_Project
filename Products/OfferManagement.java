@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 // unfinished
 //TODO: Integrate saved products and employees
-//TODO: Conect with main
+//TODO: Connect with main
 //TODO: figure out how to call a class and mutate it fom a scanner
 public class OfferManagement {
     public static void main(String[] args) {
