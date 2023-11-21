@@ -4,10 +4,6 @@ import Helpers.ObjectJson;
 import Transactions.DiscountReceipt;
 import Products.Discount;
 
-
-import java.util.ArrayList;
-
-//TODO: Add methods to keep track of customer points on a per transaction basis.
 public class RewardsCustomer extends Customer {
     private String customerEmail;
     private final LoyaltyAccount loyaltyAccount;
@@ -43,10 +39,7 @@ public class RewardsCustomer extends Customer {
     public void addReceipt(DiscountReceipt receipt){
         super.addReceipt(receipt);
     }
-    @Override
-    public void updateSaveFile(){
-        ObjectJson.objectToJson(this);
-    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -63,7 +56,7 @@ public class RewardsCustomer extends Customer {
     }
     @Override
     public String getJsonId() {
-        return "RewardsCustomer_" + this.getId();
+        return "RewardsCustomer_" + super.getCustomerId();
     }
 
 }

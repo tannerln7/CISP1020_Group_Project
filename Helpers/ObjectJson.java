@@ -1,6 +1,8 @@
 package Helpers;
 import com.google.gson.Gson;
 import Products.Product;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.io.IOException;
 
@@ -49,31 +51,20 @@ public class ObjectJson {
         // Get the package directory of the object's class
         String packageDir = System.getProperty("user.dir") + "\\" + contextClass.getPackageName() + "\\JSON Files\\";
         // Create an abstract file path for the package directory
+        return getFile((JsonIdentifiable) object, packageDir);
+    }
+
+    @NotNull
+    private static File getFile(JsonIdentifiable object, String packageDir) {
         File packagePath = new File(packageDir);
-        System.out.println("Package Path: " + packagePath.getAbsolutePath());
         // Check if the directory exists, create it if not.
         if (!packagePath.exists()) {
             // Attempt to create the JSON Files directory
-            boolean result = packagePath.mkdirs();
-            if (result) {
-                System.out.println("Directory created successfully: " + packagePath.getAbsolutePath());
-            } else {
-                System.err.println("Failed to create directory: " + packagePath.getAbsolutePath());
-            }
-        } else {
-            System.out.println("Directory already exists: " + packagePath.getAbsolutePath());
+            packagePath.mkdirs();
         }
         //Create an abstract file path by casting the passed object to the JsonIdentifiable interface
         // and use the getJsonId method to get the file name.
-        File file = new File(packagePath, (((JsonIdentifiable) object).getJsonId() + ".json"));
-        System.out.println("Full File Path: " + file.getAbsolutePath());
-        // Create the file if it doesn't exist
-        if (file.createNewFile()) {
-            System.out.println("New JSON file created at: " + file.getAbsolutePath());
-        } else {
-            System.out.println("Using existing JSON file at: " + file.getAbsolutePath());
-        }
-        return file;
+        return new File(packagePath, (object.getJsonId() + ".json"));
     }
 
     /**

@@ -6,7 +6,6 @@ import java.util.List;
 
 import Helpers.ObjectJson;
 
-//TODO: Test Points tracking after implementation.
 public class CustomerDemo {
 
     public static void main(String[] args) {

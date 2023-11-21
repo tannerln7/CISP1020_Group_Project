@@ -14,7 +14,8 @@ import Customers.LoyaltyAccount;
 //TODO: Implement Offers into Product class to allow for discounts on current products. Will need to updated existing products that are saved to files.
 //BODY: Need some sort of menu to allow for the creation of offers on a per product and/or per customer basis.
 
-//Pieced of needed code are in other Offers class in Rewards package
+//TODO: Start working on the Management menu for Offers.
+//BODy: This will be a menu that allows staff members to add, remove, and edit offers on current products. For example, a 25% discount on Milk..etc
 
 public class Offers extends Discount{
     private double subtractionDiscount;
