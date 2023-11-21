@@ -16,6 +16,7 @@ import java.util.Scanner;
 // unfinished
 //TODO: Integrate saved products and employees
 //TODO: Conect with main
+//TODO: figure out how to call a class and mutate it fom a scanner
 public class OfferManagement {
     public static void main(String[] args) {
         Employee test = new Employee("test","2324","manager","tester1","p3n!");
