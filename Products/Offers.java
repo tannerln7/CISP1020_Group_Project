@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Products;
+package CISP1020_Group_Project.Products;
 import Customers.LoyaltyAccount;
 
 /**
@@ -28,6 +28,7 @@ public class Offers extends Discount{
     public Offers(Product slashed, double discountPercent) {
         super(discountPercent);
         this.slashed = slashed;
+        this.subtractionDiscount = 0;
     }
 
     public Offers(double subtractionDiscount, Product slashed) {
@@ -39,6 +40,7 @@ public class Offers extends Discount{
         super(discountPercent);
         this.slashed = slashed;
         this.account = account;
+        this.subtractionDiscount = 0;
     }
 
     public Offers(double subtractionDiscount, Product slashed, LoyaltyAccount account) {
@@ -73,6 +75,10 @@ public class Offers extends Discount{
 
     public double totalSubtractedPrice() {
         return this.getDiscountPercent()*(slashed.getPrice()-subtractionDiscount);
+    }
+    
+    public String toString() {
+        return "Product " + slashed + " discount " + super.getDiscountPercent();
     }
     
     
