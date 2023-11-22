@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Products;
-import Customers.LoyaltyAccount;
 
 /**
  *
@@ -18,9 +17,6 @@ import Customers.LoyaltyAccount;
 //BODy: This will be a menu that allows staff members to add, remove, and edit offers on current products. For example, a 25% discount on Milk..etc
 
 public class Offers extends Discount{
-    private double subtractionDiscount;
-    private Product slashed;
-    private LoyaltyAccount account;
     
     /**
      * the constructor with no parameters
@@ -28,52 +24,13 @@ public class Offers extends Discount{
     public Offers() {
     }        
 
-    
     /**
      * the constructor with two parameters
-     * @param slashed the product to be given an offer
      * @param discountPercent the discount as a percentage
      */
-    public Offers(Product slashed, double discountPercent) {
-        super(discountPercent);
-        this.slashed = slashed;
-        this.subtractionDiscount = 0;
-    }
+    public Offers(double discountPercent, double subtractionDiscount) {
+        super(discountPercent, subtractionDiscount);
 
-    
-    /**
-     * the constructor with two parameters
-     * @param subtractionDiscount the discount to be subtracted
-     * @param slashed the product to be given an offer
-     */
-    public Offers(double subtractionDiscount, Product slashed) {
-        this.subtractionDiscount = subtractionDiscount;
-        this.slashed = slashed;
-    }
-
-    /**
-     * 
-     * @param slashed the product to be given an offer
-     * @param account the loyalty account to be added to the discount
-     * @param discountPercent the discount as a percentage
-     */
-    public Offers(Product slashed, LoyaltyAccount account, double discountPercent) {
-        super(discountPercent);
-        this.slashed = slashed;
-        this.account = account;
-        this.subtractionDiscount = 0;
-    }
-
-    /**
-     * 
-     * @param subtractionDiscount the discount to be subtracted
-     * @param slashed the product to be given an offer
-     * @param account the loyalty account to be added to the discount
-     */
-    public Offers(double subtractionDiscount, Product slashed, LoyaltyAccount account) {
-        this.subtractionDiscount = subtractionDiscount;
-        this.slashed = slashed;
-        this.account = account;
     }
 
     /**
@@ -81,65 +38,24 @@ public class Offers extends Discount{
      * @return the discount to be subtracted
      */
     public double getSubtractionDiscount() {
-        return subtractionDiscount;
+        return super.getDiscountAmount();
+    }
+    public double getPercentDiscount(){
+        return super.getDiscountPercent();
     }
 
-    /**
-     * returns the product to be given an offer
-     * @return the product to be given an offer
-     */
-    public Product getSlashed() {
-        return slashed;
+    public void setSubtractionDiscount(double subtractionDiscount){
+        super.setDiscountAmount(subtractionDiscount);
     }
 
-    /**
-     * returns the loyalty account to be added to the discount
-     * @return the loyalty account to be added to the discount
-     */
-    public LoyaltyAccount getAccount() {
-        return account;
-    }
-
-    /**
-     * sets the discount to be subtracted
-     * @param subtractionDiscount the discount to be subtracted
-     */
-    public void setSubtractionDiscount(double subtractionDiscount) {
-        this.subtractionDiscount = subtractionDiscount;
-    }
-
-    /**
-     * sets the product to be given an offer
-     * @param slashed the product to be given an offer
-     */
-    public void setSlashed(Product slashed) {
-        this.slashed = slashed;
-    }
-
-    /**
-     * sets the loyalty account to be added to the discount
-     * @param account the loyalty account to be added to the discount
-     */
-    public void setAccount(LoyaltyAccount account) {
-        this.account = account;
-    }
-
-    /**
-     * gets the total price after all discounts
-     * @return the total price after all discounts
-     */
-    public double totalSubtractedPrice() {
-        return this.getDiscountPercent()*(slashed.getPrice()-subtractionDiscount);
-    }
     
     /**
      * returns the object as a string
      * @return the object as a string
      */
     public String toString() {
-        return "Product " + slashed + " discount " + super.getDiscountPercent();
+        return  "Subtraction Discount: " + super.getDiscountAmount() + " Percent Discount: %" +  super.getDiscountPercent();
     }
-    
     
 }
 
