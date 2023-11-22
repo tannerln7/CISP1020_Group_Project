@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CISP1020_Group_Project.Products;
+package Products;
 
 
 import Retail_Operations.Employee;
@@ -32,18 +32,18 @@ public class OfferManagement {
         LinkedList<Offers> list2 = new LinkedList<>();
         list2.add(new Offers(t3,50));
         list2.add(new Offers(t4,60));
-        Offers deltest = new Offers(t4, 50);
-        Offers edittest = new Offers(t4, 50);
+        Offers delTest = new Offers(t4, 50);
+        Offers editTest = new Offers(t4, 50);
         ListIterator<Offers> iter2 = list2.listIterator();
 
         System.out.println("login: ");
         Scanner in = new Scanner(System.in);
-        String usename = in.next();
-        if(usename.equals(test.getUsername())){
+        String username = in.next();
+        if(username.equals(test.getUsername())){
             System.out.println("password: ");
             String pass = in.next();
             if(pass.equals(test.getPassword())){
-                System.out.println("welome " + test.getUsername() + " to the offer manegment system");
+                System.out.println("welcome " + test.getUsername() + " to the offer management system");
                 System.out.println("what would you like to do?");
                 System.out.println("press 1 to add an offer");
                 System.out.println("press 2 to delete an offer");
@@ -102,7 +102,7 @@ public class OfferManagement {
                                 for(int i = 0;i<num2;i++){
                                     edit = iter2.next();
                                 }
-                        if(edit.getsubtractionDiscount()==0){
+                        if(edit.getSubtractionDiscount()==0){
                              System.out.println("type percentage discount");
                              double per2 = in.nextDouble();
                              edit.changeDiscountPercent(per2);
@@ -112,14 +112,14 @@ public class OfferManagement {
                         else{
                             System.out.println("type subtraction discount");
                             double sub2 = in.nextDouble();
-                            edit.setsubtractionDiscount(sub2);
+                            edit.setSubtractionDiscount(sub2);
                             System.out.println(edit);
                             System.out.println("change complete");
                         }
                 }
             }
             else{
-                System.out.println("login failes");
+                System.out.println("login failed");
             }
         }
         else{

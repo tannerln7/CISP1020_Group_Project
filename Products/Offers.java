@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CISP1020_Group_Project.Products;
+package Products;
 import Customers.LoyaltyAccount;
 
 /**
@@ -80,7 +80,7 @@ public class Offers extends Discount{
      * returns the discount to be subtracted
      * @return the discount to be subtracted
      */
-    public double getsubtractionDiscount() {
+    public double getSubtractionDiscount() {
         return subtractionDiscount;
     }
 
@@ -104,7 +104,7 @@ public class Offers extends Discount{
      * sets the discount to be subtracted
      * @param subtractionDiscount the discount to be subtracted
      */
-    public void setsubtractionDiscount(double subtractionDiscount) {
+    public void setSubtractionDiscount(double subtractionDiscount) {
         this.subtractionDiscount = subtractionDiscount;
     }
 

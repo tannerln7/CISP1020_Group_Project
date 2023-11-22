@@ -90,8 +90,8 @@ public class Customer implements JsonIdentifiable{
     *
     * @return The newly generated customer ID.
     */
-    private int generateId() {
-        this.lastCustomerId++;
+    private static int generateId() {
+        lastCustomerId++;
         return lastCustomerId;
     }
 

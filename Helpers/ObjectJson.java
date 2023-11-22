@@ -1,10 +1,7 @@
 package Helpers;
 import com.google.gson.Gson;
 import Products.Product;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.*;
-import java.io.IOException;
 
 public class ObjectJson {
     /**
@@ -18,17 +15,16 @@ public class ObjectJson {
      **/
     public static void objectToJson(Object object) {
         Gson gson = new Gson();
+        // Call the getFileInPackageDir method to get the JSON file.
+        File file = getFileInPackageDir(object);
+        // Write the object to the file as JSON using Gson.
         try {
-            // Call the getFileInPackageDir method to get the JSON file.
-            File file = getFileInPackageDir(object);
-            // Write the object to the file as JSON using Gson.
+            assert file != null;
             try (FileWriter writer = new FileWriter(file)) {
                 gson.toJson(object, writer);
-            } catch (IOException e) {
-                System.err.println("Error writing object to JSON file: " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.err.println("Could not create or find the JSON file: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error writing object to JSON file: " + e.getMessage());
         }
     }
 
@@ -39,22 +35,26 @@ public class ObjectJson {
      * The file name is defined by the JsonIdentifiable interface implemented by the object.
      * @param object The object to be serialized to JSON.
      * @return The JSON file.
-     * @throws IOException If the file cannot be created or found.
      */
-    public static File getFileInPackageDir(Object object) throws IOException {
+    public static File getFileInPackageDir(Object object) {
         // Get the class of the object
         Class<?> contextClass = object.getClass();
         //check if the object implements the JsonIdentifiable interface by casting it to the interface
         if (!(object instanceof JsonIdentifiable)) {
-            throw new IOException("Object does not implement JsonIdentifiable");
+            System.err.println("This object does not implement JsonIdentifiable interface.");
         }
         // Get the package directory of the object's class
         String packageDir = System.getProperty("user.dir") + "\\" + contextClass.getPackageName() + "\\JSON Files\\";
         // Create an abstract file path for the package directory
-        return getFile((JsonIdentifiable) object, packageDir);
+        try {
+            assert object instanceof JsonIdentifiable;
+            return getFile((JsonIdentifiable) object, packageDir);
+        }catch (Exception e){
+            System.err.println("This object does not implement JsonIdentifiable interface." + e);
+        }
+        return null;
     }
 
-    @NotNull
     private static File getFile(JsonIdentifiable object, String packageDir) {
         File packagePath = new File(packageDir);
         // Check if the directory exists, create it if not.
@@ -74,9 +74,8 @@ public class ObjectJson {
      * @param contextClass The class of the object to be deserialized.
      * @return The deserialized object.
      * @param <T> The type of the object to be deserialized. (This is automatically inferred from the contextClass parameter)
-     * @throws IOException If the file cannot be found or read.
      */
-    public static <T> T objectFromJson(String fileName, Class<T> contextClass) throws IOException {
+    public static <T> T objectFromJson(String fileName, Class<T> contextClass)  {
         Gson gson = new Gson();
 
         // Construct the directory path where the JSON file is located.
@@ -95,8 +94,9 @@ public class ObjectJson {
             return gson.fromJson(reader, contextClass);
         } catch (IOException e) {
             // Throw an IOException with a custom message if an error occurs during reading.
-            throw new IOException("Error reading from JSON file", e);
+            System.err.println("The file could not be found. " + e);
         }
+        return null;
     }
 
     public static String getClassDir(Class<?> passedClass) throws ClassCastException {
@@ -144,11 +144,7 @@ public class ObjectJson {
         // Example usage of objectFromJson to recreate a Product object from a JSON file.
         String jsonId = "Milk_P001";
         Product productFromJson;
-        try {
-           productFromJson = objectFromJson(jsonId, Product.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        productFromJson = objectFromJson(jsonId, Product.class);
         System.out.println("Product successfully recreated from JSON file");
         System.out.println("Product: " + productFromJson);
     }

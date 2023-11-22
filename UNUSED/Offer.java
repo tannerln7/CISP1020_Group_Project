@@ -23,9 +23,6 @@ public class Offer extends Discount {
         this.discountName = newDiscountName;
     }
 
-    public double getDiscountPercent() {
-        return super.getDiscountPercent();
-    }
     public void changeDiscountPercent(double newDiscountPercent) {
         super.changeDiscountPercent(newDiscountPercent);
     }

@@ -1,6 +1,5 @@
 package Customers;
 
-import Helpers.ObjectJson;
 import Transactions.DiscountReceipt;
 import Products.Discount;
 

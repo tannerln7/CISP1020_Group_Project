@@ -2,7 +2,6 @@ package Transactions;
 
 import Products.Discount;
 import Retail_Operations.*;
-import org.jetbrains.annotations.NotNull;
 
 public class DiscountReceipt extends Receipt{
     private final Discount discount;
@@ -34,7 +33,6 @@ public class DiscountReceipt extends Receipt{
                                                                                                 // no discount to apply, return the base receipt
     }
 
-    @NotNull
     private StringBuilder buildDiscountReceipt(String baseReceipt, int taxIndex) {
 
         // Create the discount string in the format "Discount: 10.00% off | Point Discount $1.00"

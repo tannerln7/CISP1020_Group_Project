@@ -4,11 +4,11 @@ import Helpers.JsonIdentifiable;
 //TODO: Start working on the Management menu for Employees.
 //BODy: This will be a menu that allows staff members to add, remove, and edit employee information.
 public class Employee implements JsonIdentifiable {
-    private String name;
-    private String employeeID;
-    private String position;
-    private String username;
-    private String password;
+    private final String name;
+    private final String employeeID;
+    private final String position;
+    private final String username;
+    private final String password;
 
     /**
      * the constructor with five parameters
@@ -71,8 +71,6 @@ public class Employee implements JsonIdentifiable {
     public String getJsonId() {
         return "Employee_" + this.getEmployeeID();
     }
-
-}
 
 }
 

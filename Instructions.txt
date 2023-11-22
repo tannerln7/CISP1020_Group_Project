@@ -21,7 +21,7 @@ public class [YourClassName] implements JsonIdentifiable {
     
     For NetBeans: Right-click project folder -> Properties -> Libraries -> Add JAR/Folder -> Select gson.jar -> Open -> OK
 
-    For VSCode: Add this to /.vscode/settings.json in your project workspace (create the .vscode folder and settings.json files if they dont already exist)
+    For VSCode: Add this to /.vscode/settings.json in your project workspace (create the .vscode folder and settings.json files if they don't already exist)
 	{
     	    "java.project.referencedLibraries": [
        	    "lib/**/*.jar"

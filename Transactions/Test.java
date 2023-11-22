@@ -7,7 +7,6 @@ import Retail_Operations.CashRegister;
 import Retail_Operations.Employee;
 import Products.Discount;
 import com.google.gson.Gson;
-import java.io.IOException;
 import Helpers.*;
 
 
@@ -102,12 +101,8 @@ public class Test {
 
         //Read the customers back from the files
 
-        try {
-            customer = ObjectJson.objectFromJson("Customer_1", Customer.class);
-            rewardsCustomer = ObjectJson.objectFromJson("RewardsCustomer_1", RewardsCustomer.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        customer = ObjectJson.objectFromJson("Customer_1", Customer.class);
+        rewardsCustomer = ObjectJson.objectFromJson("RewardsCustomer_1", RewardsCustomer.class);
 
         //Print the customer Information
         System.out.println("Customer Information read from file \n");
@@ -116,8 +111,14 @@ public class Test {
 
         //Print the receipts
         System.out.println("Receipts read from file \n");
-        System.out.println("NORMAL Customer Receipts" +"\n" + customer.getReceipts().toString());
-        System.out.println("Rewards Customer Receipts" +"\n" + rewardsCustomer.getReceipts().toString());
+        try {
+            assert customer != null;
+            System.out.println("NORMAL Customer Receipts" + "\n" + customer.getReceipts().toString());
+            assert rewardsCustomer != null;
+            System.out.println("Rewards Customer Receipts" + "\n" + rewardsCustomer.getReceipts().toString());
+        }catch (Exception e){
+            System.err.println("Error retrieving receipt files.");
+        }
 
     }
 }
