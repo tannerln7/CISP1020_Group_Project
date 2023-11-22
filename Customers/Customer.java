@@ -20,7 +20,7 @@ public class Customer implements JsonIdentifiable{
     private final int customerId;
     private String name;
     private String phoneNumber;
-    private int lastCustomerId;
+    private static int lastCustomerId;
     private final ArrayList<Receipt> receipts = new ArrayList<>();
 
 
