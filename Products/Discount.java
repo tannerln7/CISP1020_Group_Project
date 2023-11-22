@@ -1,7 +1,9 @@
 package Products;
 
+import Helpers.JsonIdentifiable;
+
 // The Discount class represents a discount applied to a product or purchase.
-public class Discount {
+public class Discount implements JsonIdentifiable {
 
     // The percentage discount applied to the original price.
     private double discountPercent;
@@ -35,8 +37,15 @@ public class Discount {
     }
 
     // Allows changing the percentage discount value.
-    public void changeDiscountPercent(double newDiscountPercent) {
+    public void setDiscountPercent(double newDiscountPercent) {
         this.discountPercent = newDiscountPercent;
     }
+    public void setDiscountAmount(double newDiscountAmount){
+        this.discountAmount = newDiscountAmount;
+    }
 
+    @Override
+    public String getJsonId() {
+        return "Discount_$" + discountAmount + "_%" + discountPercent;
+    }
 }

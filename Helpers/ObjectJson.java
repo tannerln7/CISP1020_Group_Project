@@ -45,7 +45,7 @@ public class ObjectJson {
         }
         // Get the package directory of the object's class
         String packageDir = System.getProperty("user.dir") + "\\" + contextClass.getPackageName() + "\\JSON Files\\";
-        // Create an abstract file path for the package directory
+        // Create a file path object for the package directory
         try {
             assert object instanceof JsonIdentifiable;
             return getFile((JsonIdentifiable) object, packageDir);
@@ -62,7 +62,7 @@ public class ObjectJson {
             // Attempt to create the JSON Files directory
             packagePath.mkdirs();
         }
-        //Create an abstract file path by casting the passed object to the JsonIdentifiable interface
+        //Create a file path object by casting the passed object to the JsonIdentifiable interface
         // and use the getJsonId method to get the file name.
         return new File(packagePath, (object.getJsonId() + ".json"));
     }
@@ -128,6 +128,30 @@ public class ObjectJson {
             return null;
         }
     }
+
+    public static Object searchObject(String jsonId, Class<?> contextClass) {
+        File[] files = ObjectJson.listFiles(contextClass);
+        if (files != null) {
+            for (File file : files) {
+                JsonIdentifiable object = (JsonIdentifiable) ObjectJson.objectFromJson(file.getName(), contextClass);
+                //If an object file is found
+                if (object != null) {
+                    //Check if the product ID matches the user entered ID
+                    if (object.getJsonId().equals(jsonId)) {
+                        return object;
+                    }
+                } else {
+                    //if product = null
+                    System.out.println("No matching product was found. Please try again");
+                }
+            }
+        } else {
+            //If no files are found in Product/Json Files/
+            System.out.println("Error loading files from directory. Please try again.");
+        }
+        return null;
+    }
+
 
     /**
      * Example usage of objectToJson and objectFromJson

@@ -1,5 +1,7 @@
 package Products;
 import Helpers.JsonIdentifiable;
+import Helpers.ObjectJson;
+import Helpers.Round;
 
 //TODO: Incorporate Offers Class to allow for discounts on products
 //TODO: Provide method to updated current products to include discounts
@@ -10,14 +12,25 @@ public class Product implements JsonIdentifiable {
 
     private String name;
     private double price;
+    private double discountPrice = 0;
     private String description;
     private String id;
+    private Offers offer;
 
     public Product(String name, double price, String description, String id) {
         this.name = name;
-        this.price = price;
+        this.price = Round.round(price);
         this.description = description;
         this.id = id;
+    }
+
+    public Product(String name, double price, String description, String id, Offers offer){
+        this.name = name;
+        this.price = Round.round(price);
+        this.discountPrice = Round.round(price - ((price * (offer.getDiscountPercent() / 100)) + offer.getSubtractionDiscount()));
+        this.description = description;
+        this.id = id;
+        this.offer = offer;
     }
 
     public String getName() {
@@ -29,11 +42,15 @@ public class Product implements JsonIdentifiable {
     }
 
     public double getPrice() {
-        return price;
+        if (discountPrice != 0){
+            return discountPrice;
+        }else{
+            return price;
+        }
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.price = Round.round(price);
     }
 
     public String getDescription() {
@@ -51,15 +68,41 @@ public class Product implements JsonIdentifiable {
     public void setId(String id) {
         this.id = id;
     }
+    public Offers getOffer(){
+        return offer;
+    }
+    public void setOffer(Offers offer){
+        this.offer = offer;
+        this.discountPrice = Round.round(price - ((price * (offer.getDiscountPercent() / 100)) + offer.getSubtractionDiscount()));
+        updateJson();
+    }
+    public void removeOffer(){
+        this.offer = new Offers(0,0);
+        this.discountPrice = 0;
+    }
+    private void updateJson(){
+        ObjectJson.objectToJson(this);
+    }
 
     @Override
     public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+        if (discountPrice != 0) {
+            return "Product{" +
+                    "name='" + name + '\'' +
+                    ", Normal Price=" + price + '\'' +
+                    ", Discount Price=" + discountPrice + '\'' +
+                    ", offer='" + offer + '\'' +
+                    ", description='" + description + '\'' +
+                    ", id='" + id + '\'' +
+                    '}';
+        }else{
+            return "Product{" +
+                    "name='" + name + '\'' +
+                    ", price=" + price +
+                    ", description='" + description + '\'' +
+                    ", id='" + id + '\'' +
+                    '}';
+        }
     }
 
     @Override

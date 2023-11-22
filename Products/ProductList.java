@@ -29,37 +29,29 @@ public class ProductList {
     }
 
     /**
-     * Demonstrates the use of the ObjectJson helper class to write and read
-     * objects to and from JSON files
-     *
-     * @param args the command line arguments
+     * Static method that loads the product objects saved to files in the Products/Json Files/ directory and returns them in an ArrayList.
      */
-    public static void main(String[] args) {
-        ArrayList<Product> products = getGroceryList();
-
-        //write the product objects to JSON files
-        for (Product product : products) {
-            ObjectJson.objectToJson(product);
-        }
-
-        //Read the product objects from JSON files
-
-        // Use the helper method to get an array of files in the directory associated with the Customer class
+    public static ArrayList<Product> loadDefaultProducts() {
+        // Create an ArrayList to hold the product objects
+        ArrayList<Product> productList = new ArrayList<>();
+        //Use the ObjectJson.listFiles utility method to get a file array of all product json files.
         File[] files = ObjectJson.listFiles(Product.class);
-
-        // Check if the array of files is not null (i.e., the directory exists, is a directory, and is not empty)
+        // Check if the array of files is not empty
         if (files != null) {
             // Iterate over each file in the array
             for (File file : files) {
                 try {
                     //Create a product object from the JSON file and print it to the console
                     Product product = ObjectJson.objectFromJson(file.getName(), Product.class);
-                    System.out.println(product);
+                    //Add the product object to the productList ArrayList
+                    productList.add(product);
                 } catch (Exception e) {
                     // Handle exceptions during the reading and deserialization process
-                    System.err.println("Error reading JSON file: " + e.getMessage());
+                    System.err.println("Error reading JSON files: " + e.getMessage());
                 }
             }
         }
+        //Return the productList ArrayList of product objects.
+        return productList;
     }
 }
