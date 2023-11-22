@@ -8,8 +8,9 @@ import Helpers.ObjectJson;
 
 public class CustomerDemo {
 
+    // The CustomerDemo class demonstrates the creation, manipulation, and persistence of Customer objects.
     public static void main(String[] args) {
-        //Generate a list of customers
+        //Generate a list of customer objects
         List<Customer> customerList = new ArrayList<>();
         customerList.add(new Customer("Tuan Tran", "432-567-8900"));
         customerList.add(new Customer("***REMOVED*** ***REMOVED***", "123-456-7890"));
