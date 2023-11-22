@@ -11,7 +11,7 @@ import java.util.ArrayList;
 //TODO: Start working on the user menu for Customers.
 //BODy: This will be a menu that allows customers to view their information, update their information, view their receipts, and sign up for a rewards account.
 
-//Added commens
+//Added comments
 /**
  * This class represents a customer of the store. It stores the customer's name, phone number,
  * and a list of their receipts.
