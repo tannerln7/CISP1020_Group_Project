@@ -121,6 +121,109 @@ public class Customer implements JsonIdentifiable{
     public String getJsonId() {
         return "Customer_" + this.customerId;
     }
+    // Method to create a menu for managing customer information
+    public static void customerManagementMenu(List<Customer> customers) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Customer Management Menu");
+            System.out.println("1. Add Customer");
+            System.out.println("2. Remove Customer");
+            System.out.println("3. Edit Customer Information");
+            System.out.println("4. View All Customers");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    addCustomer(customers);
+                    break;
+                case 2:
+                    removeCustomer(customers);
+                    break;
+                case 3:
+                    editCustomerInformation(customers);
+                    break;
+                case 4:
+                    viewAllCustomers(customers);
+                    break;
+                case 5:
+                    System.out.println("Exiting Customer Management Menu");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    // Method to add customer in customerList
+    private static void addCustomer(List<Customer> customers) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter customer name: ");
+        String newName = scanner.nextLine();
+        System.out.print("Enter customer phone number: ");
+        String newPhoneNumber = scanner.nextLine();
+
+        Customer newCustomer = new Customer(newName, newPhoneNumber);
+        customers.add(newCustomer);
+        System.out.println("Customer added successfully: " + newCustomer);
+    }
+
+    // Method to remove customer in customerList
+    private static void removeCustomer(List<Customer> customers) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter customer ID to remove: ");
+        int customerId = scanner.nextInt();
+
+        for (Customer customer : customers) {
+            if (customer.getCustomerId() == customerId) {
+                customers.remove(customer);
+                System.out.println("Customer removed successfully.");
+                return;
+            }
+        }
+
+        System.out.println("Customer with ID " + customerId + " not found.");
+    }
+
+    // Method to edit customer information in customerList
+    private static void editCustomerInformation(List<Customer> customers) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter customer ID to edit: ");
+        int customerId = scanner.nextInt();
+        scanner.nextLine();
+
+        for (Customer customer : customers) {
+            if (customer.getCustomerId() == customerId) {
+                System.out.println("You are editing customer: " + customer);
+
+                System.out.print("Enter new name: ");
+                String newName = scanner.nextLine();
+
+                customer.changeName(newName);
+
+                System.out.print("Enter new phone number: ");
+                String newPhoneNumber = scanner.nextLine();
+                customer.changePhoneNumber(newPhoneNumber);
+
+                System.out.println("Customer information updated successfully: " + customer);
+                return;
+            }
+        }
+
+        System.out.println("Customer with ID " + customerId + " not found.");
+    }
+
+    // Method to view all customers in customerList
+    private static void viewAllCustomers(List<Customer> customers) {
+        System.out.println("All Customers:");
+        for (Customer customer : customers) {
+            System.out.println(customer);
+        }
+    }
 }
 
 
