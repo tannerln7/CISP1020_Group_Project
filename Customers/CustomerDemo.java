@@ -45,6 +45,7 @@ public class CustomerDemo {
                         // Print the RewardsCustomer object to the console
                         System.out.println(rewardsCustomer);
                     } else {
+                        // If the file name does not contain "RewardsCustomer", deserialize the file to a Customer object
                         Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
                         System.out.println(customer);
                     }

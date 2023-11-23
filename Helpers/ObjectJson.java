@@ -136,7 +136,7 @@ public class ObjectJson {
                 JsonIdentifiable object = (JsonIdentifiable) ObjectJson.objectFromJson(file.getName(), contextClass);
                 //If an object file is found
                 if (object != null) {
-                    //Check if the product ID matches the user entered ID
+                    //Check if the ID matches the user entered ID
                     if (object.getJsonId().equals(jsonId)) {
                         return object;
                     }

@@ -2,7 +2,6 @@ package Retail_Operations;
 
 import Helpers.JsonIdentifiable;
 import Helpers.ObjectJson;
-
 import java.util.ArrayList;
 
 //TODO: Start working on the Management menu for Employees.
