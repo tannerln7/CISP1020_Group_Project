@@ -18,6 +18,9 @@ public class CustomerDemo {
         customerList.add(new Customer("R Elijah Brewer", "111-222-3333"));
         customerList.add(new RewardsCustomer("Tuan Tran", "432-567-8900", "Email@email.com"));
 
+        // Call the method to add, remove,edit customer information in the customerList
+        Customer.customerManagementMenu(customerList);
+
         //print out the list of customers
         for (Customer customer : customerList) {
             System.out.println(customer);
