@@ -50,7 +50,9 @@ public class OfferManagement {
                     loggedInEmployee = employee;
                 }
             }
-            System.out.println("Invalid Login");
+            if (!validLogin) {
+                System.out.println("Invalid Login");
+            }
         }
         boolean repeat = true;
         while (repeat) {
