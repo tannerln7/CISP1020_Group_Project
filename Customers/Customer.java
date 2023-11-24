@@ -3,6 +3,8 @@ import Helpers.JsonIdentifiable;
 import Helpers.ObjectJson;
 import Transactions.Receipt;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 //Add the final CustomerID variable for each Customer. Customer can change Name, Phone number.
 //TODO: Start working on the Management menu for Customers.
