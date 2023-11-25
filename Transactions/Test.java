@@ -35,8 +35,8 @@ import Helpers.*;
 public class Test {
     public static void main(String[] args) {
         //Create test data
-        Customer customer = new Customer("John Doe", "123-456-7890");
-        RewardsCustomer rewardsCustomer = new RewardsCustomer("John Doe", "123-456-7890", "email@email.com");
+        Customer customer = new Customer("John Doe", "username","password", "123-456-7890");
+        RewardsCustomer rewardsCustomer = new RewardsCustomer("John Doe",  "username","password","123-456-7890", "email@email.com");
         Employee employee = new Employee("John Doe", "12345", "Cashier", "username", "password");
         CashRegister cashRegister = new CashRegister( 10000, employee);
         Gson gson = new Gson();
@@ -101,8 +101,8 @@ public class Test {
 
         //Read the customers back from the files
 
-        customer = ObjectJson.objectFromJson("Customer_1", Customer.class);
-        rewardsCustomer = ObjectJson.objectFromJson("RewardsCustomer_1", RewardsCustomer.class);
+        customer = ObjectJson.objectFromJson("username1", Customer.class);
+        rewardsCustomer = ObjectJson.objectFromJson("RewardsCustomer_username", RewardsCustomer.class);
 
         //Print the customer Information
         System.out.println("Customer Information read from file \n");

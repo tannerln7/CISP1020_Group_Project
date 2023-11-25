@@ -13,15 +13,15 @@ public class RewardsCustomer extends Customer {
     private final LoyaltyAccount loyaltyAccount;
 
     // Constructor that creates a RewardsCustomer object with the default discount options from the LoyaltyAccount class.
-    public RewardsCustomer(String name, String phoneNumber, String customerEmail) {
-        super(name, phoneNumber);
+    public RewardsCustomer(String name, String username, String password, String phoneNumber, String customerEmail) {
+        super(name, username, password, phoneNumber);
         this.customerEmail = customerEmail;
         this.loyaltyAccount = new LoyaltyAccount();
     }
 
     // Constructor that allows customizing the initial points balance and rewards discount for the loyalty account.
-    public RewardsCustomer(String name, String phoneNumber, String customerEmail, double initialPointsBalance, Discount discount) {
-        super(name, phoneNumber);
+    public RewardsCustomer(String name, String username, String password, String phoneNumber, String customerEmail, double initialPointsBalance, Discount discount) {
+        super(name, username, password, phoneNumber);
         this.customerEmail = customerEmail;
         this.loyaltyAccount = new LoyaltyAccount(initialPointsBalance, discount);
     }
@@ -30,7 +30,7 @@ public class RewardsCustomer extends Customer {
     public static RewardsCustomer upgradeCustomerToRewards(Customer customer, String customerEmail, double initialRewardPoints) {
 
         // Create a new RewardsCustomer object with the copied details from the existing Customer object.
-        return new RewardsCustomer(customer.getName(), customer.getPhoneNumber(), customerEmail);
+        return new RewardsCustomer(customer.getName(), customer.getUsername(), customer.getPassword(), customer.getPhoneNumber(), customerEmail);
     }
 
     // Retrieves the customer's email address.
@@ -58,7 +58,7 @@ public class RewardsCustomer extends Customer {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n")
-                .append("  Reward CustomerId= ").append(this.getCustomerId()).append(",\n")
+                .append("  RewardCustomer Username= ").append(this.getUsername()).append(",\n")
                 .append("  Name= ").append(this.getName()).append(",\n")
                 .append("  PhoneNumber= ").append(this.getPhoneNumber()).append(",\n")
                 .append("  CustomerEmail= ").append(this.getCustomerEmail()).append(",\n")
@@ -72,7 +72,7 @@ public class RewardsCustomer extends Customer {
     // Overrides the `getJsonId()` method to generate a JSON-compatible ID for the rewards customer.
     @Override
     public String getJsonId() {
-        return "RewardsCustomer_" + super.getCustomerId();
+        return "RewardsCustomer_" + super.getUsername();
     }
 
 }

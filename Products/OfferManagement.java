@@ -24,36 +24,9 @@ import java.util.Scanner;
 //Updated to check usernames and passwords from employee files
 
 public class OfferManagement {
-    public static void main(String[] args) {
+    public static void offerManagment(Employee loggedInEmployee) {
         //Load employee files
-        File[] employeeFiles = ObjectJson.listFiles(Employee.class);
-        ArrayList<Employee> employees = new ArrayList<>();
-        Employee loggedInEmployee = new Employee("", "", "", "", "");
-        if (employeeFiles != null) {
-            for (File file : employeeFiles) {
-                Employee employee = ObjectJson.objectFromJson(file.getName(), Employee.class);
-                if (employee != null) {
-                    employees.add(employee);
-                }
-            }
-        }
         Scanner in = new Scanner(System.in);
-        boolean validLogin = false;
-        while(!validLogin) {
-            System.out.println("login: ");
-            String username = in.next();
-            System.out.println("password: ");
-            String pass = in.next();
-            for (Employee employee : employees) {
-                if (employee.getUsername().equals(username) && employee.getPassword().equals(pass)) {
-                    validLogin = true;
-                    loggedInEmployee = employee;
-                }
-            }
-            if (!validLogin) {
-                System.out.println("Invalid Login");
-            }
-        }
         boolean repeat = true;
         while (repeat) {
             System.out.println("Welcome " + loggedInEmployee.getUsername() + " to the offer management system");
