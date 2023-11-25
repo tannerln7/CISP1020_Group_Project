@@ -2,6 +2,7 @@ package Main;
 import Customers.*;
 import Helpers.*;
 import Products.OfferManagement;
+import Products.ProductManagement;
 import Retail_Operations.*;
 import Transactions.*;
 
@@ -12,6 +13,7 @@ import java.util.Scanner;
 //TODO: Start working on the main menu for the program.
 //BODY: This will be a menu that allows users to select between the different menus for the program. It should start with a login screen with an option for staff login or customer login, and then allow the user to select between the different menus.
 public class Main {
+
     public static void main(String[] args) {
         File[] employeeFiles = ObjectJson.listFiles(Employee.class);
         File[] customerFiles = ObjectJson.listFiles(Customer.class);
@@ -58,12 +60,17 @@ public class Main {
                     for (Customer customer : customers) {
                         if (customer.getUsername().equals(username) && customer.getPassword().equals(pass)) {
                             validLogin = true;
-                            loggedInCustomer = customer;
+                            break;
                         }
                     }
                     if (!validLogin) {
                         System.out.println("Invalid login");
+                        System.out.println("Press enter to try again");
+                        in.nextLine();
+                        execute(() -> main(null));
+                        break;
                     }
+                    customerMenu(loggedInCustomer);
                     break;
                 case 2:
                     System.out.println("Employee login");
@@ -75,34 +82,100 @@ public class Main {
                     for (Employee employee : employees) {
                         if (employee.getUsername().equals(employeeUsername) && employee.getPassword().equals(employeePass)) {
                             validLogin = true;
-                            loggedInEmployee = employee;
+                            break;
                         }
                     }
                     if (!validLogin) {
                         System.out.println("Invalid login");
+                        System.out.println("Press enter to try again");
+                        in.nextLine();
+                        execute(() -> main(null));
+                        break;
                     }
+                    employeeMenu(loggedInEmployee);
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-            if(validLogin){
-                System.out.println("Login successful");
-                System.out.println("Welcome " + loggedInEmployee.getName());
-                System.out.println("What would you like to do?");
-                System.out.println("Press 1 to open the Customer Transaction Manager");
-                System.out.println("Press 2 to open the Offer Manager");
-                int menuChoice = in.nextInt();
-                switch (menuChoice){
-                    case 1:
-                        TransactionManagement.transactionManager(loggedInEmployee);
-                        break;
-                    case 2:
-                        OfferManagement.offerManagment(loggedInEmployee);
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
+                    System.out.println("Invalid choice. Press Enter to try again.");
+                    in.nextLine();
+                    in.nextLine();
+                    Cls.cls();
+                    execute(() -> main(null));
             }
         }
     }
+
+    private static void customerMenu(Customer customer) {
+        //TODO: Create menu for customers to manager their own accounts. Pass customer file to CustomerManagement.customerManagement
+
+    }
+
+    private static void employeeMenu(Employee employee) {
+        Cls.cls();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Login successful");
+        System.out.println("Welcome " + employee.getName());
+        switch(employee.getPosition()){
+            case "Manager":
+                System.out.println("What would you like to do?");
+                System.out.println("Press 1 to open the Customer Receipt Manager");
+                System.out.println("Press 2 to open the Offer Manager");
+                System.out.println("Press 3 to open the Employee Manager");
+                System.out.println("Press 4 to open the Customer Account Manager");
+                System.out.println("Press 5 to open the Product Manager");
+                int menuChoice = in.nextInt();
+                switch (menuChoice) {
+                    case 1:
+                        Cls.cls();
+                        TransactionManagement.transactionManager(employee);
+                        break;
+                    case 2:
+                        Cls.cls();
+                        OfferManagement.offerManagment(employee);
+                        break;
+                    case 3:
+                        Cls.cls();
+                        EmployeeManagement.employeeManagement(employee);
+                        break;
+                    case 4:
+                        Cls.cls();
+                        CustomerManagement.customerManagement(employee);
+                        break;
+                    case 5:
+                        Cls.cls();
+                        ProductManagement.productManagement(employee);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Press enter to try again.");
+                        in.nextLine();
+                        execute(() -> employeeMenu(employee));
+                }
+                break;
+            case "Employee":
+                System.out.println("What would you like to do?");
+                System.out.println("Press 1 to open the Customer Receipt Manager");
+                System.out.println("Press 2 to open the Offer Manager");
+                System.out.println("Press 5 to open the Product Manager");
+                int menuChoice2 = in.nextInt();
+                switch (menuChoice2) {
+                    case 1:
+                        TransactionManagement.transactionManager(employee);
+                        break;
+                    case 2:
+                        OfferManagement.offerManagment(employee);
+                        break;
+                    case 3: ProductManagement.productManagement(employee);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Press enter to try again.");
+                        in.nextLine();
+                        execute(() -> employeeMenu(employee));;
+                }
+        }
+    }
+    public static void execute(FunctionCaller f) {
+        f.apply();
+    }
+
+
 }
+
