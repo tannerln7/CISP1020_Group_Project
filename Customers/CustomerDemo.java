@@ -11,15 +11,15 @@ public class CustomerDemo {
     public static void main(String[] args) {
         //Generate a list of customer objects
         List<Customer> customerList = new ArrayList<>();
-        customerList.add(new Customer("Tuan Tran", "432-567-8900"));
-        customerList.add(new Customer("***REMOVED*** ***REMOVED***", "123-456-7890"));
-        customerList.add(new Customer("William Whitmire", "987-654-3210"));
-        customerList.add(new Customer("Donnie Young", "555-123-4567"));
-        customerList.add(new Customer("R Elijah Brewer", "111-222-3333"));
-        customerList.add(new RewardsCustomer("Tuan Tran", "432-567-8900", "Email@email.com"));
+        customerList.add(new Customer("Tuan Tran", "username1","password", "432-567-8900"));
+        customerList.add(new Customer("***REMOVED*** ***REMOVED***", "username2","password", "123-456-7890"));
+        customerList.add(new Customer("William Whitmire", "username3","password", "987-654-3210"));
+        customerList.add(new Customer("Donnie Young", "username4","password", "555-123-4567"));
+        customerList.add(new Customer("R Elijah Brewer",  "username5","password","111-222-3333"));
+        customerList.add(new RewardsCustomer("Tuan Tran",  "username6","password","432-567-8900", "Email@email.com"));
 
         // Call the method to add, remove,edit customer information in the customerList
-        Customer.customerManagementMenu(customerList);
+//        Customer.customerManagementMenu(customerList);
 
         //print out the list of customers
         for (Customer customer : customerList) {
