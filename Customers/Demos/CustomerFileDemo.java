@@ -1,5 +1,7 @@
-package Customers;
+package Customers.Demos;
 
+import Customers.Customer;
+import Customers.RewardsCustomer;
 import Helpers.ObjectJson;
 
 import java.io.File;

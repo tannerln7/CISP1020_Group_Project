@@ -1,4 +1,4 @@
-package Transactions;
+package Transactions.Demos;
 
 import Customers.Customer;
 import Customers.RewardsCustomer;
@@ -6,6 +6,7 @@ import Products.Product;
 import Retail_Operations.CashRegister;
 import Retail_Operations.Employee;
 import Products.Discount;
+import Transactions.*;
 import com.google.gson.Gson;
 import Helpers.*;
 
