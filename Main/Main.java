@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 //TODO: Start working on the main menu for the program.
 //BODY: This will be a menu that allows users to select between the different menus for the program. It should start with a login screen with an option for staff login or customer login, and then allow the user to select between the different menus.
 public class Main {
@@ -22,7 +23,7 @@ public class Main {
         Employee loggedInEmployee = new Employee("", "", "", "", "");
         Customer loggedInCustomer = new Customer("", "", "", "");
 
-        //Load all employee files into an arraylist of employees
+        //Load all employee files into an arraylist of employees in order to check logins
         if (employeeFiles != null) {
             for (File file : employeeFiles) {
                 Employee employee = ObjectJson.objectFromJson(file.getName(), Employee.class);
@@ -31,7 +32,7 @@ public class Main {
                 }
             }
         }
-        //Load all customer files into an arraylist of customers
+        //Load all customer files into an arraylist of customers in order to check logins
         if (customerFiles != null) {
             for (File file : customerFiles) {
                 Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
@@ -51,6 +52,7 @@ public class Main {
             int choice = in.nextInt();
             switch (choice) {
                 case 1:
+                    //If user selects customer login, prompt for username and password
                     System.out.println("Customer login");
                     System.out.println("Username: ");
                     String username = in.next();
@@ -70,9 +72,11 @@ public class Main {
                         execute(() -> main(null));
                         break;
                     }
+                    //If the login is valid, call the customer menu
                     customerMenu(loggedInCustomer);
                     break;
                 case 2:
+                    //If user selects employee login, prompt for username and password
                     System.out.println("Employee login");
                     System.out.println("login: ");
                     String employeeUsername = in.next();
@@ -92,8 +96,12 @@ public class Main {
                         execute(() -> main(null));
                         break;
                     }
+                    //If the login is valid, call the employee menu
                     employeeMenu(loggedInEmployee);
                     break;
+                case 3:
+                    //If user selects customer sign up, call the customer sign up method
+                    CustomerManagement.customerSignUp();
                 default:
                     System.out.println("Invalid choice. Press Enter to try again.");
                     in.nextLine();
@@ -106,6 +114,39 @@ public class Main {
 
     private static void customerMenu(Customer customer) {
         //TODO: Create menu for customers to manager their own accounts. Pass customer file to CustomerManagement.customerManagement
+        Cls.cls();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Login successful");
+        System.out.println("Welcome " + customer.getName());
+        System.out.println("What would you like to do?");
+        System.out.println("Press 1 to manage your account");
+        System.out.println("Press 2 to manage your recent transactions");
+        System.out.println("Press 3 to manage or signup for a loyalty account");
+        int menuChoice = in.nextInt();
+        switch (menuChoice) {
+            case 1:
+                Cls.cls();
+                CustomerManagement.customerAccountManager(customer);
+                break;
+            case 2:
+                Cls.cls();
+                TransactionManagement.cutomerTransactionManager(customer);
+                break;
+            case 3:
+                //if the customer is a rewards customer, call the loyalty account management menu
+                Cls.cls();
+                if (customer instanceof RewardsCustomer rewardsCustomer) {
+                    LoyaltyAccountManagement.customerLoyaltyAccountManagement(rewardsCustomer);
+                }else {
+                    //if the customer is not a rewards customer, call the rewards sign up method
+                    LoyaltyAccountManagement.rewardsSignUp(customer);
+                }
+                break;
+            default:
+                System.out.println("Invalid choice. Press enter to try again.");
+                in.nextLine();
+                execute(() -> customerMenu(customer));
+        }
 
     }
 
