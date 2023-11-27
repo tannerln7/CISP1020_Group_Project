@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import Helpers.JsonIdentifiable;
 import Transactions.Transaction;
 
-@SuppressWarnings("unused")
+/**
+ * Overrides the `getJsonId()` method to generate a JSON-compatible ID for the product.
+ *
+ * @return The JSON-compatible ID for the product, which is the name and ID of the product separated by an underscore.
+ */
 public class CashRegister implements JsonIdentifiable{
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
     private int cashRegisterNumber;
@@ -14,32 +18,59 @@ public class CashRegister implements JsonIdentifiable{
     private double heldCash;
     private Employee salesAssociate;
 
-
-    //Creates a new CashRegister instance. This is used to store each Transaction objects and cash register information
+    /**
+     * Constructs a new CashRegister with the specified amount of cash and associated employee.
+     *
+     * @param heldCash the initial amount of cash in the cash register
+     * @param salesAssociate the employee associated with the cash register
+     */
     public CashRegister(double heldCash, Employee salesAssociate) {
         this.cashRegisterNumber = generateId();
         this.heldCash = heldCash;
         this.salesAssociate = salesAssociate;
     }
 
-    //Returns the ArrayList containing the list of all transactions from this cash register
+    /**
+     * Returns the log of transactions processed by this cash register.
+     *
+     * @return the log of transactions
+     */
     public ArrayList<Transaction> getTransactionLog(){
      return this.transactionLog;
     }
 
-
+    /**
+     * Returns the number of this cash register.
+     *
+     * @return the cash register number
+     */
     public double getCashRegisterNumber() {
         return cashRegisterNumber;
     }
 
+    /**
+     * Sets the number of this cash register.
+     *
+     * @param cashRegisterNumber the new cash register number
+     */
     public void setCashRegisterNumber(int cashRegisterNumber) {
         this.cashRegisterNumber = cashRegisterNumber;
     }
 
+    /**
+     * Returns the amount of cash held in this cash register.
+     *
+     * @return the amount of cash held
+     */
     public double getHeldCash() {
         return this.heldCash;
     }
 
+    /**
+     * Processes a transaction, adding it to the transaction log and updating the amount of cash held.
+     *
+     * @param receipt the receipt of the transaction
+     */
     public void processTransaction(Receipt receipt){
         this.transactionLog.addAll(receipt.getTransactions());
         if(receipt.getPayment().getPaymentType().equals("Cash")){
@@ -50,24 +81,47 @@ public class CashRegister implements JsonIdentifiable{
 
     }
 
-    //Set the available cash in the cash register drawer
+    /**
+     * Sets the amount of cash held in this cash register.
+     *
+     * @param heldCash the new amount of cash held
+     */
     public void setHeldCash(double heldCash) {
         this.heldCash = heldCash;
     }
 
-    //returns the sales associate assigned to the cash register
+    /**
+     * Returns the employee associated with this cash register.
+     *
+     * @return the associated employee
+     */
     public Employee getSalesAssociate() {
         return salesAssociate;
     }
 
+    /**
+     * Sets the employee associated with this cash register.
+     *
+     * @param salesAssociate the new associated employee
+     */
     public void setSalesAssociate(Employee salesAssociate) {
         this.salesAssociate = salesAssociate;
     }
 
+    /**
+     * Generates a unique ID for this cash register.
+     *
+     * @return the generated ID
+     */
     private  int generateId() {
         return ++lastCashRegisterNumber;
     }
 
+    /**
+     * Calculates the total sales processed by this cash register.
+     *
+     * @return the total sales
+     */
     public double getTotalSales(){
         double totalSales = 0;
         for(Transaction transaction : transactionLog){
@@ -75,7 +129,12 @@ public class CashRegister implements JsonIdentifiable{
         }
         return totalSales;
     }
-@Override
+    /**
+     * Returns a JSON-compatible ID for this cash register.
+     *
+     * @return the JSON-compatible ID
+     */
+    @Override
     public String getJsonId() {
         return "CashRegister_" + this.getCashRegisterNumber();
     }

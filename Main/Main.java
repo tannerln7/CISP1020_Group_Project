@@ -5,7 +5,6 @@ import Products.OfferManagement;
 import Products.ProductManagement;
 import Retail_Operations.*;
 import Transactions.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,8 +18,17 @@ import java.util.Scanner;
 //Cashier employee login ---- username: cashier ---- password: password
 //Manager employee login ---- username: manager ---- password: password
 
+/**
+ * The Main class is the entry point of the application. It provides methods for loading customers and employees,
+ * displaying menus, and executing user choices.
+ */
 public class Main {
 
+    /**
+     * The main method is the entry point of the application. It loads customers and employees, and displays the main menu.
+     *
+     * @param args Unused
+     */
     public static void main(String[] args) {
         ArrayList<Customer> customers = loadCustomers();
         ArrayList<Employee> employees = loadEmployees();
@@ -114,6 +122,11 @@ public class Main {
         }
     }
 
+    /**
+     * Loads customers from JSON files in the 'JSON Files' directory of the 'Customers' package.
+     *
+     * @return An ArrayList of Customer objects.
+     */
     public static ArrayList<Customer> loadCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
         File[] customerFiles = ObjectJson.listFiles(Customer.class);
@@ -135,6 +148,11 @@ public class Main {
         return customers;
     }
 
+    /**
+     * Loads employees from JSON files in the 'JSON Files' directory of the 'Retail_Operations' package.
+     *
+     * @return An ArrayList of Employee objects.
+     */
     public static ArrayList<Employee> loadEmployees() {
         File[] employeeFiles = ObjectJson.listFiles(Employee.class);
         ArrayList<Employee> employees = new ArrayList<>();
@@ -149,6 +167,11 @@ public class Main {
         return employees;
     }
 
+    /**
+     * Displays the customer menu and executes the user's choice.
+     *
+     * @param customer The logged in customer.
+     */
     public static void customerMenu(Customer customer) {
         Cls.cls();
         Scanner in = new Scanner(System.in);
@@ -178,6 +201,11 @@ public class Main {
 
     }
 
+    /**
+     * Displays the employee menu and executes the user's choice.
+     *
+     * @param employee The logged in employee.
+     */
     public static void employeeMenu(Employee employee) {
         Cls.cls();
         Scanner in = new Scanner(System.in);
@@ -248,10 +276,14 @@ public class Main {
                 }
         }
     }
+
+    /**
+     * Executes a function that is passed as an argument.
+     *
+     * @param f The function to execute.
+     */
     public static void execute(FunctionCaller f) {
         f.apply();
     }
-
-
 }
 

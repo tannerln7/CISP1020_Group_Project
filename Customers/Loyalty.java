@@ -1,59 +1,84 @@
 package Customers;
 
 import Products.Discount;
-
-// The Loyalty class manages a customer's loyalty points and rewards discounts.
+/**
+ * The Loyalty class manages a customer's loyalty points and rewards discounts.
+ */
 public class Loyalty {
-
-    // Represents the total accumulated loyalty points for the customer.
     private double points;
-
-    // The conversion rate between spending and points earned.
-    @SuppressWarnings("FieldCanBeLocal")
     private final double pointRatio = 0.1;
-
-    // The discount applied to purchases when redeeming points.
     private Discount rewardsDiscount = new Discount(0.05);
 
-    //Constructor that initializes the loyalty account with a sign-up bonus of 10,000 points.
+    /**
+     * Default Constructor that initializes the loyalty account
+     */
     public Loyalty() {
-        this.points = 10000;
     }
 
-    // Constructor that allows customizing the initial points and rewards discount.
-    public Loyalty(double initialPoints, Discount rewardsDiscount) {
+    /**
+     * Constructor that allows customizing the initial points and rewards discount.
+     *
+     * @param initialPoints The initial number of points.
+     * @param rewardsDiscount The initial rewards discount.
+     */    public Loyalty(double initialPoints, Discount rewardsDiscount) {
         this.points = initialPoints;
         this.rewardsDiscount = rewardsDiscount;
     }
 
-    //adds points.
+    /**
+     * Adds points to the customer's account.
+     *
+     * @param amount The amount of points to add.
+     */
     public void addPoints(double amount) {
         this.points += amount;
     }
 
-    // Constructor that allows customizing the initial points and rewards discount.
+    /**
+     * Retrieves the current number of points in the customer's account.
+     *
+     * @return The current number of points.
+     */
     public double getPoints() {
         return this.points;
     }
 
-    // Checks if the customer has enough points to redeem the specified discount.
-
+    /**
+     * Sets the number of points in the customer's account.
+     *
+     * @param points The new number of points.
+     */
     public void setPoints(double points) {
         this.points = points;
     }
+    /**
+     *
+     * Checks if the customer has enough points to redeem the specified discount.
+     *
+     * @param pointsRedeemed The number of points to redeem.
+     * @return True if the customer has enough points, false otherwise.
+     */
     public boolean hasEnoughPointsForDiscount(double pointsRedeemed) {
         return this.points >= pointsRedeemed * this.rewardsDiscount.getDiscountPercent();
     }
 
-    // Redeems the specified amount of points, deducting them from the customer's balance.
+    /**
+     * Redeems the specified amount of points, deducting them from the customer's balance.
+     *
+     * @param points The number of points to redeem.
+     */
     public void redeemPoints(double points) {
         if (hasEnoughPointsForDiscount(points)) {
             this.points -= points;
         }
     }
-    
-    //1 point per 10 dollars spent. Points are worth 10 cents each. 100 points = $10.00
-    // Calculates the discount based on the points redeemed and the rewards discount.
+
+    /**
+     * Calculates the discount based on the points redeemed and the rewards discount.
+     *
+     * @param pointsRedeemed The number of points to redeem.
+     * @return The discount.
+     */
     public Discount calculateDiscount(double pointsRedeemed) {
         if (hasEnoughPointsForDiscount(pointsRedeemed)) {
             return new Discount(this.rewardsDiscount.getDiscountPercent(), pointsRedeemed * pointRatio);
@@ -62,11 +87,19 @@ public class Loyalty {
         }
     }
 
-    // Retrieves the percentage value of the rewards discount.
-    public double getRewardsDiscountPercent(){
+    /**
+     * Retrieves the percentage value of the rewards discount.
+     *
+     * @return The percentage value of the rewards discount.
+     */    public double getRewardsDiscountPercent(){
         return this.rewardsDiscount.getDiscountPercent();
     }
 
+    /**
+     * Retrieves the Discount object associated with the customer's loyalty account.
+     *
+     * @return The Discount object.
+     */
     public Discount getDiscountObject(){
         return this.rewardsDiscount;
     }

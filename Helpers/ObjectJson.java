@@ -2,15 +2,15 @@ package Helpers;
 import com.google.gson.Gson;
 import Products.Product;
 import java.io.*;
-
+/**
+ * The ObjectJson class provides methods for serializing and deserializing objects to and from JSON format.
+ * It uses the Gson library to perform the serialization and deserialization.
+ */
 public class ObjectJson {
     /**
      * A static method that serializes an object to a JSON file using the JsonIdentifiable interface to get the file name from the object.
      * The file is created in a subdirectory 'JSON Files' within the package directory of the object's class.
-     * --
-     * For example, if the object is a Product, the Json file will be located in "Products/JSON Files/[jsonId].json".
-     * If the file exists, the existing file will be updated, otherwise a new file will be created.
-     * --
+     *
      * @param object The object to be serialized to JSON.
      **/
     public static void objectToJson(Object object) {
@@ -28,14 +28,7 @@ public class ObjectJson {
         }
     }
 
-    /**
-     * Helper method to get or create the JSON file for an object.
-     * Attempts to load the package directory of the object's class, if it doesn't exist, it will be created.
-     * Attempts to find the JSON file in the package directory, if it doesn't exist, a blank file will be created.
-     * The file name is defined by the JsonIdentifiable interface implemented by the object.
-     * @param object The object to be serialized to JSON.
-     * @return The JSON file.
-     */
+
     public static File getFileInPackageDir(Object object) {
         // Get the class of the object
         Class<?> contextClass = object.getClass();
@@ -55,6 +48,16 @@ public class ObjectJson {
         return null;
     }
 
+    /**
+     * Helper method to get or create the JSON file for an object.
+     * Attempts to load the package directory of the object's class, if it doesn't exist, it will be created.
+     * Attempts to find the JSON file in the package directory, if it doesn't exist, a blank file will be created.
+     * The file name is defined by the JsonIdentifiable interface implemented by the object.
+     *
+     * @param object The object to be serialized to JSON.
+     * @param packageDir The package directory of the object's class.
+     * @return The JSON file.
+     */
     private static File getFile(JsonIdentifiable object, String packageDir) {
         File packagePath = new File(packageDir);
         // Check if the directory exists, create it if not.
@@ -100,6 +103,12 @@ public class ObjectJson {
         return null;
     }
 
+    /**
+     * Retrieves an array of File objects representing all the files in the directory associated with a given class.
+     *
+     * @param passedClass The class whose associated directory's files are to be listed.
+     * @return An array of File objects, or null if the directory does not exist, is not a directory, or is empty.
+     */
     public static String getClassDir(Class<?> passedClass) throws ClassCastException {
         //check if the class implements the JsonIdentifiable interface
         if (!JsonIdentifiable.class.isAssignableFrom(passedClass)){
@@ -130,6 +139,13 @@ public class ObjectJson {
         }
     }
 
+    /**
+     * Searches for an object with a given JSON ID in the directory associated with a given class.
+     *
+     * @param jsonId The JSON ID of the object to search for.
+     * @param contextClass The class of the object to search for.
+     * @return The object if found, or null if not found.
+     */
     public static Object searchObject(String jsonId, Class<?> contextClass) {
         File[] files = ObjectJson.listFiles(contextClass);
         if (files != null) {
@@ -153,6 +169,12 @@ public class ObjectJson {
         return null;
     }
 
+    /**
+     * Deletes an object with a given JSON ID from the directory associated with a given class.
+     *
+     * @param jsonId The JSON ID of the object to delete.
+     * @param contextClass The class of the object to delete.
+     */
     public static void deleteObject(String jsonId, Class<?> contextClass) {
         File[] files = ObjectJson.listFiles(contextClass);
         if (files != null) {
