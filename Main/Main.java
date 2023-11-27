@@ -130,7 +130,7 @@ public class Main {
                 break;
             case 2:
                 Cls.cls();
-                TransactionManagement.cutomerTransactionManager(customer);
+                TransactionManagement.customerTransactionManager(customer);
                 break;
             case 3:
                 //if the customer is a rewards customer, call the loyalty account management menu

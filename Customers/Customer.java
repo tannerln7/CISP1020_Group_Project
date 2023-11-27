@@ -58,7 +58,7 @@ public class Customer implements JsonIdentifiable {
     }
 
     //Change Name method
-    public void changeName(String newName) {
+    public void setName(String newName) {
         this.name = newName;
     }
 

@@ -223,4 +223,7 @@ public class TransactionManagement {
         }
         return null;
     }
+
+    public static void customerTransactionManager(Customer customer) {
+    }
 }
