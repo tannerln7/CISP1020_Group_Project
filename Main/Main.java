@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-//TODO: Start working on the main menu for the program.
-//BODY: This will be a menu that allows users to select between the different menus for the program. It should start with a login screen with an option for staff login or customer login, and then allow the user to select between the different menus.
 public class Main {
 
     public static void main(String[] args) {
@@ -121,7 +119,6 @@ public class Main {
         System.out.println("What would you like to do?");
         System.out.println("Press 1 to manage your account");
         System.out.println("Press 2 to manage your recent transactions");
-        System.out.println("Press 3 to manage or signup for a loyalty account");
         int menuChoice = in.nextInt();
         switch (menuChoice) {
             case 1:
@@ -131,16 +128,6 @@ public class Main {
             case 2:
                 Cls.cls();
                 TransactionManagement.customerTransactionManager(customer);
-                break;
-            case 3:
-                //if the customer is a rewards customer, call the loyalty account management menu
-                Cls.cls();
-                if (customer instanceof RewardsCustomer rewardsCustomer) {
-                    LoyaltyAccountManagement.customerLoyaltyAccountManagement(rewardsCustomer);
-                }else {
-                    //if the customer is not a rewards customer, call the rewards sign up method
-                    LoyaltyAccountManagement.rewardsSignUp(customer);
-                }
                 break;
             default:
                 System.out.println("Invalid choice. Press enter to try again.");
