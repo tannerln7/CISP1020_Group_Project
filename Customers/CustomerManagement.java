@@ -11,8 +11,17 @@ import java.util.Scanner;
 import static Main.Main.execute;
 
 //TODO: Bug-test customer management, customer account manager, and customer sign up
-
+/**
+ * This class provides methods for managing customers in a retail system. It includes methods for viewing all customers,
+ * viewing a specific customer, adding a new customer, editing a customer, and deleting a customer.
+ */
 public class CustomerManagement {
+    /**
+     * This method provides a menu for managing customers. It allows an employee to view all customers, view a specific
+     * customer, add a new customer, edit a customer, and delete a customer.
+     *
+     * @param employee the employee who is managing the customers
+     */
     public static void customerManagement(Employee employee) {
         Cls.cls();
         if (!employee.getPosition().equals("Manager")) {
@@ -315,6 +324,13 @@ public class CustomerManagement {
         }
     }
 
+    /**
+     * This method retrieves a customer based on the username entered by the user. If the username matches a customer's
+     * username, that customer is returned. If no match is found, the method prompts the user to try again.
+     *
+     * @param in the Scanner object to read the user's input
+     * @return the customer with the matching username, or null if no match is found
+     */
     private static Customer getCustomer(Scanner in) {
         ArrayList<Customer> allCustomers = Main.loadCustomers();
         String username;
@@ -348,7 +364,13 @@ public class CustomerManagement {
         return customer;
     }
 
-
+    /**
+     * This method allows a new customer to sign up. It prompts the user to enter their name, username, password, and
+     * phone number. The user is then asked if they want to sign up for a rewards program. If they choose to do so, they
+     * are prompted to enter their email address and a RewardsCustomer object is created. If they choose not to sign up
+     * for the rewards program, a Customer object is created. The new customer object is then serialized and saved to a
+     * file.
+     */
     public static void customerSignUp() {
         Scanner in = new Scanner(System.in);
         Cls.cls();
@@ -403,6 +425,12 @@ public class CustomerManagement {
         }
     }
 
+    /**
+     * This method allows a customer to manage their account. It provides a menu for the customer to view their account
+     * information, edit their account information, or manage their loyalty account (if they are a RewardsCustomer).
+     *
+     * @param customer the customer who is managing their account
+     */
     public static void customerAccountManager(Customer customer) {
         Cls.cls();
         System.out.println("Welcome to the customer account manager\n");

@@ -3,6 +3,10 @@ package Retail_Operations;
 import Helpers.JsonIdentifiable;
 
 
+/**
+ * The Employee class represents an employee in a retail system.
+ * It implements the JsonIdentifiable interface.
+ */
 public class Employee implements JsonIdentifiable {
     private final String name;
     private final String employeeID;
@@ -12,7 +16,7 @@ public class Employee implements JsonIdentifiable {
 
 
     /**
-     * the constructor with five parameters
+     * Constructs a new Employee with the specified name, ID, position, username, and password.
      *
      * @param name       the name of the employee
      * @param employeeID the ID of the employee
@@ -30,7 +34,7 @@ public class Employee implements JsonIdentifiable {
     }
 
     /**
-     * gets the name of the employee
+     * Retrieves the name of the employee.
      *
      * @return the name of the employee
      */
@@ -39,7 +43,7 @@ public class Employee implements JsonIdentifiable {
     }
 
     /**
-     * gets the position of the employee
+     * Retrieves the position of the employee.
      *
      * @return the position of the employee
      */
@@ -48,7 +52,7 @@ public class Employee implements JsonIdentifiable {
     }
 
     /**
-     * gets the username of the employee
+     * Retrieves the username of the employee.
      *
      * @return the username of the employee
      */
@@ -57,7 +61,7 @@ public class Employee implements JsonIdentifiable {
     }
 
     /**
-     * gets the password of the employee
+     * Retrieves the password of the employee.
      *
      * @return the password of the employee
      */
@@ -66,7 +70,7 @@ public class Employee implements JsonIdentifiable {
     }
 
     /**
-     * gets the ID of the employee
+     * Retrieves the ID of the employee.
      *
      * @return the ID of the employee
      */
@@ -74,24 +78,11 @@ public class Employee implements JsonIdentifiable {
         return employeeID;
     }
 
-// --Commented out by Inspection START (11/27/2023 12:32 AM):
-//    public static void loadDefaultEmployees() {
-//        Employee employee = new Employee("***REMOVED*** ***REMOVED***", "1", "Employee", "***REMOVED***", "password");
-//        Employee employee1 = new Employee("Tuan Tran", "2", "Employee", "tuantrangtran", "password");
-//        Employee employee2 = new Employee("William Whitmire", "3", "Employee", "dmndwarrior873", "password");
-//        Employee employee3 = new Employee("Donnie Young", "4", "Employee", "Juneve", "password");
-//        Employee employee4 = new Employee("R Elijah Brewer", "5", "Employee", "Krestfell", "password");
-//        ArrayList<Employee> employees = new ArrayList<>();
-//        employees.add(employee);
-//        employees.add(employee1);
-//        employees.add(employee2);
-//        employees.add(employee3);
-//        employees.add(employee4);
-//        for (Employee employee5 : employees) {
-//            ObjectJson.objectToJson(employee5);
-//        }
-//    }
-// --Commented out by Inspection STOP (11/27/2023 12:32 AM)
+    /**
+     * Returns a JSON-compatible ID for this employee.
+     *
+     * @return the JSON-compatible ID
+     */
     @Override
     public String getJsonId() {
         return "Employee_" + this.getEmployeeID();

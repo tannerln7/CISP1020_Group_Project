@@ -5,22 +5,25 @@
  */
 package Products;
 
-/**
- *
- * @author WJWhit
- */
 //TODO: Give offer in exchange for a set amount of reward points.
+
+/**
+ * The Offers class extends the Discount class to represent an offer applied to a product.
+ * An offer includes a percentage discount and a subtraction discount.
+ */
 public class Offers extends Discount{
-    
-    /**
-     * the constructor with no parameters
-     */
-    public Offers() {
-    }        
 
     /**
-     * the constructor with two parameters
-     * @param discountPercent the discount as a percentage
+     * Default constructor for the Offers class.
+     */
+    public Offers() {
+    }
+
+    /**
+     * Constructor that creates an Offers object with a specified percentage discount and subtraction discount.
+     *
+     * @param discountPercent The percentage discount to be applied.
+     * @param subtractionDiscount The subtraction discount to be applied.
      */
     public Offers(double discountPercent, double subtractionDiscount) {
         super(discountPercent, subtractionDiscount);
@@ -28,24 +31,37 @@ public class Offers extends Discount{
     }
 
     /**
-     * returns the discount to be subtracted
-     * @return the discount to be subtracted
+     * Retrieves the subtraction discount value.
+     *
+     * @return The subtraction discount value.
      */
     public double getSubtractionDiscount() {
         return super.getDiscountAmount();
     }
+
+    /**
+     * Retrieves the percentage discount value.
+     *
+     * @return The percentage discount value.
+     */
     public double getPercentDiscount(){
         return super.getDiscountPercent();
     }
 
+    /**
+     * Sets the subtraction discount value.
+     *
+     * @param subtractionDiscount The new subtraction discount value.
+     */
     public void setSubtractionDiscount(double subtractionDiscount){
         super.setDiscountAmount(subtractionDiscount);
     }
 
-    
+
     /**
-     * returns the object as a string
-     * @return the object as a string
+     * Overrides the default `toString()` method to provide a human-readable representation of the offer.
+     *
+     * @return A string representation of the offer, including the subtraction discount and percentage discount.
      */
     public String toString() {
         return  "Subtraction Discount: " + super.getDiscountAmount() + " Percent Discount: %" +  super.getDiscountPercent();

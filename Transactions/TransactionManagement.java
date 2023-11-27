@@ -16,7 +16,18 @@ import static Main.Main.execute;
 
 //TODO: Debug the employee transaction management system and the customer receipt management system
 
+/**
+ * The TransactionManagement class provides methods for managing transactions in a retail system.
+ * It allows an employee to edit a receipt, view all transactions, and find a product.
+ * It also allows a customer to view all receipts and view a specific receipt.
+ */
 public class TransactionManagement {
+
+    /**
+     * Displays the transaction management menu for an employee and executes the user's choice.
+     *
+     * @param employee The logged in employee.
+     */
     public static void transactionManager(Employee employee) {
         Cls.cls();
         //load customer data
@@ -73,6 +84,12 @@ public class TransactionManagement {
 
     }
 
+    /**
+     * Allows an employee to edit a transaction in a customer's receipt.
+     *
+     * @param employee The logged in employee.
+     * @param customer The customer whose receipt is being edited.
+     */
     private static void editTransaction(Employee employee, Customer customer) {
         Cls.cls();
         System.out.println("Edit Transaction");
@@ -217,6 +234,12 @@ public class TransactionManagement {
         }
     }
 
+    /**
+     * Allows an employee to view all transactions in a customer's receipt.
+     *
+     * @param employee The logged in employee.
+     * @param customer The customer whose transactions are being viewed.
+     */
     private static void viewAllTransactions(Employee employee, Customer customer) {
         Cls.cls();
         Scanner scanner = new Scanner(System.in);
@@ -239,6 +262,13 @@ public class TransactionManagement {
     }
 
 
+    /**
+     * Finds a product based on the product name entered by the user.
+     *
+     * @param productName The name of the product to find.
+     * @param employee The logged in employee.
+     * @return The product if found, or null if not found.
+     */
     public static Product findProduct(String productName, Employee employee) {
         Cls.cls();
         File[] productFiles = ObjectJson.listFiles(Product.class);
@@ -275,6 +305,11 @@ public class TransactionManagement {
         }
     }
 
+    /**
+     * Displays the transaction management menu for a customer and executes the user's choice.
+     *
+     * @param customer The logged in customer.
+     */
     public static void customerTransactionManager(Customer customer) {
         Cls.cls();
         System.out.println(customer.getUsername() + " - Welcome to the transaction management system");

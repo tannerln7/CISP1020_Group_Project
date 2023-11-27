@@ -25,7 +25,17 @@ import static Main.Main.execute;
 
 //TODO: Add user menu to exchange set amount of points for an offer.
 
+/**
+ * The OfferManagement class provides methods for managing offers in a retail system.
+ * It allows an employee to add, delete, and edit offers.
+ */
 public class OfferManagement {
+
+    /**
+     * Displays the offer management menu and executes the user's choice.
+     *
+     * @param loggedInEmployee The logged in employee.
+     */
     public static void offerManagement(Employee loggedInEmployee) {
         //Load employee files
         Cls.cls();
@@ -183,6 +193,15 @@ public class OfferManagement {
         }
 
     }
+
+    /**
+     * Retrieves a product based on the name entered by the user. If the name matches a product's name, that product is returned.
+     * If no match is found, the method prompts the user to try again.
+     *
+     * @param loggedInEmployee The logged in employee.
+     * @param in The Scanner object to read the user's input.
+     * @return The product with the matching name, or null if no match is found.
+     */
     private static Product getProduct(Employee loggedInEmployee, Scanner in) {
         Product t = null;
         Cls.cls();
