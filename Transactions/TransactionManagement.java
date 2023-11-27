@@ -1,48 +1,52 @@
 package Transactions;
 
 import Customers.Customer;
+import Helpers.Cls;
 import Helpers.ObjectJson;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Main.Main;
 import Products.Product;
 import Retail_Operations.Employee;
 
+import static Main.Main.execute;
+
+//TODO: Debug the employee transaction management system and the customer receipt management system
+
 public class TransactionManagement {
     public static void transactionManager(Employee employee) {
-
+        Cls.cls();
         //load customer data
-        File[] customerFiles = ObjectJson.listFiles(Customer.class);
-        ArrayList<Customer> customers = new ArrayList<>();
-        if (customerFiles != null) {
-            for (File file : customerFiles) {
-                Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
-                if (customer != null) {
-                    customers.add(customer);
-                }
-            }
-        }
+        ArrayList<Customer> customers = Main.loadCustomers();
 
-        System.out.println(employee.getUsername() + " - Welcome to the transaction management system");
-        System.out.println("Enter the customer's username");
+        System.out.println(employee.getUsername() + " - Welcome to the transaction management system\n");
+        System.out.println("Enter the customer's username or type -X to exit");
         Scanner scanner = new Scanner(System.in);
         String username = scanner.nextLine();
+        if (username.equalsIgnoreCase("-X")) {
+            execute(() -> Main.employeeMenu(employee));
+            return;
+        }
         Customer customer = null;
         for (Customer customer1 : customers) {
             if (customer1.getUsername().equals(username)) {
+                Cls.cls();
                 System.out.println("Customer found");
                 customer = customer1;
                 System.out.println(customer);
             }
         }
         if(customer == null || customer.getReceipts().isEmpty()){
+            Cls.cls();
             System.out.println("Customer not found or customer has no receipts");
-            System.out.println("Press any key to return to the main menu");
+            System.out.println("Press enter to return to the menu");
             scanner.nextLine();
+            execute(() -> transactionManager(employee));
             return;
         }
-        ArrayList<Receipt> receipts = customer.getReceipts();
         System.out.println("What would you like to do?");
         System.out.println("Press 1 to edit a receipt");
         System.out.println("Press 2 to view all transactions");
@@ -53,18 +57,24 @@ public class TransactionManagement {
                 editTransaction(employee, customer);
                 break;
             case 2:
-                viewAllTransactions(employee);
+                viewAllTransactions(employee, customer);
                 break;
             case 3:
-                System.out.println("Exiting Transaction Management Menu");
-                return;
+                Cls.cls();
+                execute(() -> Main.employeeMenu(employee));
+                break;
             default:
+                Cls.cls();
                 System.out.println("Invalid choice. Please try again.");
+                System.out.println("Press enter to return to the menu");
+                scanner.nextLine();
+                execute(() -> transactionManager(employee));
         }
 
     }
 
     private static void editTransaction(Employee employee, Customer customer) {
+        Cls.cls();
         System.out.println("Edit Transaction");
         System.out.println("Customer Receipts");
         ArrayList<Receipt> receipts = customer.getReceipts();
@@ -83,12 +93,15 @@ public class TransactionManagement {
         }
         //If the receipt is not found or the receipt has no transactions
         if (receipt == null || receipt.getTransactions().isEmpty()) {
+            Cls.cls();
             System.out.println("Receipt not found or receipt has no transactions");
-            System.out.println("Press any key to return to the main menu");
+            System.out.println("Press enter to return to the menu");
             scanner.nextLine();
+            execute(() -> transactionManager(employee));
             return;
         }
         //Get the transactions from the receipt
+        Cls.cls();
         ArrayList<Transaction> transactionArrayList = receipt.getTransactions();
         System.out.println("Receipt found");
         System.out.println(receipt);
@@ -100,23 +113,37 @@ public class TransactionManagement {
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
+                Cls.cls();
                 System.out.println("Add a transaction to the receipt");
                 System.out.println("Current transaction list");
                 for (Transaction transaction : transactionArrayList) {
                     System.out.println(transaction);
                 }
-                System.out.println("Enter the product ID of the product you would like to add");
+                System.out.println("Enter the name of the product you would like to add");
                 scanner.nextLine();
                 String productId = scanner.nextLine();
                 Product product = findProduct(productId, employee);
+                if (product == null) {
+                    Cls.cls();
+                    System.out.println("Product not found");
+                    System.out.println("Press enter to return to the main menu");
+                    scanner.nextLine();
+                    execute(() -> transactionManager(employee));
+                    break;
+                }else{
+                    System.out.println("Product found");
+                    System.out.println(product);
+                }
                 receipt.getTransactions().add(new Transaction(product));
                 customer.addReceipt(receipt);
                 ObjectJson.objectToJson(customer);
+                Cls.cls();
                 System.out.println("Receipt updated successfully");
                 System.out.println("New Receipt");
-                System.out.println(ObjectJson.objectFromJson(receipt.getJsonId(), Receipt.class));
-                System.out.println("Press any key to return to the main menu");
+                System.out.println(receipt);
+                System.out.println("Press enter to return to the main menu");
                 scanner.nextLine();
+                execute(() -> transactionManager(employee));
                 break;
             case 2:
                 System.out.println("Remove a transaction from the receipt");
@@ -134,61 +161,86 @@ public class TransactionManagement {
                         customer.getReceipts().remove(receipt);
                         receipt.getTransactions().remove(transaction);
                         customer.getReceipts().add(receipt);
+                        ObjectJson.objectToJson(customer);
+                        Cls.cls();
                         System.out.println("Receipt updated successfully");
                         System.out.println("New Receipt");
-                        System.out.println(ObjectJson.objectFromJson(receipt.getJsonId(), Receipt.class));
+                        System.out.println(receipt);
+                        System.out.println("Press enter to return to the main menu");
+                        scanner.nextLine();
+                        execute(() -> transactionManager(employee));
+                        break;
                     }
                 }
+                Cls.cls();
+                System.out.println("Product not found in receipt");
+                System.out.println("Press enter to return to the main menu");
+                scanner.nextLine();
+                execute(() -> transactionManager(employee));
                 break;
             case 3:
-                System.out.println("Edit a transaction in the receipt");
+                Cls.cls();
+                System.out.println("Replace a transaction in the receipt");
                 System.out.println("Current transaction list");
                 System.out.println(receipt.getTransactions());
-                System.out.println("Enter the product ID of the product you would like to edit");
+                System.out.println("Enter the product ID of the product you would like to replace");
                 String productId3 = scanner.nextLine();
                 Product product3 = findProduct(productId3, employee);
                 System.out.println("Enter the replacement product ID");
                 String productId4 = scanner.nextLine();
                 Product product4 = findProduct(productId4, employee);
                 if (receipt.getTransactions().contains(new Transaction(product3))) {
-                    receipt.getTransactions().remove(new Transaction(product3));
-                    receipt.getTransactions().add(new Transaction(product4));
-                    ObjectJson.objectToJson(receipt);
+                    customer.getReceipts().get(customer.getReceipts().indexOf(receipt)).getTransactions().remove(new Transaction(product3));
+                    customer.getReceipts().get(customer.getReceipts().indexOf(receipt)).getTransactions().add(new Transaction(product4));
+                    ObjectJson.objectToJson(customer);
+                    Cls.cls();
                     System.out.println("Receipt updated successfully");
+                    System.out.println("New Receipt");
+                    System.out.println(customer.getReceipts().get(customer.getReceipts().indexOf(receipt)));
+                    System.out.println("Press enter to return to the menu");
                 } else {
+                    Cls.cls();
                     System.out.println("Product not found in receipt");
-                    System.out.println("Press any key to return to the main menu");
-                    scanner.nextLine();
-                    return;
+                    System.out.println("Press enter to return to the main menu");
                 }
-                return;
+                scanner.nextLine();
+                execute(() -> transactionManager(employee));
+                break;
             case 4:
-                System.out.println("Exiting Transaction Management Menu");
-                return;
+                execute(() -> Main.employeeMenu(employee));
+                break;
             default:
-                System.out.println("Invalid choice. Please try again.");
+                System.out.println("Invalid choice. Press enter to return to the menu");
+                scanner.nextLine();
+                execute(() -> transactionManager(employee));
+                break;
         }
     }
 
-    private static void viewAllTransactions(Employee employee) {
+    private static void viewAllTransactions(Employee employee, Customer customer) {
+        Cls.cls();
+        Scanner scanner = new Scanner(System.in);
         System.out.println("View All Transactions");
-    }
-
-    private static Receipt getReceipt(String receiptId, ArrayList<Receipt> receipts, Employee employee) {
-        boolean found = false;
+        System.out.println("Customer Receipts");
+        if(customer == null || customer.getReceipts().isEmpty()){
+            System.out.println("Customer not found or customer has no receipts");
+            System.out.println("Press enter to return to the main menu");
+            scanner.nextLine();
+            execute(() -> transactionManager(employee));
+            return;
+        }
+        ArrayList<Receipt> receipts = customer.getReceipts();
         for (Receipt receipt : receipts) {
-            if (receipt.getJsonId().equals(receiptId)) {
-                return receipt;
-            }
+            System.out.println(receipt);
         }
-        if (!found) {
-            System.out.println("Receipt not found");
-            transactionManager(employee);
-        }
-        return null;
+        System.out.println("Press enter to return to the menu");
+        scanner.nextLine();
+        execute(() -> transactionManager(employee));
     }
 
-    private static Product findProduct(String productName, Employee employee) {
+
+    public static Product findProduct(String productName, Employee employee) {
+        Cls.cls();
         File[] productFiles = ObjectJson.listFiles(Product.class);
         ArrayList<Product> results = new ArrayList<>();
         if (productFiles != null) {
@@ -214,16 +266,74 @@ public class TransactionManagement {
             } else if (results.size() == 1){
                 return results.get(0);
             }else {
-                System.out.println("No products found");
-                transactionManager(employee);
+                System.out.println("No products found. Press enter to try again");
+                return null;
             }
         } else {
-            System.out.println("No products found");
-            transactionManager(employee);
+            System.out.println("No products found. Press enter to return to try again");
+            return null;
         }
-        return null;
     }
 
     public static void customerTransactionManager(Customer customer) {
+        Cls.cls();
+        System.out.println(customer.getUsername() + " - Welcome to the transaction management system");
+        System.out.println("What would you like to do?");
+        System.out.println("Press 1 to view all Receipts");
+        System.out.println("Press 2 to view a specific Receipt");
+        System.out.println("Press 3 to exit");
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Receipt> receipts = customer.getReceipts();
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice) {
+            case 1:
+                Cls.cls();
+                System.out.println("View all Receipts");
+                for (Receipt receipt : receipts) {
+                    System.out.println(receipt);
+                }
+                System.out.println("Press enter to return to the menu");
+                scanner.nextLine();
+                execute(() -> customerTransactionManager(customer));
+                break;
+            case 2:
+                Cls.cls();
+                System.out.println("View a specific Receipt");
+                System.out.println("Enter the Receipt number you would like to view");
+                String receiptId = scanner.nextLine();
+                Receipt receipt = null;
+                //Find the receipt in the customer's receipt list
+                for (Receipt receipt1 : receipts) {
+                    if (receipt1.getJsonId().equals("Receipt_" + receiptId)) {
+                        receipt = receipt1;
+                    }
+                }
+                //If the receipt is not found or the receipt has no transactions
+                if (receipt == null || receipt.getTransactions().isEmpty()) {
+                    Cls.cls();
+                    System.out.println("Receipt not found or receipt has no transactions");
+                    System.out.println("Press enter to return to the menu");
+                    scanner.nextLine();
+                    execute(() -> customerTransactionManager(customer));
+                    break;
+                }
+                Cls.cls();
+                System.out.println("Receipt found");
+                System.out.println(receipt);
+                System.out.println("Press enter to return to the menu");
+                scanner.nextLine();
+                execute(() -> customerTransactionManager(customer));
+                break;
+            case 3:
+                System.out.println("Exiting Transaction Management Menu");
+                execute(() -> Main.customerMenu(customer));
+                break;
+            default:
+                System.out.println("Invalid choice. Press enter to try again.");
+                execute(() -> customerTransactionManager(customer));
+                break;
+        }
+
     }
 }

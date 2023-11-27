@@ -1,1 +1,7 @@
-{"name":"Cashier","employeeID":"6","position":"Cashier","username":"username","password":"password"}
+{
+  "name":"Employee_6",
+  "employeeID":"6",
+  "position":"Cashier",
+  "username":"cashier",
+  "password":"password"
+}

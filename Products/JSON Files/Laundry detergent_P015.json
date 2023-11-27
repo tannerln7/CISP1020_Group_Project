@@ -1,1 +1,8 @@
-{"name":"Laundry detergent","price":4.99,"description":"Bottle of laundry detergent","id":"P015"}
+{
+  "name":"Laundry detergent",
+  "price":4.99,
+  "description":"Bottle of laundry detergent",
+  "id":"P015",
+  "discountPrice": 0,
+  "offer": {}
+}

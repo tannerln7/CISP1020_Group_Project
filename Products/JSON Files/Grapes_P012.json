@@ -1,1 +1,8 @@
-{"name":"Grapes","price":3.99,"description":"Seedless red grapes","id":"P012"}
+{
+  "name":"Grapes",
+  "price":3.99,
+  "description":"Seedless red grapes",
+  "id":"P012",
+  "discountPrice": 0,
+  "offer": {}
+}

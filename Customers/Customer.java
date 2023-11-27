@@ -3,17 +3,7 @@ import Helpers.JsonIdentifiable;
 import Helpers.ObjectJson;
 import Transactions.Receipt;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-//Add the final CustomerID variable for each Customer. Customer can change Name, Phone number.
-//TODO: Start working on the Management menu for Customers.
-//BODy: This will be a menu that allows staff members to add, remove, and edit customer information.
-
-//TODO: Start working on the user menu for Customers.
-//BODy: This will be a menu that allows customers to view their information, update their information, view their receipts, and sign up for a rewards account.
-
-//Added comments
 /**
  * This class represents a customer of the store. It stores the customer's name, phone number,
  * and a list of their receipts.
@@ -24,7 +14,6 @@ public class Customer implements JsonIdentifiable {
 
     private String name;
     private String phoneNumber;
-    private static int lastCustomerId;
     private final ArrayList<Receipt> receipts = new ArrayList<>();
 
 
@@ -113,6 +102,7 @@ public class Customer implements JsonIdentifiable {
      *
      * @return A string representation of the customer, including their customer ID, name, and phone number.
      */
+    @SuppressWarnings("StringBufferReplaceableByString")
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -1,12 +1,11 @@
 package Transactions;
 
 import Products.Discount;
-import Retail_Operations.*;
 
 public class DiscountReceipt extends Receipt{
     private final Discount discount;
     private final double pointBalance;
-    public DiscountReceipt(String name, Payment payment, CashRegister cashRegister, TransactionList transactions, Discount discount, double newPointBalance){
+    public DiscountReceipt(String name, Payment payment, double cashRegister, TransactionList transactions, Discount discount, double newPointBalance){
         super(name, payment, cashRegister, transactions.getTransactions());
         this.discount = discount;
         this.pointBalance = newPointBalance;

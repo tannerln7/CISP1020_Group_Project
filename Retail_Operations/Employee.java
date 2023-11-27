@@ -1,11 +1,8 @@
 package Retail_Operations;
 
 import Helpers.JsonIdentifiable;
-import Helpers.ObjectJson;
-import java.util.ArrayList;
 
-//TODO: Start working on the Management menu for Employees.
-//BODy: This will be a menu that allows staff members to add, remove, and edit employee information.
+
 public class Employee implements JsonIdentifiable {
     private final String name;
     private final String employeeID;
@@ -77,22 +74,24 @@ public class Employee implements JsonIdentifiable {
         return employeeID;
     }
 
-    public static void loadDefaultEmployees() {
-        Employee employee = new Employee("***REMOVED*** ***REMOVED***", "1", "Employee", "***REMOVED***", "password");
-        Employee employee1 = new Employee("Tuan Tran", "2", "Employee", "tuantrangtran", "password");
-        Employee employee2 = new Employee("William Whitmire", "3", "Employee", "dmndwarrior873", "password");
-        Employee employee3 = new Employee("Donnie Young", "4", "Employee", "Juneve", "password");
-        Employee employee4 = new Employee("R Elijah Brewer", "5", "Employee", "Krestfell", "password");
-        ArrayList<Employee> employees = new ArrayList<>();
-        employees.add(employee);
-        employees.add(employee1);
-        employees.add(employee2);
-        employees.add(employee3);
-        employees.add(employee4);
-        for (Employee employee5 : employees) {
-            ObjectJson.objectToJson(employee5);
-        }
-    }
+// --Commented out by Inspection START (11/27/2023 12:32 AM):
+//    public static void loadDefaultEmployees() {
+//        Employee employee = new Employee("***REMOVED*** ***REMOVED***", "1", "Employee", "***REMOVED***", "password");
+//        Employee employee1 = new Employee("Tuan Tran", "2", "Employee", "tuantrangtran", "password");
+//        Employee employee2 = new Employee("William Whitmire", "3", "Employee", "dmndwarrior873", "password");
+//        Employee employee3 = new Employee("Donnie Young", "4", "Employee", "Juneve", "password");
+//        Employee employee4 = new Employee("R Elijah Brewer", "5", "Employee", "Krestfell", "password");
+//        ArrayList<Employee> employees = new ArrayList<>();
+//        employees.add(employee);
+//        employees.add(employee1);
+//        employees.add(employee2);
+//        employees.add(employee3);
+//        employees.add(employee4);
+//        for (Employee employee5 : employees) {
+//            ObjectJson.objectToJson(employee5);
+//        }
+//    }
+// --Commented out by Inspection STOP (11/27/2023 12:32 AM)
     @Override
     public String getJsonId() {
         return "Employee_" + this.getEmployeeID();

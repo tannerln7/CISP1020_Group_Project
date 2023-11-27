@@ -7,7 +7,6 @@ import Retail_Operations.CashRegister;
 import Retail_Operations.Employee;
 import Products.Discount;
 import Transactions.*;
-import com.google.gson.Gson;
 import Helpers.*;
 
 
@@ -33,14 +32,15 @@ import Helpers.*;
  * ------------------------------------------------------
  */
 
+@SuppressWarnings("UnusedAssignment")
 public class Test {
+    @SuppressWarnings("UnusedAssignment")
     public static void main(String[] args) {
         //Create test data
         Customer customer = new Customer("John Doe", "username","password", "123-456-7890");
         RewardsCustomer rewardsCustomer = new RewardsCustomer("John Doe",  "username","password","123-456-7890", "email@email.com");
         Employee employee = new Employee("John Doe", "12345", "Cashier", "username", "password");
         CashRegister cashRegister = new CashRegister( 10000, employee);
-        Gson gson = new Gson();
 
         //Call default constructor to initialize a blank transaction list
         TransactionList TransactionList = new TransactionList();
@@ -62,7 +62,7 @@ public class Test {
         //Create a payment object without a discount
         Payment payment = new Payment(total, paymentGiven, "Cash", false);
         //complete the payment by adding the receipt to the cash register and updating the cash register's held cash
-        Receipt normalReceipt = new Receipt(customer.getName(), payment, cashRegister, TransactionList.getTransactions());
+        Receipt normalReceipt = new Receipt(customer.getName(), payment, cashRegister.getCashRegisterNumber(), TransactionList.getTransactions());
         payment.completePayment(cashRegister, normalReceipt);
         //Add the receipt to the customer object
         customer.addReceipt(normalReceipt);
@@ -82,7 +82,7 @@ public class Test {
         //apply the discount to the payment and remove the points from the customer's loyalty account
         payment.applyDiscount(total, discount, rewardsCustomer);
         //generate the discounted receipt
-        DiscountReceipt discountReceipt = new DiscountReceipt(rewardsCustomer.getName(), payment, cashRegister, TransactionList,
+        DiscountReceipt discountReceipt = new DiscountReceipt(rewardsCustomer.getName(), payment, cashRegister.getCashRegisterNumber(), TransactionList,
                 discount, rewardsCustomer.getLoyaltyAccount().getPoints());
         //complete the payment by adding the receipt to the cash register and updating the cash register's held cash
         payment.completePayment(cashRegister, discountReceipt);

@@ -1,1 +1,8 @@
-{"name":"Tea","price":2.99,"description":"Box of tea bags","id":"P006"}
+{
+  "name":"Tea",
+  "price":2.99,
+  "description":"Box of tea bags",
+  "id":"P006",
+  "discountPrice": 0,
+  "offer": {}
+}

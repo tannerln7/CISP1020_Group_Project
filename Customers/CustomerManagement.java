@@ -1,19 +1,21 @@
 package Customers;
 
 import Helpers.Cls;
-import Helpers.FunctionCaller;
 import Helpers.ObjectJson;
 import Main.Main;
 import Products.Discount;
 import Retail_Operations.Employee;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static Main.Main.execute;
+
+//TODO: Bug-test customer management, customer account manager, and customer sign up
+
 public class CustomerManagement {
     public static void customerManagement(Employee employee) {
-        if(!employee.getPosition().equals("Manager")){
+        Cls.cls();
+        if (!employee.getPosition().equals("Manager")) {
             System.out.println("You do not have permission to access this menu");
             System.out.println("Press enter to return to the main menu");
             Scanner in = new Scanner(System.in);
@@ -22,25 +24,8 @@ public class CustomerManagement {
             return;
         }
         Scanner in = new Scanner(System.in);
-        ArrayList<Customer> allCustomers = new ArrayList<>();
-        File[] customerFiles = ObjectJson.listFiles(Customer.class);
-        File[] rewardsCustomerFiles = ObjectJson.listFiles(RewardsCustomer.class);
-        if (customerFiles != null) {
-            for (File file : customerFiles) {
-                Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
-                if (customer != null) {
-                    allCustomers.add(customer);
-                }
-            }
-        }
-        if (rewardsCustomerFiles != null) {
-            for (File file : rewardsCustomerFiles) {
-                RewardsCustomer rewardsCustomer = ObjectJson.objectFromJson(file.getName(), RewardsCustomer.class);
-                if (rewardsCustomer != null) {
-                    allCustomers.add(rewardsCustomer);
-                }
-            }
-        }
+        ArrayList<Customer> allCustomers = Main.loadCustomers();
+
 
         System.out.println("Welcome to the customer management menu");
         System.out.println("Press 1 to view all customers");
@@ -48,38 +33,33 @@ public class CustomerManagement {
         System.out.println("Press 3 to add a new customer");
         System.out.println("Press 4 to edit a customer");
         System.out.println("Press 5 to delete a customer");
-        System.out.println("Press 6 to return to the main menu");
+        System.out.println("Press 6 to return to the employee menu");
         int choice = in.nextInt();
+        in.nextLine();
         String username;
-        Customer customer = null;
+        Customer customer;
         String email;
         switch (choice) {
             case 1:
                 //View all customers
                 Cls.cls();
                 System.out.println("All customers:");
-                allCustomers.forEach(System.out::println);
+                for (Customer cust : allCustomers) {
+                    System.out.println(cust);
+                }
                 System.out.println("Press enter to return to the menu");
                 in.nextLine();
-                in.nextLine();
                 execute(() -> customerManagement(employee));
+                break;
             case 2:
                 //View a specific customer
                 Cls.cls();
-                System.out.println("Please enter the customer's username: ");
-                username = in.nextLine();
-                for (Customer cust : allCustomers) {
-                    if (cust.getUsername().equals(username)) {
-                        System.out.println(cust);
-                        customer = cust;
-                        break;
-                    }
-                }
-                if (customer == null) {
-                    System.out.println("Customer not found");
-                }
+                customer = getCustomer(in);
+                Cls.cls();
+                System.out.println("Customer found!");
+                System.out.println(customer);
+                System.out.println();
                 System.out.println("Press enter to return to the menu");
-                in.nextLine();
                 in.nextLine();
                 execute(() -> customerManagement(employee));
                 break;
@@ -91,17 +71,19 @@ public class CustomerManagement {
                 username = in.nextLine();
                 for (Customer cust : allCustomers) {
                     if (cust.getUsername().equals(username)) {
-                        System.out.println("Customer already exists");
+                        Cls.cls();
+                        System.out.println("Username already exists");
                         System.out.println(cust);
+                        System.out.println();
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
                     }
                 }
-                Cls.cls();
-                System.out.println("Creating new customer");
+                System.out.println();
+                System.out.println("Username " + username + " is available");
+                System.out.println();
                 System.out.println("Enter the customer's first and last name: ");
                 String name = in.nextLine();
                 System.out.println("Enter the customer's password: ");
@@ -110,6 +92,7 @@ public class CustomerManagement {
                 String phoneNumber = in.nextLine();
                 System.out.println("Should this customer be a rewards customer? Press 1 for yes, 2 for no");
                 choice = in.nextInt();
+                in.nextLine();
                 if (choice == 1) {
                     System.out.println("Enter the customer's email address: ");
                     email = in.nextLine();
@@ -123,34 +106,15 @@ public class CustomerManagement {
                 }
                 ObjectJson.objectToJson(customer);
                 System.out.println(customer);
+                System.out.println();
                 System.out.println("Press enter to return to the menu");
-                in.nextLine();
                 in.nextLine();
                 execute(() -> customerManagement(employee));
                 break;
             case 4:
                 //Edit a customer
                 Cls.cls();
-                System.out.println("Please enter the customer's username: ");
-                username = in.nextLine();
-                for (Customer cust : allCustomers) {
-                    if (cust.getUsername().equals(username)) {
-                        customer = cust;
-                        Cls.cls();
-                        System.out.println("Customer found!");
-                        System.out.println(cust);
-                    }
-                }
-                if (customer == null) {
-                    //If the customer is not found, return to the menu
-                    Cls.cls();
-                    System.out.println("Customer not found");
-                    System.out.println("Press enter to return to the menu");
-                    in.nextLine();
-                    in.nextLine();
-                    execute(() -> customerManagement(employee));
-                    break;
-                }
+                customer = getCustomer(in);
                 System.out.println("Press 1 to edit the customer's name");
                 System.out.println("Press 2 to edit the customer's username");
                 System.out.println("Press 3 to edit the customer's password");
@@ -169,31 +133,26 @@ public class CustomerManagement {
                 switch (choice) {
                     case 1:
                         Cls.cls();
-                        in.nextLine();
                         System.out.println("Enter the customer's new name: ");
                         customer.setName(in.nextLine());
                         ObjectJson.objectToJson(customer);
                         System.out.println("Name updated");
                         System.out.println("Press enter to return to the menu");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
                     case 2:
                         Cls.cls();
-                        in.nextLine();
                         System.out.println("Enter the customer's new username: ");
                         customer.setUsername(in.nextLine());
                         ObjectJson.objectToJson(customer);
                         System.out.println("Username updated");
                         System.out.println("Press enter to return to the menu");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
                     case 3:
                         Cls.cls();
-                        in.nextLine();
                         System.out.println("Enter the customer's new password: ");
                         String newPassword = in.nextLine();
                         System.out.println("Enter the customer's new password again: ");
@@ -206,7 +165,6 @@ public class CustomerManagement {
                             System.out.println("Password updated");
                         }
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
@@ -227,24 +185,20 @@ public class CustomerManagement {
                                 //If the phone number is not valid, prompt them to try agan
                                 System.out.println("Invalid phone number. Press enter to try again");
                                 in.nextLine();
-                                in.nextLine();
                             }
                         }
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
                     case 6:
                         Cls.cls();
-                        if(!(customer instanceof RewardsCustomer)){
+                        if (!(customer instanceof RewardsCustomer)) {
                             System.out.println("Invalid choice. Press enter to try again.");
-                            in.nextLine();
                             in.nextLine();
                             execute(() -> customerManagement(employee));
                             break;
                         }
-                        in.nextLine();
                         System.out.println("Enter the customer's new email address: ");
                         email = in.nextLine();
                         ((RewardsCustomer) customer).changeCustomerEmail(email);
@@ -252,14 +206,12 @@ public class CustomerManagement {
                         System.out.println("Email address updated");
                         System.out.println("Press enter to return to the menu");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
                     case 7:
                         Cls.cls();
                         if (!(customer instanceof RewardsCustomer)) {
                             System.out.println("Invalid choice. Press enter to try again.");
-                            in.nextLine();
                             in.nextLine();
                             execute(() -> customerManagement(employee));
                             break;
@@ -269,6 +221,7 @@ public class CustomerManagement {
                             System.out.println("Press 2 to edit the customer's reward discount");
                             System.out.println("Press 3 to return to the menu");
                             choice = in.nextInt();
+                            in.nextLine();
                             switch (choice) {
                                 case 1:
                                     Cls.cls();
@@ -279,18 +232,17 @@ public class CustomerManagement {
                                     System.out.println("Points updated");
                                     System.out.println("Press enter to return to the menu");
                                     in.nextLine();
-                                    in.nextLine();
                                     execute(() -> customerManagement(employee));
                                     break;
                                 case 2:
                                     Cls.cls();
                                     System.out.println("Enter the customer's new discount: ");
                                     double discount = in.nextDouble();
+                                    in.nextLine();
                                     ((RewardsCustomer) customer).getLoyaltyAccount().getDiscountObject().setDiscountPercent(discount);
                                     ObjectJson.objectToJson(customer);
                                     System.out.println("Discount updated");
                                     System.out.println("Press enter to return to the menu");
-                                    in.nextLine();
                                     in.nextLine();
                                     execute(() -> customerManagement(employee));
                                     break;
@@ -302,7 +254,6 @@ public class CustomerManagement {
                                     Cls.cls();
                                     System.out.println("Invalid choice. Press enter to try again.");
                                     in.nextLine();
-                                    in.nextLine();
                                     execute(() -> customerManagement(employee));
                                     break;
                             }
@@ -311,10 +262,94 @@ public class CustomerManagement {
                         Cls.cls();
                         execute(() -> customerManagement(employee));
                         break;
+                    default:
+                        Cls.cls();
+                        System.out.println("Invalid choice. Press enter to try again.");
+                        in.nextLine();
+                        execute(() -> customerManagement(employee));
+                        break;
                 }
+            case 5:
+                //Delete a customer
+                Cls.cls();
+                customer = getCustomer(in);
+                System.out.println("Are you sure you want to delete this customer?");
+                System.out.println("Press 1 for yes");
+                System.out.println("Press 2 for no");
+                choice = in.nextInt();
+                in.nextLine();
+                switch (choice) {
+                    case 1:
+                        Cls.cls();
+                        System.out.println("Customer deleted");
+                        allCustomers.remove(customer);
+                        ObjectJson.deleteObject(customer.getJsonId(), customer.getClass());
+                        System.out.println("Press enter to return to the menu");
+                        in.nextLine();
+                        execute(() -> customerManagement(employee));
+                        break;
+                    case 2:
+                        Cls.cls();
+                        System.out.println("Customer not deleted");
+                        System.out.println("Press enter to return to the menu");
+                        in.nextLine();
+                        execute(() -> customerManagement(employee));
+                        break;
+                    default:
+                        Cls.cls();
+                        System.out.println("Invalid choice. Press enter to try again.");
+                        in.nextLine();
+                        execute(() -> customerManagement(employee));
+                        break;
+                }
+            case 6:
+                Cls.cls();
+                execute(() -> Main.employeeMenu(employee));
+                break;
+            default:
+                Cls.cls();
+                System.out.println("Invalid choice. Press enter to try again.");
+                in.nextLine();
+                execute(() -> customerManagement(employee));
+                break;
         }
     }
-    public static void customerSignUp(){
+
+    private static Customer getCustomer(Scanner in) {
+        ArrayList<Customer> allCustomers = Main.loadCustomers();
+        String username;
+        Customer customer = null;
+        do{
+            System.out.println("Please enter the customer's username or type -L to list all customers: ");
+            username = in.nextLine();
+            if (username.equalsIgnoreCase("-L")) {
+                Cls.cls();
+                System.out.println("All customers:");
+                for (Customer cust : allCustomers) {
+                    System.out.println("Name: " + cust.getName() + " - Username: " + cust.getUsername());
+                }
+                System.out.println();
+                continue;
+            }
+            for (Customer cust : allCustomers) {
+                if (cust.getUsername().equals(username)) {
+                    System.out.println(cust);
+                    customer = cust;
+                    break;
+                }
+            }
+            if (customer == null) {
+                System.out.println("Customer not found");
+                System.out.println("Press enter to try again");
+                in.nextLine();
+                Cls.cls();
+            }
+        } while (customer == null);
+        return customer;
+    }
+
+
+    public static void customerSignUp() {
         Scanner in = new Scanner(System.in);
         Cls.cls();
         System.out.println("New Customer Sign Up");
@@ -332,7 +367,8 @@ public class CustomerManagement {
         System.out.println("Press 1 for yes");
         System.out.println("Press 2 for no");
         int choice = in.nextInt();
-        switch (choice){
+        in.nextLine();
+        switch (choice) {
             case 1:
                 Cls.cls();
                 System.out.println("Please enter your email address: ");
@@ -362,7 +398,6 @@ public class CustomerManagement {
                 Cls.cls();
                 System.out.println("Invalid choice. Press enter to try again.");
                 in.nextLine();
-                in.nextLine();
                 execute(CustomerManagement::customerSignUp);
                 break;
         }
@@ -370,18 +405,19 @@ public class CustomerManagement {
 
     public static void customerAccountManager(Customer customer) {
         Cls.cls();
-        System.out.println("Welcome to the customer account manager");
+        System.out.println("Welcome to the customer account manager\n");
         System.out.println("Press 1 to view your account information");
         System.out.println("Press 2 to edit your account information");
-        if(customer instanceof RewardsCustomer) {
+        if (customer instanceof RewardsCustomer) {
             System.out.println("Press 3 to manage your loyalty account");
             System.out.println("Press 4 to return to the main menu");
-        }else {
+        } else {
             System.out.println("Press 3 to return to the main menu");
         }
         Scanner in = new Scanner(System.in);
         int choice = in.nextInt();
-        if(!(customer instanceof RewardsCustomer) && choice == 3){
+        in.nextLine();
+        if (!(customer instanceof RewardsCustomer) && choice == 3) {
             choice = 4;
         }
         switch (choice) {
@@ -389,7 +425,6 @@ public class CustomerManagement {
                 Cls.cls();
                 System.out.println(customer);
                 System.out.println("Press enter to return to the menu");
-                in.nextLine();
                 in.nextLine();
                 execute(() -> customerAccountManager(customer));
                 break;
@@ -399,56 +434,54 @@ public class CustomerManagement {
                 System.out.println("Press 2 to edit your username");
                 System.out.println("Press 3 to edit your password");
                 System.out.println("Press 4 to edit your phone number");
-                if(customer instanceof RewardsCustomer) {
+                if (customer instanceof RewardsCustomer) {
                     System.out.println("Press 5 to edit your email address");
                     System.out.println("Press 6 to return to the menu");
-                }else {
+                } else {
                     System.out.println("Press 5 to return to the menu");
                 }
                 choice = in.nextInt();
-                if(!(customer instanceof RewardsCustomer) && choice == 5){
+                in.nextLine();
+                if (!(customer instanceof RewardsCustomer) && choice == 5) {
                     choice = 6;
                 }
                 switch (choice) {
                     case 1:
                         Cls.cls();
-                        in.nextLine();
                         System.out.println("Enter your new name: ");
                         customer.setName(in.nextLine());
                         ObjectJson.objectToJson(customer);
                         System.out.println("Name updated");
                         System.out.println("Press enter to return to the menu");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerAccountManager(customer));
                     case 2:
                         Cls.cls();
-                        in.nextLine();
                         System.out.println("Enter your new username: ");
                         customer.setUsername(in.nextLine());
                         ObjectJson.objectToJson(customer);
                         System.out.println("Username updated");
                         System.out.println("Press enter to return to the menu");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
                     case 3:
                         Cls.cls();
-                        in.nextLine();
                         int count = 0;
                         //Check if customer knows their current password
-                        while(!in.nextLine().equals(customer.getPassword())){
+                        boolean passwordCheck = false;
+                        while (!passwordCheck) {
                             System.out.println("Enter your current password: ");
                             String currentPassword = in.nextLine();
                             //If they don't, give them 5 attempts to enter it
-                            if (!currentPassword.equals(customer.getPassword())) {
+                            if (currentPassword.equals(customer.getPassword())) {
+                                passwordCheck = true;
+                            } else {
                                 count++;
                                 System.out.println("Incorrect password");
                                 System.out.println("Press enter to try again. You have " + (5 - count) + " attempts remaining");
                                 in.nextLine();
-                                in.nextLine();
-                                if(count == 5){
+                                if (count == 5) {
                                     System.out.println("Too many attempts. Returning to the menu");
                                     execute(() -> customerAccountManager(customer));
                                     break;
@@ -458,7 +491,7 @@ public class CustomerManagement {
                         boolean validPassword = false;
                         //Once they enter their current password, prompt them to enter their new password twice
                         Cls.cls();
-                        while(!validPassword) {
+                        while (!validPassword) {
                             System.out.println("Enter your new password: ");
                             String newPassword = in.nextLine();
                             System.out.println("Enter your new password again: ");
@@ -468,8 +501,7 @@ public class CustomerManagement {
                                 System.out.println("Passwords do not match");
                                 System.out.println("Press enter to try again");
                                 in.nextLine();
-                                in.nextLine();
-                            }else{
+                            } else {
                                 //If the two passwords match, update the customer's password and save it to the file
                                 customer.setPassword(newPassword);
                                 ObjectJson.objectToJson(customer);
@@ -479,13 +511,12 @@ public class CustomerManagement {
                         }
                         System.out.println("Press enter to return to the menu");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
                     case 4:
                         Cls.cls();
                         boolean validPhoneNumber = false;
-                        while(!validPhoneNumber) {
+                        while (!validPhoneNumber) {
                             //Prompt the customer to enter their new phone number
                             System.out.println("Enter your new phone number: (XXX-XXX-XXXX)");
                             String phoneNumber = in.nextLine();
@@ -494,32 +525,28 @@ public class CustomerManagement {
                                 validPhoneNumber = true;
                                 customer.changePhoneNumber(phoneNumber);
                                 ObjectJson.objectToJson(customer);
-                                ObjectJson.objectToJson(customer);
                                 System.out.println("Phone number updated");
                             } else {
                                 Cls.cls();
                                 //If the phone number is not valid, prompt them to try agan
-                                System.out.println("Invalid phone number. Press enter to try again with the format XXX-XXX-XXXX");
-                                in.nextLine();
+                                System.out.println("Invalid phone number. Press enter to try again.");
                                 in.nextLine();
                             }
                         }
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
                     case 5:
                         boolean validEmail = false;
                         String email = null;
-                        while(!validEmail){
-                            in.nextLine();
+                        while (!validEmail) {
                             Cls.cls();
                             System.out.println("Enter your new email address: ");
                             email = in.nextLine();
-                            if(email.matches("^(.+)@(.+)$")){
+                            if (email.matches("^(.+)@(.+)$")) {
                                 validEmail = true;
-                            }else{
+                            } else {
                                 System.out.println("Invalid email address. Press enter to try again");
                             }
                         }
@@ -527,7 +554,6 @@ public class CustomerManagement {
                         ObjectJson.objectToJson(customer);
                         System.out.println("Email address updated");
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
@@ -539,15 +565,13 @@ public class CustomerManagement {
                         Cls.cls();
                         System.out.println("Invalid choice. Press enter to try again.");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
                 }
             case 3:
                 Cls.cls();
-                if(!(customer instanceof RewardsCustomer)){
+                if (!(customer instanceof RewardsCustomer)) {
                     System.out.println("Invalid choice. Press enter to try again.");
-                    in.nextLine();
                     in.nextLine();
                     execute(() -> customerAccountManager(customer));
                     break;
@@ -557,12 +581,12 @@ public class CustomerManagement {
                 System.out.println("Press 2 to view your reward discount");
                 System.out.println("Press 3 to return to the menu");
                 choice = in.nextInt();
+                in.nextLine();
                 switch (choice) {
                     case 1:
                         Cls.cls();
                         System.out.println("Your current reward points are: " + ((RewardsCustomer) customer).getLoyaltyAccount().getPoints());
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
@@ -570,7 +594,6 @@ public class CustomerManagement {
                         Cls.cls();
                         System.out.println("Your current reward discount is: " + ((RewardsCustomer) customer).getLoyaltyAccount().getDiscountObject().getDiscountPercent());
                         System.out.println("Press enter to return to the menu");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
@@ -580,8 +603,6 @@ public class CustomerManagement {
                         break;
                     default:
                         Cls.cls();
-                        System.out.println("Invalid choice. Press enter to try again.");
-                        in.nextLine();
                         in.nextLine();
                         execute(() -> customerAccountManager(customer));
                         break;
@@ -595,14 +616,10 @@ public class CustomerManagement {
                 Cls.cls();
                 System.out.println("Invalid choice. Press enter to try again.");
                 in.nextLine();
-                in.nextLine();
                 execute(() -> customerAccountManager(customer));
                 break;
         }
     }
 
-    private static void execute(FunctionCaller f) {
-        f.apply();
-    }
 }
 

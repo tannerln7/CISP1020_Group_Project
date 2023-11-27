@@ -54,6 +54,7 @@ public class RewardsCustomer extends Customer {
     }
 
     // Overrides the default `toString()` method to provide a human-readable representation of the rewards customer object.
+    @SuppressWarnings("StringBufferReplaceableByString")
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

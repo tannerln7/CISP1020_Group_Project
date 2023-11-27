@@ -1,1 +1,7 @@
-{"name":"Tuan Tran","employeeID":"2","position":"Manager","username":"tuantrangtran","password":"password"}
+{
+  "name":"Tuan Tran",
+  "employeeID":"2",
+  "position":"Manager",
+  "username":"tuantrangtran",
+  "password":"password"
+}

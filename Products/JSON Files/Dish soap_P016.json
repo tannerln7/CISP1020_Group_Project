@@ -1,1 +1,8 @@
-{"name":"Dish soap","price":2.99,"description":"Bottle of dish soap","id":"P016"}
+{
+  "name":"Dish soap",
+  "price":2.99,
+  "description":"Bottle of dish soap",
+  "id":"P016",
+  "discountPrice": 0,
+  "offer": {}
+}

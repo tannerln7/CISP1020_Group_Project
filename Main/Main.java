@@ -10,46 +10,37 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO: Bug-test the program
+
+//We all have customer and manager accounts. Username is your github username and password is password
+
+//customer login ---- username: test ---- password: password
+//RewardsCustomer login ---- username: testrewards ---- password: password
+//Cashier employee login ---- username: cashier ---- password: password
+//Manager employee login ---- username: manager ---- password: password
 
 public class Main {
 
     public static void main(String[] args) {
-        File[] employeeFiles = ObjectJson.listFiles(Employee.class);
-        File[] customerFiles = ObjectJson.listFiles(Customer.class);
-        ArrayList<Employee> employees = new ArrayList<>();
-        ArrayList<Customer> customers = new ArrayList<>();
-        Employee loggedInEmployee = new Employee("", "", "", "", "");
-        Customer loggedInCustomer = new Customer("", "", "", "");
+        ArrayList<Customer> customers = loadCustomers();
+        ArrayList<Employee> employees = loadEmployees();
 
-        //Load all employee files into an arraylist of employees in order to check logins
-        if (employeeFiles != null) {
-            for (File file : employeeFiles) {
-                Employee employee = ObjectJson.objectFromJson(file.getName(), Employee.class);
-                if (employee != null) {
-                    employees.add(employee);
-                }
-            }
-        }
-        //Load all customer files into an arraylist of customers in order to check logins
-        if (customerFiles != null) {
-            for (File file : customerFiles) {
-                Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
-                if (customer != null) {
-                    customers.add(customer);
-                }
-            }
-        }
+        Employee loggedInEmployee = null;
+        Customer loggedInCustomer = null;
 
         Scanner in = new Scanner(System.in);
         boolean validLogin = false;
         while (!validLogin) {
+            Cls.cls();
             System.out.println("Welcome to the POS system");
             System.out.println("Press 1 to login as a customer");
             System.out.println("Press 2 to login as an employee");
             System.out.println("Press 3 to sign up as a customer");
+            System.out.println("Press 4 to exit");
             int choice = in.nextInt();
             switch (choice) {
                 case 1:
+                    Cls.cls();
                     //If user selects customer login, prompt for username and password
                     System.out.println("Customer login");
                     System.out.println("Username: ");
@@ -57,15 +48,18 @@ public class Main {
                     System.out.println("Password: ");
                     String pass = in.next();
                     //Check if the username and password match a customer in the system
-                    for (Customer customer : customers) {
-                        if (customer.getUsername().equals(username) && customer.getPassword().equals(pass)) {
+                    for (Customer cust : customers) {
+                        if (cust.getUsername().equals(username) && cust.getPassword().equals(pass)) {
                             validLogin = true;
+                            loggedInCustomer = cust;
                             break;
                         }
                     }
                     if (!validLogin) {
+                        Cls.cls();
                         System.out.println("Invalid login");
                         System.out.println("Press enter to try again");
+                        in.nextLine();
                         in.nextLine();
                         execute(() -> main(null));
                         break;
@@ -74,6 +68,7 @@ public class Main {
                     customerMenu(loggedInCustomer);
                     break;
                 case 2:
+                    Cls.cls();
                     //If user selects employee login, prompt for username and password
                     System.out.println("Employee login");
                     System.out.println("login: ");
@@ -84,10 +79,12 @@ public class Main {
                     for (Employee employee : employees) {
                         if (employee.getUsername().equals(employeeUsername) && employee.getPassword().equals(employeePass)) {
                             validLogin = true;
+                            loggedInEmployee = employee;
                             break;
                         }
                     }
                     if (!validLogin) {
+                        Cls.cls();
                         System.out.println("Invalid login");
                         System.out.println("Press enter to try again");
                         in.nextLine();
@@ -100,48 +97,91 @@ public class Main {
                 case 3:
                     //If user selects customer sign up, call the customer sign up method
                     CustomerManagement.customerSignUp();
+                    break;
+                case 4:
+                    //If user selects exit, exit the program
+                    System.exit(0);
+                    break;
                 default:
+                    Cls.cls();
                     System.out.println("Invalid choice. Press Enter to try again.");
                     in.nextLine();
                     in.nextLine();
                     Cls.cls();
                     execute(() -> main(null));
+                    break;
             }
         }
     }
 
-    private static void customerMenu(Customer customer) {
-        //TODO: Create menu for customers to manager their own accounts. Pass customer file to CustomerManagement.customerManagement
+    public static ArrayList<Customer> loadCustomers() {
+        ArrayList<Customer> customers = new ArrayList<>();
+        File[] customerFiles = ObjectJson.listFiles(Customer.class);
+        if (customerFiles != null) {
+            for (File file : customerFiles) {
+                if (file.getName().contains("RewardsCustomer")){
+                    RewardsCustomer rewardsCustomer = ObjectJson.objectFromJson(file.getName(), RewardsCustomer.class);
+                    if (rewardsCustomer != null) {
+                        customers.add(rewardsCustomer);
+                    }
+                }else {
+                    Customer customer = ObjectJson.objectFromJson(file.getName(), Customer.class);
+                    if (customer != null) {
+                        customers.add(customer);
+                    }
+                }
+            }
+        }
+        return customers;
+    }
+
+    public static ArrayList<Employee> loadEmployees() {
+        File[] employeeFiles = ObjectJson.listFiles(Employee.class);
+        ArrayList<Employee> employees = new ArrayList<>();
+        if (employeeFiles != null) {
+            for (File file : employeeFiles) {
+                Employee employee = ObjectJson.objectFromJson(file.getName(), Employee.class);
+                if (employee != null) {
+                    employees.add(employee);
+                }
+            }
+        }
+        return employees;
+    }
+
+    public static void customerMenu(Customer customer) {
         Cls.cls();
         Scanner in = new Scanner(System.in);
-        System.out.println("Login successful");
-        System.out.println("Welcome " + customer.getName());
+        System.out.println("Welcome " + customer.getName() + "! Login successful!\n");
         System.out.println("What would you like to do?");
         System.out.println("Press 1 to manage your account");
         System.out.println("Press 2 to manage your recent transactions");
+        System.out.println("Press 3 to return to the main menu");
         int menuChoice = in.nextInt();
         switch (menuChoice) {
             case 1:
-                Cls.cls();
                 CustomerManagement.customerAccountManager(customer);
                 break;
             case 2:
-                Cls.cls();
                 TransactionManagement.customerTransactionManager(customer);
                 break;
+            case 3:
+                execute(() -> main(null));
+                break;
             default:
+                Cls.cls();
                 System.out.println("Invalid choice. Press enter to try again.");
                 in.nextLine();
                 execute(() -> customerMenu(customer));
+                break;
         }
 
     }
 
-    private static void employeeMenu(Employee employee) {
+    public static void employeeMenu(Employee employee) {
         Cls.cls();
         Scanner in = new Scanner(System.in);
-        System.out.println("Login successful");
-        System.out.println("Welcome " + employee.getName());
+        System.out.println("Welcome " + employee.getName() + "! Login successful\n");
         switch(employee.getPosition()){
             case "Manager":
                 System.out.println("What would you like to do?");
@@ -150,53 +190,61 @@ public class Main {
                 System.out.println("Press 3 to open the Employee Manager");
                 System.out.println("Press 4 to open the Customer Account Manager");
                 System.out.println("Press 5 to open the Product Manager");
+                System.out.println("Press 6 to return to the main menu");
                 int menuChoice = in.nextInt();
                 switch (menuChoice) {
                     case 1:
-                        Cls.cls();
                         TransactionManagement.transactionManager(employee);
                         break;
                     case 2:
-                        Cls.cls();
-                        OfferManagement.offerManagment(employee);
+                        OfferManagement.offerManagement(employee);
                         break;
                     case 3:
-                        Cls.cls();
                         EmployeeManagement.employeeManagement(employee);
                         break;
                     case 4:
-                        Cls.cls();
                         CustomerManagement.customerManagement(employee);
                         break;
                     case 5:
-                        Cls.cls();
                         ProductManagement.productManagement(employee);
                         break;
+                    case 6:
+                        execute(() -> main(null));
+                        break;
                     default:
+                        Cls.cls();
                         System.out.println("Invalid choice. Press enter to try again.");
                         in.nextLine();
                         execute(() -> employeeMenu(employee));
+                        break;
                 }
                 break;
             case "Employee":
                 System.out.println("What would you like to do?");
                 System.out.println("Press 1 to open the Customer Receipt Manager");
                 System.out.println("Press 2 to open the Offer Manager");
-                System.out.println("Press 5 to open the Product Manager");
+                System.out.println("Press 3 to open the Product Manager");
+                System.out.println("Press 4 to return to the main menu");
                 int menuChoice2 = in.nextInt();
                 switch (menuChoice2) {
                     case 1:
                         TransactionManagement.transactionManager(employee);
                         break;
                     case 2:
-                        OfferManagement.offerManagment(employee);
+                        OfferManagement.offerManagement(employee);
                         break;
-                    case 3: ProductManagement.productManagement(employee);
+                    case 3:
+                        ProductManagement.productManagement(employee);
+                        break;
+                    case 4:
+                        execute(() -> main(null));
                         break;
                     default:
+                        Cls.cls();
                         System.out.println("Invalid choice. Press enter to try again.");
                         in.nextLine();
-                        execute(() -> employeeMenu(employee));;
+                        execute(() -> employeeMenu(employee));
+                        break;
                 }
         }
     }
