@@ -1,1 +1,8 @@
-{"name":"Cereal","price":3.49,"description":"Box of breakfast cereal","id":"P004"}
+{
+  "name":"Cereal",
+  "price":3.49,
+  "description":"Box of breakfast cereal",
+  "id":"P004",
+  "discountPrice": 0,
+  "offer": {}
+}

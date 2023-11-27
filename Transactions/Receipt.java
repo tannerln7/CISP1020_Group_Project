@@ -1,7 +1,5 @@
 package Transactions;
 
-
-import Retail_Operations.CashRegister;
 import Helpers.*;
 import java.util.ArrayList;
 
@@ -10,22 +8,20 @@ import java.util.ArrayList;
 public class Receipt implements JsonIdentifiable {
     private final String customerName;
     private final Payment payment;
-    private final CashRegister cashRegister;
+    private final double cashRegister;
     private final ArrayList<Transaction> transactions;
     private double tax = 0.09;
     private final double changeGiven;
     private final int id;
-    private static int lastId;
 
 
-    public Receipt(String name, Payment payment, CashRegister cashRegister, ArrayList<Transaction> transactions) {
+    public Receipt(String name, Payment payment, double cashRegister, ArrayList<Transaction> transactions) {
         this.customerName = name;
         this.payment = payment;
         this.cashRegister = cashRegister;
         this.transactions = transactions;
         this.changeGiven = payment.getAmountPaid() - payment.getAmountDue();
         this.id = generateId();
-        lastId = id;
     }
 
     public double getSubtotal() {
@@ -66,9 +62,16 @@ public class Receipt implements JsonIdentifiable {
         return transactions;
     }
 
-    private static int generateId() {
-         lastId += 1;
-        return lastId;
+    private int generateId() {
+        int newId = 0;
+        IdTracking idtracking = ObjectJson.objectFromJson("IdTracking", IdTracking.class);
+        if(!(idtracking == null)){
+            newId = idtracking.getId();
+            ObjectJson.objectToJson(idtracking);
+        }else{
+            System.out.println("IdTracking file not found");
+        }
+        return newId;
     }
     @Override
     public String getJsonId() {
@@ -83,7 +86,7 @@ public class Receipt implements JsonIdentifiable {
         receipt.append("-------------------------------\n");
 
         // Cash Register and Customer Details
-        receipt.append("Cash Register ID: ").append(Math.round(cashRegister.getCashRegisterNumber())).append("\n");
+        receipt.append("Cash Register ID: ").append(Math.round(cashRegister)).append("\n");
 
         // Transactions
         receipt.append("Items Purchased:\n");

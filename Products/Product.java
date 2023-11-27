@@ -1,13 +1,7 @@
 package Products;
 import Helpers.JsonIdentifiable;
-import Helpers.ObjectJson;
 import Helpers.Round;
 
-//TODO: Incorporate Offers Class to allow for discounts on products
-//TODO: Provide method to updated current products to include discounts
-
-//TODO: Start working on the Management menu for Products.
-//BODy: This will be a menu that allows staff members to add, remove, and edit products and their information.
 public class Product implements JsonIdentifiable {
 
     private String name;
@@ -74,14 +68,10 @@ public class Product implements JsonIdentifiable {
     public void setOffer(Offers offer){
         this.offer = offer;
         this.discountPrice = Round.round(price - ((price * (offer.getDiscountPercent() / 100)) + offer.getSubtractionDiscount()));
-        updateJson();
     }
     public void removeOffer(){
         this.offer = new Offers(0,0);
         this.discountPrice = 0;
-    }
-    private void updateJson(){
-        ObjectJson.objectToJson(this);
     }
 
     @Override

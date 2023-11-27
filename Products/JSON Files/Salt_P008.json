@@ -1,1 +1,8 @@
-{"name":"Salt","price":0.99,"description":"Iodized salt","id":"P008"}
+{
+  "name":"Salt",
+  "price":0.99,
+  "description":"Iodized salt",
+  "id":"P008",
+  "discountPrice": 0,
+  "offer": {}
+}

@@ -1,1 +1,8 @@
-{"name":"Sugar","price":1.49,"description":"Granulated sugar","id":"P007"}
+{
+  "name":"Sugar",
+  "price":1.49,
+  "description":"Granulated sugar",
+  "id":"P007",
+  "discountPrice": 0,
+  "offer": {}
+}

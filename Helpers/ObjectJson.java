@@ -60,6 +60,7 @@ public class ObjectJson {
         // Check if the directory exists, create it if not.
         if (!packagePath.exists()) {
             // Attempt to create the JSON Files directory
+            //noinspection ResultOfMethodCallIgnored
             packagePath.mkdirs();
         }
         //Create a file path object by casting the passed object to the JsonIdentifiable interface
@@ -150,6 +151,28 @@ public class ObjectJson {
             System.out.println("Error loading files from directory. Please try again.");
         }
         return null;
+    }
+
+    public static void deleteObject(String jsonId, Class<?> contextClass) {
+        File[] files = ObjectJson.listFiles(contextClass);
+        if (files != null) {
+            for (File file : files) {
+                JsonIdentifiable object = (JsonIdentifiable) ObjectJson.objectFromJson(file.getName(), contextClass);
+                //If an object file is found
+                if (object != null) {
+                    //Check if the ID matches the user entered ID
+                    if (object.getJsonId().equals(jsonId)) {
+                        file.delete();
+                    }
+                } else {
+                    //if product = null
+                    System.out.println("No matching product was found. Please try again");
+                }
+            }
+        } else {
+            //If no files are found in Product/Json Files/
+            System.out.println("Error loading files from directory. Please try again.");
+        }
     }
 
 

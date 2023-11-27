@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Helpers.JsonIdentifiable;
 import Transactions.Transaction;
 
+@SuppressWarnings("unused")
 public class CashRegister implements JsonIdentifiable{
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
     private int cashRegisterNumber;

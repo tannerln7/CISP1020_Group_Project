@@ -1,1 +1,8 @@
-{"name":"Toilet paper","price":3.99,"description":"12-pack of toilet paper","id":"P014"}
+{
+  "name":"Toilet paper",
+  "price":3.99,
+  "description":"12-pack of toilet paper",
+  "id":"P014",
+  "discountPrice": 0,
+  "offer": {}
+}

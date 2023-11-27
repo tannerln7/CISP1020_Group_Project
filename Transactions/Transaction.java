@@ -5,9 +5,6 @@ import Products.Product;
 public class Transaction{
     private Product product;
 
-    public Transaction(){
-
-    }
     public Transaction(Product product) {
         this.product = product;
     }

@@ -9,6 +9,7 @@ public class Loyalty {
     private double points;
 
     // The conversion rate between spending and points earned.
+    @SuppressWarnings("FieldCanBeLocal")
     private final double pointRatio = 0.1;
 
     // The discount applied to purchases when redeeming points.

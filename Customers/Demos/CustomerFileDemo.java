@@ -7,8 +7,10 @@ import Helpers.ObjectJson;
 import java.io.File;
 import java.util.ArrayList;
 
+@SuppressWarnings("UnusedAssignment")
 public class CustomerFileDemo {
 
+    @SuppressWarnings("UnusedAssignment")
     public static void main(String[] args) {
         //Create some customer objects
         Customer customer = new Customer("Tuan Tran", "username","password", "987-654-3210");

@@ -1,1 +1,8 @@
-{"name":"Eggs","price":2.49,"description":"12-count carton of eggs","id":"P002"}
+{
+  "name":"Eggs",
+  "price":2.49,
+  "description":"12-count carton of eggs",
+  "id":"P002",
+  "discountPrice": 0,
+  "offer": {}
+}

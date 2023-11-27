@@ -1,1 +1,8 @@
-{"name":"Paper towels","price":2.99,"description":"Roll of paper towels","id":"P013"}
+{
+  "name":"Paper towels",
+  "price":2.99,
+  "description":"Roll of paper towels",
+  "id":"P013",
+  "discountPrice": 0,
+  "offer": {}
+}
