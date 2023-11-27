@@ -36,6 +36,10 @@ public class Loyalty {
     }
 
     // Checks if the customer has enough points to redeem the specified discount.
+
+    public void setPoints(double points) {
+        this.points = points;
+    }
     public boolean hasEnoughPointsForDiscount(double pointsRedeemed) {
         return this.points >= pointsRedeemed * this.rewardsDiscount.getDiscountPercent();
     }
@@ -60,6 +64,10 @@ public class Loyalty {
     // Retrieves the percentage value of the rewards discount.
     public double getRewardsDiscountPercent(){
         return this.rewardsDiscount.getDiscountPercent();
+    }
+
+    public Discount getDiscountObject(){
+        return this.rewardsDiscount;
     }
 }
 
