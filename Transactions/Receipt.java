@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * The Receipt class represents a receipt in a retail system.
  * It includes details about the customer, payment, cash register, transactions, tax, change given, and receipt ID.
  */
-public class Receipt extends ObjectJson implements JsonIdentifiable {
+public class Receipt implements JsonIdentifiable {
     private final String customerName;
     private final Payment payment;
     private final double cashRegister;

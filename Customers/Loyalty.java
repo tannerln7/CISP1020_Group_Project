@@ -1,11 +1,10 @@
 package Customers;
 
-import Helpers.ObjectJson;
 import Products.Discount;
 /**
  * The Loyalty class manages a customer's loyalty points and rewards discounts.
  */
-public class Loyalty extends ObjectJson {
+public class Loyalty {
     private double points;
     private final double pointRatio = 0.1;
     private Discount rewardsDiscount = new Discount(0.05);

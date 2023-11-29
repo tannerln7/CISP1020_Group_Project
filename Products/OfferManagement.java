@@ -15,21 +15,11 @@ import Transactions.TransactionManagement;
 import java.util.Scanner;
 
 import static Main.Main.execute;
-
-/**
- *
- * @author WJWhit
- */
-
-//TODO: Bug-test offer management.
-
-//TODO: Add user menu to exchange set amount of points for an offer.
-
 /**
  * The OfferManagement class provides methods for managing offers in a retail system.
  * It allows an employee to add, delete, and edit offers.
  */
-public abstract class OfferManagement extends Main {
+public abstract class OfferManagement {
 
     /**
      * Displays the offer management menu and executes the user's choice.

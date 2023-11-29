@@ -1,13 +1,12 @@
 package Products;
 import Helpers.JsonIdentifiable;
-import Helpers.ObjectJson;
 import Helpers.Round;
 
 /**
  * The Product class represents a product in a retail system.
  * It implements the JsonIdentifiable interface.
  */
-public class Product extends ObjectJson implements JsonIdentifiable {
+public class Product implements JsonIdentifiable {
 
     private String name;
     private double price;

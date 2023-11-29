@@ -5,7 +5,6 @@
  */
 package Products;
 
-//TODO: Give offer in exchange for a set amount of reward points.
 
 /**
  * The Offers class extends the Discount class to represent an offer applied to a product.

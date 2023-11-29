@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * This class represents a customer of the store. It stores the customer's username, password, name, phone number,
  * and a list of their receipts.
  */
-public class Customer extends ObjectJson implements JsonIdentifiable {
+public class Customer implements JsonIdentifiable {
     private String username;
     private String password;
     private String name;

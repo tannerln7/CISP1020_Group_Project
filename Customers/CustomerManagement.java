@@ -10,12 +10,11 @@ import java.util.Scanner;
 
 import static Main.Main.execute;
 
-//TODO: Bug-test customer management, customer account manager, and customer sign up
 /**
  * This class provides methods for managing customers in a retail system. It includes methods for viewing all customers,
  * viewing a specific customer, adding a new customer, editing a customer, and deleting a customer.
  */
-public abstract class CustomerManagement extends Main {
+public abstract class CustomerManagement {
     /**
      * This method provides a menu for managing customers. It allows an employee to view all customers, view a specific
      * customer, add a new customer, edit a customer, and delete a customer.

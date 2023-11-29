@@ -1,14 +1,13 @@
 package Retail_Operations;
 
 import Helpers.JsonIdentifiable;
-import Helpers.ObjectJson;
 
 
 /**
  * The Employee class represents an employee in a retail system.
  * It implements the JsonIdentifiable interface.
  */
-public class Employee extends ObjectJson implements JsonIdentifiable {
+public class Employee implements JsonIdentifiable {
     private String name;
     private String employeeID;
     private String position;
