@@ -8,10 +8,11 @@ import Products.Discount;
  */
 public class DiscountReceipt extends Receipt{
     private final Discount discount;
-    private final double pointBalance;
+    private double pointBalance = 0;
+    private final boolean isRewardsCustomer;
 
     /**
-     * Constructs a new DiscountReceipt with the specified name, payment, cash register, transactions, discount, and new point balance.
+     * Constructs a new DiscountReceipt with the specified name, payment, cash register, transactions, discount, and new point balance for RewardsCustomers.
      *
      * @param name the name on the receipt
      * @param payment the payment for the receipt
@@ -24,6 +25,22 @@ public class DiscountReceipt extends Receipt{
         super(name, payment, cashRegister, transactions.getTransactions());
         this.discount = discount;
         this.pointBalance = newPointBalance;
+        this.isRewardsCustomer = true;
+    }
+
+    /**
+     * Constructs a new DiscountReceipt with the specified name, payment, cash register, transactions, discount, and new point balance for non Rewards Customers.
+     *
+     * @param name the name on the receipt
+     * @param payment the payment for the receipt
+     * @param cashRegister the cash register where the receipt was processed
+     * @param transactions the transactions on the receipt
+     * @param discount the discount applied to the receipt
+     */
+    public DiscountReceipt(String name, Payment payment, double cashRegister, TransactionList transactions, Discount discount){
+        super(name, payment, cashRegister, transactions.getTransactions());
+        this.discount = discount;
+        this.isRewardsCustomer = false;
     }
 
     /**
@@ -65,11 +82,15 @@ public class DiscountReceipt extends Receipt{
      * @return a receipt with the discount applied
      */
     private StringBuilder buildDiscountReceipt(String baseReceipt, int taxIndex) {
-
-        // Create the discount string in the format "Discount: 10.00% off | Point Discount $1.00"
-        String discountString = String.format("Discount: %.2f%% off | Point Discount $%.2f\n",
-                discount.getDiscountPercent() * 100, discount.getDiscountAmount());
-
+        String discountString;
+        if (isRewardsCustomer) {
+            // Create the discount string in the format "Discount: 10.00% off | Point Discount $1.00"
+            discountString = String.format("Discount: %.2f%% off | Point Discount $%.2f\n",
+                    discount.getDiscountPercent() * 100, discount.getDiscountAmount());
+        }else {
+            // Create the discount string in the format "Discount: 10.00% off"
+            discountString = String.format("Discount: %.2f%% off\n", discount.getDiscountPercent() * 100);
+        }
         StringBuilder receiptWithDiscount = new StringBuilder(baseReceipt); // Create the base receipt
         receiptWithDiscount.insert(taxIndex, discountString); // Insert the discount string into the receipt
         return receiptWithDiscount; // Return the receipt with the discount

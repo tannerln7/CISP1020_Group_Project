@@ -1,13 +1,17 @@
 package Transactions;
 
+import Customers.Customer;
 import Customers.RewardsCustomer;
+import Helpers.ObjectJson;
+import Helpers.Round;
 import Products.Discount;
+import Products.Product;
 import Retail_Operations.CashRegister;
 /**
  * The Payment class represents a payment made by a customer in a retail system.
  * It includes details about the amount due, the payment type, any discounts applied, the tax rate, and the change due.
  */
-public class Payment {
+public class Payment extends Product {
     private double amountDue;
     private String paymentType;
     private Discount discount;
@@ -16,6 +20,9 @@ public class Payment {
     private double changeDue;
     private double amountPaid;
     private boolean isPaid;
+    private double pointsEarned;
+    private double pointsUsed;
+    private double savedToday;
 
     /**
      * Default constructor for the Payment class.
@@ -93,32 +100,50 @@ public class Payment {
     }
 
     /**
-     * Calculates the total amount due with tax.
+     * Applies a discount to the total amount due and updates the loyalty account of the customer.
      *
-     * @param amountDue the amount due for the payment
-     * @return the total amount due with tax
+     * @param total the total amount due for the payment
+     * @param rewardsDiscount the discount to be applied
+     * @param customer the customer making the payment
      */
-    public static double totalWithTax(double amountDue){
-        return amountDue + (amountDue * defaultTax);
+    public void applyDiscount(double total, Discount rewardsDiscount, RewardsCustomer customer){
+
+        if(rewardsDiscount.getDiscountAmount() > 0 && customer.getLoyaltyAccount().hasEnoughPointsForDiscount(rewardsDiscount.getDiscountAmount() * 50)){
+            this.discount = rewardsDiscount;
+            double pointDiscountTotal = total - rewardsDiscount.getDiscountAmount();
+            this.amountDue = Round.round(pointDiscountTotal - (pointDiscountTotal * this.discount.getDiscountPercent()));
+            this.pointsUsed = this.discount.getDiscountAmount() * 50;
+            customer.getLoyaltyAccount().redeemPoints(this.pointsUsed);
+            this.pointsEarned = (Math.floor((this.amountDue / 20) * 5));
+            customer.getLoyaltyAccount().addPoints(this.pointsEarned);
+            this.savedToday = Round.round(total - this.amountDue);
+        }
+        else if (rewardsDiscount.getDiscountAmount() == 0){
+            this.amountDue = Round.round (total - (total * discount.getDiscountPercent()));
+            this.pointsEarned = (Math.floor((this.amountDue / 20) * 5));
+            customer.getLoyaltyAccount().addPoints(this.pointsEarned);
+            this.savedToday = Round.round(total - this.amountDue);
+        }else{
+            System.out.println("You do not have enough points to redeem this discount.");
+            this.amountDue = Round.round(total - (total * discount.getDiscountPercent()));
+            this.pointsEarned = (Math.floor((this.amountDue / 20) * 5));
+            customer.getLoyaltyAccount().addPoints(this.pointsEarned);
+            this.savedToday = Round.round(total - this.amountDue);
+        }
     }
 
     /**
-     * Applies a discount to the total amount due and updates the loyalty account of the customer.
+     * Applies a discount to the total amount due for a non-rewards customer.
      *
      * @param total the total amount due for the payment
      * @param discount the discount to be applied
      * @param customer the customer making the payment
      */
-    public void applyDiscount(double total, Discount discount, RewardsCustomer customer){
-        if(customer.getLoyaltyAccount().hasEnoughPointsForDiscount(discount.getDiscountAmount() * 10)){
-            this.discount = discount;
-            this.amountDue = (total - (total * discount.getDiscountPercent())) - discount.getDiscountAmount();
-            customer.getLoyaltyAccount().redeemPoints(discount.getDiscountAmount() * 10);
-        }
-        else{
-            this.discount = new Discount(customer.getLoyaltyAccount().getRewardsDiscountPercent());
-            this.amountDue = (total - (total * discount.getDiscountPercent()));
-        }
+    public void applyDiscount(double total, Discount discount, Customer customer) {
+        this.discount = discount;
+        double discountAmountTotal = total - discount.getDiscountAmount();
+        this.amountDue = Round.round(discountAmountTotal - (discountAmountTotal * discount.getDiscountPercent()));
+        this.savedToday = Round.round(total - this.amountDue);
     }
 
     /**
@@ -131,12 +156,29 @@ public class Payment {
     }
 
     /**
+     * Sets the payment type.
+     *
+     * @param newPaymentType the new payment type
+     */
+    public void setPaymentType(String newPaymentType) {
+        this.paymentType = newPaymentType;
+    }
+
+    /**
      * Retrieves the amount paid.
      *
      * @return the amount paid
      */
     public double getAmountPaid(){
         return amountPaid;
+    }
+
+    /**
+     * Sets the amount paid.
+     * @param amountPaid the new amount paid
+     */
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     /**
@@ -154,13 +196,7 @@ public class Payment {
      * @return the change due
      */
     public double getChangeDue(){
-        if (amountPaid > amountDue) {
-            if (discount != null) {
-                changeDue = amountPaid - (amountDue * discount.getDiscountPercent() + discount.getDiscountAmount());
-            } else {
-                changeDue = amountPaid - totalWithTax(amountDue);
-            }
-        }
+        this.changeDue = amountPaid - amountDue;
         return changeDue;
     }
 
@@ -218,5 +254,68 @@ public class Payment {
     public void completePayment(CashRegister cashRegister, Receipt receipt) {
         this.isPaid = true;
         cashRegister.processTransaction(receipt);
+    }
+
+    /**
+     * Retrieves the discount applied to the payment.
+     *
+     * @return the discount
+     */
+    public Discount getDiscount() {
+        if (discount != null) {
+            return discount;
+        }else{
+            return null;
+        }
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    /**
+     * Retrieves the amount of points earned from the payment.
+     *
+     * @return the amount of points earned
+     */
+    public double getPointsEarned() {
+        return pointsEarned;
+    }
+
+    /**
+     * Retrieves the amount of points used from the payment.
+     *
+     * @return the amount of points used
+     */
+    public double getPointsUsed() {
+        return pointsUsed;
+    }
+
+    /**
+     * Retrieves the amount saved from the payment.
+     *
+     * @return the amount saved
+     */
+    public double getSavedToday() {
+        return savedToday;
+    }
+
+    /**
+     * Static method to calculate a total with tax.
+     *
+     * @param amountDue the amount due for the payment
+     * @return the total amount due with tax
+     */
+    public static double totalWithTax(double amountDue){
+        return amountDue + (amountDue * defaultTax);
+    }
+
+    /**
+     * Static method to retrieve the default tax rate.
+     *
+     * @return the default tax rate
+     */
+    public static double getDefaultTax() {
+        return defaultTax;
     }
 }

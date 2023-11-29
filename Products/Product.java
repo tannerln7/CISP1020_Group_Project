@@ -1,12 +1,13 @@
 package Products;
 import Helpers.JsonIdentifiable;
+import Helpers.ObjectJson;
 import Helpers.Round;
 
 /**
  * The Product class represents a product in a retail system.
  * It implements the JsonIdentifiable interface.
  */
-public class Product implements JsonIdentifiable {
+public class Product extends ObjectJson implements JsonIdentifiable {
 
     private String name;
     private double price;
@@ -158,23 +159,27 @@ public class Product implements JsonIdentifiable {
      */
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
         if (discountPrice != 0) {
-            return "Product{" +
-                    "name='" + name + '\'' +
-                    ", Normal Price=" + price + '\'' +
-                    ", Discount Price=" + discountPrice + '\'' +
-                    ", offer='" + offer + '\'' +
-                    ", description='" + description + '\'' +
-                    ", id='" + id + '\'' +
-                    '}';
+            sb.append("name: ").append(name ).append("\n")
+                    .append("Normal Price: ").append(price).append("\n")
+                    .append("Discount Price: ").append(discountPrice).append("\n");
+                    if(offer.getDiscountPercent() != 0) {
+                        sb.append("Discount Percent: ").append(offer.getDiscountPercent()).append("%\n");
+                    }
+                    if (offer.getSubtractionDiscount() != 0){
+                        sb.append("Dollar Discount: $").append(offer.getSubtractionDiscount()).append("\n");
+                    }
+            sb.append("Description: ").append(description).append("\n")
+                    .append("ID: ").append(id).append("\n");
         }else{
-            return "Product{" +
-                    "name='" + name + '\'' +
-                    ", price=" + price +
-                    ", description='" + description + '\'' +
-                    ", id='" + id + '\'' +
-                    '}';
+            sb.append("name: ").append(name ).append("\n")
+                    .append("Normal Price: ").append(price).append("\n")
+                    .append("Discount Price: ").append(discountPrice).append("\n")
+                    .append("Description: ").append(description).append("\n")
+                    .append("ID: ").append(id).append("\n");
         }
+        return sb.toString();
     }
 
     /**

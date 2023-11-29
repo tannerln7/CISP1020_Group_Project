@@ -101,15 +101,13 @@ import Products.Discount;
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{\n")
-                .append("  RewardCustomer Username= ").append(this.getUsername()).append(",\n")
-                .append("  Name= ").append(this.getName()).append(",\n")
-                .append("  PhoneNumber= ").append(this.getPhoneNumber()).append(",\n")
-                .append("  CustomerEmail= ").append(this.getCustomerEmail()).append(",\n")
-                .append("  LoyaltyAccount= ").append(Math.round(this.getLoyaltyAccount().getAccountNumber())).append(",\n")
-                .append("  PointsBalance= ").append(this.getLoyaltyAccount().getPoints()).append(",\n")
-                .append("  DiscountPercent= ").append("%").append(100 * this.getLoyaltyAccount().getRewardsDiscountPercent()).append(",\n")
-                .append("}\n");
+        sb.append("  RewardCustomer Username: ").append(this.getUsername()).append(",\n")
+                .append("  Name: ").append(this.getName()).append(",\n")
+                .append("  PhoneNumber: ").append(this.getPhoneNumber()).append(",\n")
+                .append("  CustomerEmail: ").append(this.getCustomerEmail()).append(",\n")
+                .append("  LoyaltyAccount: ").append(Math.round(this.getLoyaltyAccount().getAccountNumber())).append(",\n")
+                .append("  PointsBalance: ").append(this.getLoyaltyAccount().getPoints()).append(",\n")
+                .append("  DiscountPercent: ").append("%").append(100 * this.getLoyaltyAccount().getRewardsDiscountPercent()).append(",\n");
         return sb.toString();
     }
 

@@ -3,7 +3,7 @@ package Helpers;
  * The IdTracking class is used to generate unique IDs for different entities in the system.
  * It implements the JsonIdentifiable interface.
  */
-public class IdTracking implements JsonIdentifiable{
+public class IdTracking extends ObjectJson implements JsonIdentifiable{
     private int id = 0;
     private int accountId = 100000;
 

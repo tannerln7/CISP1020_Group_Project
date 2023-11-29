@@ -1,8 +1,1 @@
-{
-  "name":"Oranges",
-  "price":2.49,
-  "description":"California oranges",
-  "id":"P011",
-  "discountPrice": 0,
-  "offer": {}
-}
+{"name":"Oranges","price":2.49,"discountPrice":0.49,"description":"California oranges","id":"P011","offer":{"discountPercent":0.0,"discountAmount":2.0}}

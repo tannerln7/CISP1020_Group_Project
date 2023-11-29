@@ -2,6 +2,7 @@ package Transactions;
 
 import Customers.Customer;
 import Helpers.Cls;
+import Helpers.FunctionCaller;
 import Helpers.ObjectJson;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import static Main.Main.execute;
  * It allows an employee to edit a receipt, view all transactions, and find a product.
  * It also allows a customer to view all receipts and view a specific receipt.
  */
-public class TransactionManagement {
+public abstract class TransactionManagement extends TransactionList implements FunctionCaller {
 
     /**
      * Displays the transaction management menu for an employee and executes the user's choice.

@@ -6,7 +6,7 @@ import Products.Product;
  * The Transaction class represents a individual product transaction in a retail system.
  * It includes details about the product involved in the transaction.
  */
-public class Transaction{
+public class Transaction extends Payment {
     private Product product;
 
     /**
@@ -34,5 +34,15 @@ public class Transaction{
      */
     public void changeProduct(Product product) {
         this.product = product;
+    }
+
+    /**
+     * Returns a string representation of the transaction.
+     *
+     * @return a string representation of the transaction
+     */
+    @Override
+    public String toString() {
+        return "Product: " + product.getName() + " | Price: " + product.getPrice();
     }
 }

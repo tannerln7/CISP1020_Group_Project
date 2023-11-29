@@ -15,7 +15,7 @@ import static Main.Main.execute;
  * This class provides methods for managing customers in a retail system. It includes methods for viewing all customers,
  * viewing a specific customer, adding a new customer, editing a customer, and deleting a customer.
  */
-public class CustomerManagement {
+public abstract class CustomerManagement extends Main {
     /**
      * This method provides a menu for managing customers. It allows an employee to view all customers, view a specific
      * customer, add a new customer, edit a customer, and delete a customer.
@@ -105,7 +105,7 @@ public class CustomerManagement {
                 if (choice == 1) {
                     System.out.println("Enter the customer's email address: ");
                     email = in.nextLine();
-                    customer = new RewardsCustomer(name, username, password, phoneNumber, email, 250, new Discount());
+                    customer = new RewardsCustomer(name, username, password, phoneNumber, email, 250, new Discount(0.05,0));
                     Cls.cls();
                     System.out.println("Rewards customer created");
                 } else {
@@ -395,7 +395,7 @@ public class CustomerManagement {
                 Cls.cls();
                 System.out.println("Please enter your email address: ");
                 String email = in.nextLine();
-                RewardsCustomer rewardsCustomer = new RewardsCustomer(name, username, password, phoneNumber, email, 250, new Discount());
+                RewardsCustomer rewardsCustomer = new RewardsCustomer(name, username, password, phoneNumber, email, 250, new Discount(0.05,0));
                 ObjectJson.objectToJson(rewardsCustomer);
                 Cls.cls();
                 System.out.println("Thank you for signing up! Your Rewards account has been created.");
