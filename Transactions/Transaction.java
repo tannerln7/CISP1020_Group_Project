@@ -6,7 +6,7 @@ import Products.Product;
  * The Transaction class represents a individual product transaction in a retail system.
  * It includes details about the product involved in the transaction.
  */
-public class Transaction extends Payment {
+public class Transaction {
     private Product product;
 
     /**

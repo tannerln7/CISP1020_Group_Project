@@ -2,16 +2,14 @@ package Transactions;
 
 import Customers.Customer;
 import Customers.RewardsCustomer;
-import Helpers.ObjectJson;
 import Helpers.Round;
 import Products.Discount;
-import Products.Product;
 import Retail_Operations.CashRegister;
 /**
  * The Payment class represents a payment made by a customer in a retail system.
  * It includes details about the amount due, the payment type, any discounts applied, the tax rate, and the change due.
  */
-public class Payment extends Product {
+public class Payment {
     private double amountDue;
     private String paymentType;
     private Discount discount;

@@ -1,18 +1,14 @@
 package Retail_Operations;
 
-import Helpers.ObjectJson;
 import Transactions.Receipt;
-
 import java.util.ArrayList;
 import Helpers.JsonIdentifiable;
 import Transactions.Transaction;
 
 /**
- * Overrides the `getJsonId()` method to generate a JSON-compatible ID for the product.
- *
- * @return The JSON-compatible ID for the product, which is the name and ID of the product separated by an underscore.
+ * The CashRegister class represents a cash register in a retail system.
  */
-public class CashRegister extends ObjectJson implements JsonIdentifiable{
+public class CashRegister implements JsonIdentifiable{
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
     private int cashRegisterNumber;
     private int lastCashRegisterNumber;

@@ -2,7 +2,6 @@ package Retail_Operations;
 
 import Helpers.Cls;
 import Helpers.ObjectJson;
-import Main.Main;
 
 import java.io.File;
 import java.util.Scanner;
@@ -12,7 +11,7 @@ import static Main.Main.main;
 /**
  * The EmployeeManagement class manages the employees in the retail system.
  */
-public abstract class EmployeeManagement extends Main {
+public abstract class EmployeeManagement{
     /**
      * The main method for the EmployeeManagement class.
      *

@@ -22,7 +22,7 @@ import java.util.Scanner;
  * The Main class is the entry point of the application. It provides methods for loading customers and employees,
  * displaying menus, and executing user choices.
  */
-public abstract class Main implements FunctionCaller {
+public class Main {
 
     /**
      * The main method is the entry point of the application. It loads customers and employees, and displays the main menu.

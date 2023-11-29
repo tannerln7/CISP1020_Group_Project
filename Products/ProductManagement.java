@@ -17,7 +17,7 @@ import java.io.File;
 
 import static Main.Main.execute;
 
-public abstract class ProductManagement extends Main {
+public abstract class ProductManagement {
     /**
      * This method is the main menu for the product management menu.
      * @param employee The employee that is currently logged in.
