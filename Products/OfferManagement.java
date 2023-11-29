@@ -29,7 +29,7 @@ import static Main.Main.execute;
  * The OfferManagement class provides methods for managing offers in a retail system.
  * It allows an employee to add, delete, and edit offers.
  */
-public class OfferManagement {
+public abstract class OfferManagement extends Main {
 
     /**
      * Displays the offer management menu and executes the user's choice.

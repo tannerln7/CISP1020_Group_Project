@@ -1,12 +1,16 @@
 package Transactions;
 
+import Helpers.ObjectJson;
+import Helpers.Round;
+import Main.Main;
+
 import java.util.ArrayList;
 
 /**
  * The TransactionList class represents a list of transactions in a retail system.
  * It includes methods for adding and removing transactions, getting the subtotal of the transactions, and retrieving the list of transactions.
  */
-public class TransactionList {
+public abstract class TransactionList extends Transaction {
     private final ArrayList<Transaction> transactions;
 
     /**
@@ -44,7 +48,7 @@ public class TransactionList {
         for (Transaction transaction : transactions) {
             total += transaction.getProduct().getPrice();
         }
-        return total;
+        return Round.round(total);
     }
 
     /**
@@ -54,5 +58,20 @@ public class TransactionList {
      */
     public ArrayList<Transaction> getTransactions() {
         return transactions;
+    }
+
+    /**
+     * Returns a string representation of the TransactionList.
+     *
+     * @return a string representation of the TransactionList
+     */
+    @Override
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+        for (Transaction transaction : transactions) {
+            output.append(transaction).append("\n");
+        }
+        output.append("Subtotal: $").append(getSubTotal()).append("\n");
+        return output.toString();
     }
 }

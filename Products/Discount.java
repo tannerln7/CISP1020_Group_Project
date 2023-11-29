@@ -1,12 +1,15 @@
 package Products;
 
 import Helpers.JsonIdentifiable;
+import Helpers.ObjectJson;
+
+import java.util.ArrayList;
 
 /**
  * The Discount class represents a discount applied to a product or purchase.
  * It implements the JsonIdentifiable interface.
  */
-public class Discount implements JsonIdentifiable {
+public class Discount extends ObjectJson implements JsonIdentifiable {
      private double discountPercent;
      private double discountAmount;
 
@@ -71,6 +74,7 @@ public class Discount implements JsonIdentifiable {
     public void setDiscountAmount(double newDiscountAmount){
         this.discountAmount = newDiscountAmount;
     }
+
 
     /**
      * Overrides the `getJsonId()` method to generate a JSON-compatible ID for the Discount object.

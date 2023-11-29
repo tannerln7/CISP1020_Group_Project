@@ -22,7 +22,7 @@ import java.util.Scanner;
  * The Main class is the entry point of the application. It provides methods for loading customers and employees,
  * displaying menus, and executing user choices.
  */
-public class Main {
+public abstract class Main implements FunctionCaller {
 
     /**
      * The main method is the entry point of the application. It loads customers and employees, and displays the main menu.
@@ -46,15 +46,16 @@ public class Main {
             System.out.println("Press 3 to sign up as a customer");
             System.out.println("Press 4 to exit");
             int choice = in.nextInt();
+            in.nextLine();
             switch (choice) {
                 case 1:
                     Cls.cls();
                     //If user selects customer login, prompt for username and password
                     System.out.println("Customer login");
                     System.out.println("Username: ");
-                    String username = in.next();
+                    String username = in.nextLine();
                     System.out.println("Password: ");
-                    String pass = in.next();
+                    String pass = in.nextLine();
                     //Check if the username and password match a customer in the system
                     for (Customer cust : customers) {
                         if (cust.getUsername().equals(username) && cust.getPassword().equals(pass)) {
@@ -68,7 +69,6 @@ public class Main {
                         System.out.println("Invalid login");
                         System.out.println("Press enter to try again");
                         in.nextLine();
-                        in.nextLine();
                         execute(() -> main(null));
                         break;
                     }
@@ -80,9 +80,9 @@ public class Main {
                     //If user selects employee login, prompt for username and password
                     System.out.println("Employee login");
                     System.out.println("login: ");
-                    String employeeUsername = in.next();
+                    String employeeUsername = in.nextLine();
                     System.out.println("password: ");
-                    String employeePass = in.next();
+                    String employeePass = in.nextLine();
                     //Check if the username and password match an employee in the system
                     for (Employee employee : employees) {
                         if (employee.getUsername().equals(employeeUsername) && employee.getPassword().equals(employeePass)) {
@@ -113,7 +113,6 @@ public class Main {
                 default:
                     Cls.cls();
                     System.out.println("Invalid choice. Press Enter to try again.");
-                    in.nextLine();
                     in.nextLine();
                     Cls.cls();
                     execute(() -> main(null));
@@ -218,7 +217,8 @@ public class Main {
                 System.out.println("Press 3 to open the Employee Manager");
                 System.out.println("Press 4 to open the Customer Account Manager");
                 System.out.println("Press 5 to open the Product Manager");
-                System.out.println("Press 6 to return to the main menu");
+                System.out.println("Press 6 to start the Cashier Terminal");
+                System.out.println("Press 7 to return to the main menu");
                 int menuChoice = in.nextInt();
                 switch (menuChoice) {
                     case 1:
@@ -237,6 +237,9 @@ public class Main {
                         ProductManagement.productManagement(employee);
                         break;
                     case 6:
+                        ProductManagement.cashierTerminal(employee);
+                        break;
+                    case 7:
                         execute(() -> main(null));
                         break;
                     default:
@@ -247,12 +250,13 @@ public class Main {
                         break;
                 }
                 break;
-            case "Employee":
+            case "Cashier":
                 System.out.println("What would you like to do?");
                 System.out.println("Press 1 to open the Customer Receipt Manager");
                 System.out.println("Press 2 to open the Offer Manager");
                 System.out.println("Press 3 to open the Product Manager");
-                System.out.println("Press 4 to return to the main menu");
+                System.out.println("Press 4 to start the Cashier Terminal");
+                System.out.println("Press 5 to return to the main menu");
                 int menuChoice2 = in.nextInt();
                 switch (menuChoice2) {
                     case 1:
@@ -265,6 +269,9 @@ public class Main {
                         ProductManagement.productManagement(employee);
                         break;
                     case 4:
+                        execute(() -> ProductManagement.cashierTerminal(employee));
+                        break;
+                    case 5:
                         execute(() -> main(null));
                         break;
                     default:
@@ -274,6 +281,11 @@ public class Main {
                         execute(() -> employeeMenu(employee));
                         break;
                 }
+            default:
+                System.out.println("You are not authorized to use this system. Press enter to return to the main menu.");
+                in.nextLine();
+                execute(() -> main(null));
+                break;
         }
     }
 

@@ -3,12 +3,13 @@ package Customers.Demos;
 import Customers.Customer;
 import Customers.RewardsCustomer;
 import Helpers.ObjectJson;
+import Main.Main;
 
 import java.io.File;
 import java.util.ArrayList;
 
 @SuppressWarnings("UnusedAssignment")
-public class CustomerFileDemo {
+public abstract class CustomerFileDemo extends Main {
 
     @SuppressWarnings("UnusedAssignment")
     public static void main(String[] args) {

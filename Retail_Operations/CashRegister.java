@@ -1,5 +1,6 @@
 package Retail_Operations;
 
+import Helpers.ObjectJson;
 import Transactions.Receipt;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import Transactions.Transaction;
  *
  * @return The JSON-compatible ID for the product, which is the name and ID of the product separated by an underscore.
  */
-public class CashRegister implements JsonIdentifiable{
+public class CashRegister extends ObjectJson implements JsonIdentifiable{
     private final ArrayList<Transaction> transactionLog = new ArrayList<>();
     private int cashRegisterNumber;
     private int lastCashRegisterNumber;

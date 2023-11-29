@@ -1,10 +1,11 @@
 package Customers;
 
+import Helpers.ObjectJson;
 import Products.Discount;
 /**
  * The Loyalty class manages a customer's loyalty points and rewards discounts.
  */
-public class Loyalty {
+public class Loyalty extends ObjectJson {
     private double points;
     private final double pointRatio = 0.1;
     private Discount rewardsDiscount = new Discount(0.05);
@@ -18,9 +19,10 @@ public class Loyalty {
     /**
      * Constructor that allows customizing the initial points and rewards discount.
      *
-     * @param initialPoints The initial number of points.
+     * @param initialPoints   The initial number of points.
      * @param rewardsDiscount The initial rewards discount.
-     */    public Loyalty(double initialPoints, Discount rewardsDiscount) {
+     */
+    public Loyalty(double initialPoints, Discount rewardsDiscount) {
         this.points = initialPoints;
         this.rewardsDiscount = rewardsDiscount;
     }
@@ -51,15 +53,15 @@ public class Loyalty {
     public void setPoints(double points) {
         this.points = points;
     }
+
     /**
-     *
      * Checks if the customer has enough points to redeem the specified discount.
      *
      * @param pointsRedeemed The number of points to redeem.
      * @return True if the customer has enough points, false otherwise.
      */
     public boolean hasEnoughPointsForDiscount(double pointsRedeemed) {
-        return this.points >= pointsRedeemed * this.rewardsDiscount.getDiscountPercent();
+        return this.points >= pointsRedeemed;
     }
 
     /**
@@ -91,7 +93,8 @@ public class Loyalty {
      * Retrieves the percentage value of the rewards discount.
      *
      * @return The percentage value of the rewards discount.
-     */    public double getRewardsDiscountPercent(){
+     */
+    public double getRewardsDiscountPercent() {
         return this.rewardsDiscount.getDiscountPercent();
     }
 
@@ -100,33 +103,23 @@ public class Loyalty {
      *
      * @return The Discount object.
      */
-    public Discount getDiscountObject(){
+    public Discount getDiscountObject() {
         return this.rewardsDiscount;
     }
+
+    /**
+     * Returns an ArrayList of the discount tiers available to the customer.
+     *
+     */
+    public int getDiscountTiers(double price) {
+        int i;
+        for (i = 1; i <= Math.floor(this.points / 500); i++) {
+            if(price >= i * 10) {
+                System.out.println("Tier: " + i);
+                System.out.println("Points Required: " + i * 500);
+                System.out.println("Discount: $" + i * 10);
+            }
+        }
+        return i;
+    }
 }
-
-
-//   Following code is meant to give an idea of what I was thinking would call or use loyalty class
-
-//public float calculateTotalPrice(List<Item> items, LoyaltyProgram loyaltyProgram) {
-//    float total = 0.0f;
-//   for (Item item : items) {
-//       total += item.getPrice();
-//   }
-
-// Apply the loyalty discount if the customer has enough points
-//    if (loyaltyProgram.hasEnoughPointsForDiscount()) {
-//        total = loyaltyProgram.applyDiscount(total);
-//    }
-//   return total;
-//}
-
-//LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
-
-// Calculate the total price of the items, applying the loyalty discount if necessary
-//float totalPrice = calculateTotalPrice(items, loyaltyProgram);
-
-// Print the receipt
-//printReceipt(totalPrice);
-//}
-
