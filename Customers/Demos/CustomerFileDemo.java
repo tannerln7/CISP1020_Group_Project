@@ -15,9 +15,9 @@ public abstract class CustomerFileDemo extends Main {
     public static void main(String[] args) {
         //Create some customer objects
         Customer customer = new Customer("Tuan Tran", "username","password", "987-654-3210");
-        Customer customer1 = new Customer("***REMOVED*** ***REMOVED***", "username","password", "123-456-7890");
+        Customer customer1 = new Customer("Tanner Lane", "username","password", "123-456-7890");
         RewardsCustomer rewardsCustomer = new RewardsCustomer("Tuan Tran", "987-654-3210",  "username","password","email@email.com");
-        RewardsCustomer rewardsCustomer1 = new RewardsCustomer("***REMOVED*** ***REMOVED***", "username","password", "123-456-7890", "email@email.com");
+        RewardsCustomer rewardsCustomer1 = new RewardsCustomer("Tanner Lane", "username","password", "123-456-7890", "email@email.com");
 
         //If you want to write a single customer directly to a file, you can use this method
         ObjectJson.objectToJson(customer);

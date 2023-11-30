@@ -15,7 +15,7 @@ public class CustomerDemo {
         //Generate a list of customer objects
         List<Customer> customerList = new ArrayList<>();
         customerList.add(new Customer("Tuan Tran", "username1","password", "432-567-8900"));
-        customerList.add(new Customer("***REMOVED*** ***REMOVED***", "username2","password", "123-456-7890"));
+        customerList.add(new Customer("Tanner Lane", "username2","password", "123-456-7890"));
         customerList.add(new Customer("William Whitmire", "username3","password", "987-654-3210"));
         customerList.add(new Customer("Donnie Young", "username4","password", "555-123-4567"));
         customerList.add(new Customer("R Elijah Brewer",  "username5","password","111-222-3333"));

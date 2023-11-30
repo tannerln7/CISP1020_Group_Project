@@ -135,6 +135,7 @@ public abstract class CustomerManagement {
                     System.out.println("Press 5 to return to the menu");
                 }
                 choice = in.nextInt();
+                in.nextLine();
                 if (!(customer instanceof RewardsCustomer) && choice == 5) {
                     choice = 7;
                 }
@@ -199,14 +200,8 @@ public abstract class CustomerManagement {
                         in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
-                    case 6:
+                    case 5:
                         Cls.cls();
-                        if (!(customer instanceof RewardsCustomer)) {
-                            System.out.println("Invalid choice. Press enter to try again.");
-                            in.nextLine();
-                            execute(() -> customerManagement(employee));
-                            break;
-                        }
                         System.out.println("Enter the customer's new email address: ");
                         email = in.nextLine();
                         ((RewardsCustomer) customer).changeCustomerEmail(email);
@@ -216,7 +211,7 @@ public abstract class CustomerManagement {
                         in.nextLine();
                         execute(() -> customerManagement(employee));
                         break;
-                    case 7:
+                    case 6:
                         Cls.cls();
                         if (!(customer instanceof RewardsCustomer)) {
                             System.out.println("Invalid choice. Press enter to try again.");
@@ -235,6 +230,7 @@ public abstract class CustomerManagement {
                                     Cls.cls();
                                     System.out.println("Enter the customer's new points: ");
                                     int points = in.nextInt();
+                                    in.nextLine();
                                     ((RewardsCustomer) customer).getLoyaltyAccount().setPoints(points);
                                     ObjectJson.objectToJson(customer);
                                     System.out.println("Points updated");
@@ -266,7 +262,7 @@ public abstract class CustomerManagement {
                                     break;
                             }
                         }
-                    case 5:
+                    case 7:
                         Cls.cls();
                         execute(() -> customerManagement(employee));
                         break;
